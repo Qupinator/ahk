@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes, viewport-fit=cover">
   <title>AHK RP Scripts — SAMP / CRMP</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
   <style>
     :root {
       --bg: #0a0e13;
@@ -29,6 +29,10 @@
       --safe-bottom: env(safe-area-inset-bottom, 8px);
       --side-nav-width: 60px;
       --desktop-content-width: 640px;
+      --glass: rgba(20, 27, 34, 0.5);
+      --glass-strong: rgba(20, 27, 34, 0.78);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --input-h: 40px;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -36,20 +40,36 @@
     html { font-size: 15px; scroll-behavior: smooth; height: 100%; overflow: hidden; }
 
     body {
-      background: var(--bg); color: var(--text); font-family: var(--font);
+      background:
+        radial-gradient(820px 460px at 12% -14%, rgba(90, 130, 170, 0.10), transparent 62%),
+        radial-gradient(700px 440px at 110% 116%, rgba(120, 130, 150, 0.08), transparent 62%),
+        var(--bg);
+      color: var(--text); font-family: var(--font);
       line-height: 1.5; height: 100%; overflow: hidden;
       -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
       -webkit-user-select: none; user-select: none;
       display: flex; flex-direction: column; position: relative;
     }
 
-    /* Основная колонка для header и экранов */
+    body::before, body::after {
+      content: '';
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(100px);
+      z-index: -1;
+      pointer-events: none;
+    }
+    body::before { width: 320px; height: 320px; background: rgba(77, 171, 247, 0.13); top: -140px; left: -120px; }
+    body::after { width: 340px; height: 340px; background: rgba(140, 150, 170, 0.09); bottom: -160px; right: -130px; }
+
     .main-column {
       display: flex;
       flex-direction: column;
       flex: 1;
       height: 100%;
       overflow: hidden;
+      position: relative;
+      z-index: 1;
     }
 
     .header-wrapper {
@@ -58,16 +78,33 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      background: var(--bg);
+      background: transparent;
       max-height: 125px;
     }
 
     .header { display: flex; align-items: center; gap: 12px; padding: 6px 0 2px; }
-    .header-icon { width: 40px; height: 40px; border-radius: var(--radius-sm); background: linear-gradient(135deg, #f7b731, #f06565); display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; color: #fff; box-shadow: 0 4px 12px rgba(240,101,101,0.25); }
+    .header-icon {
+      width: 40px; height: 40px; border-radius: var(--radius-sm);
+      background: linear-gradient(135deg, #f7b731, #f06565);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 19px; flex-shrink: 0; color: #fff;
+      box-shadow: 0 4px 14px rgba(240,101,101,0.35);
+    }
     .header-info h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px; color: #fff; line-height: 1.2; }
     .header-info span { font-size: 0.7rem; color: var(--text2); font-weight: 500; }
 
-    .download { display: flex; align-items: center; justify-content: space-between; gap: 8px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px; padding-left: 10px; box-shadow: var(--shadow); }
+    /* Плашка Download — старый оранжевый цвет, стеклянный фон */
+    .download {
+      display: flex; align-items: center; justify-content: space-between; gap: 8px;
+      background: rgba(240, 177, 94, 0.12);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(240, 177, 94, 0.6);
+      border-radius: var(--radius);
+      padding: 4px 4px 4px 10px;
+      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
+      color: #f0b15e;
+    }
     .download-title { font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
     .tag-orange { background: rgba(240,177,94,0.15); color: #f0b15e; border-color: #f0b15e; }
 
@@ -94,28 +131,61 @@
       opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 1;
     }
 
-    .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 14px; box-shadow: var(--shadow); flex-shrink: 0; }
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius);
+      padding: 16px;
+      display: flex; flex-direction: column; gap: 14px;
+      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
+      flex-shrink: 0;
+    }
     .card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-    .card-title { font-weight: 700; font-size: 0.9rem; color: #fff; letter-spacing: -0.2px; display: flex; align-items: center; gap: 6px; }
+    .card-title { font-weight: 700; font-size: 0.9rem; color: #fff; letter-spacing: -0.2px; display: flex; align-items: center; gap: 7px; }
 
     label { font-size: 0.7rem; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 4px; }
-    input[type="text"], input[type="number"], select, textarea { width: 100%; padding: 10px 12px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-sm); color: #fff; font-size: 0.85rem; font-family: var(--font); transition: border var(--transition), box-shadow var(--transition); outline: none; resize: vertical; }
+
+    input[type="text"], input[type="number"], textarea {
+      width: 100%; padding: 10px 12px;
+      background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      color: #fff; font-size: 0.85rem; font-family: var(--font);
+      transition: border var(--transition), box-shadow var(--transition), background var(--transition);
+      outline: none; resize: vertical;
+    }
     input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
     input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-    input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77,171,247,0.15); }
-    select { cursor: pointer; appearance: none; -webkit-appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238f9bb3' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 32px; }
-    .row { display: flex; gap: 10px; flex-wrap: wrap; }
-    .row>* { flex: 1 1 90px; min-width: 70px; }
-    .checkbox-wrap { display: flex; align-items: center; gap: 6px; font-size: 0.7rem; cursor: pointer; user-select: none; color: var(--text); }
-    .checkbox-wrap input[type="checkbox"] { width: auto; margin: 0; accent-color: var(--accent); }
+    input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(77,171,247,0.15);
+      background: rgba(27, 36, 48, 0.78);
+    }
+    input:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
 
-    .btn { padding: 10px 16px; border: none; border-radius: var(--radius-sm); cursor: pointer; font-weight: 600; font-size: 0.8rem; font-family: var(--font); transition: all var(--transition); letter-spacing: -0.2px; text-align: center; display: inline-flex; align-items: center; justify-content: center; gap: 6px; white-space: nowrap; text-decoration: none; -webkit-tap-highlight-color: transparent; }
+    .row { display: flex; gap: 10px; flex-wrap: wrap; }
+    .row > * { flex: 1 1 90px; min-width: 70px; }
+
+    .btn {
+      padding: 10px 16px; border: none; border-radius: var(--radius-sm); cursor: pointer;
+      font-weight: 600; font-size: 0.8rem; font-family: var(--font);
+      transition: all var(--transition); letter-spacing: -0.2px; text-align: center;
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      white-space: nowrap; text-decoration: none; -webkit-tap-highlight-color: transparent;
+    }
     .btn:active { transform: scale(0.95); transition: transform 0.1s ease; }
     .btn-primary { background: var(--accent); color: #000; }
     .btn-primary:active { background: #2b8fdd; }
     .btn-success { background: var(--accent2); color: #000; }
     .btn-success:active { background: #2f9e3d; }
-    .btn-outline { background: transparent; border: 1px solid var(--border); color: var(--text); }
+    .btn-outline { background: rgba(27,36,48,0.4); border: 1px solid var(--glass-border); color: var(--text); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
     .btn-outline:active { background: var(--surface2); }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-danger:active { background: #d94f4f; }
@@ -124,33 +194,404 @@
     .btn-block { width: 100%; }
     .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    .code-block { background: #060a0f; border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px; font-family: var(--mono); font-size: 0.7rem; line-height: 1.6; color: #c9d1d9; overflow-x: auto; white-space: pre-wrap; word-break: break-all; max-height: 320px; overflow-y: auto; position: relative; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+    /* Квадратные кнопки-иконки 30x30 */
+    .btn-square {
+      width: 30px; height: 30px; padding: 0;
+      display: inline-flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      border: 1px solid var(--glass-border);
+      background: rgba(27,36,48,0.4);
+      color: var(--text2);
+      cursor: pointer;
+      font-size: 0.75rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      transition: all var(--transition);
+      -webkit-tap-highlight-color: transparent;
+      flex-shrink: 0;
+    }
+    .btn-square:hover { color: var(--accent); background: rgba(77,171,247,0.12); }
+    .btn-square:active { transform: scale(0.92); }
+    .btn-square.active {
+      color: var(--accent);
+      background: rgba(77, 171, 247, 0.18);
+      border-color: rgba(77, 171, 247, 0.5);
+    }
+
+    /* Кнопки панели команд — одна высота 30px */
+    .toolbar-btn {
+      height: 30px;
+      padding: 0 12px;
+      font-size: 0.68rem;
+      border-radius: 6px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all var(--transition);
+      background: rgba(27,36,48,0.4);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      -webkit-tap-highlight-color: transparent;
+      font-family: var(--font);
+      letter-spacing: -0.2px;
+      flex-shrink: 0;
+    }
+    .toolbar-btn:hover { background: var(--surface2); }
+    .toolbar-btn:active { transform: scale(0.95); }
+    .toolbar-btn.active {
+      background: rgba(77, 171, 247, 0.18);
+      color: var(--accent);
+      border-color: rgba(77, 171, 247, 0.5);
+    }
+
+    .btn-icon {
+      background: rgba(20,27,34,0.5); border: 1px solid var(--glass-border); color: var(--text2);
+      cursor: pointer; font-size: 0.85rem; border-radius: 6px;
+      transition: color var(--transition), background var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      width: 30px; height: 30px; flex-shrink: 0;
+    }
+    .btn-icon:hover { color: var(--accent); background: rgba(77,171,247,0.12); }
+    .btn-icon:active { color: var(--danger); background: rgba(240,101,101,0.15); }
+
+    .code-block {
+      background: rgba(6, 10, 15, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm); padding: 14px;
+      font-family: var(--mono); font-size: 0.7rem; line-height: 1.6;
+      color: #c9d1d9; overflow-x: auto; white-space: pre-wrap; word-break: break-all;
+      max-height: 320px; overflow-y: auto; position: relative;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+      transition: max-height 0.25s ease;
+    }
     .code-block::-webkit-scrollbar { width: 3px; height: 3px; }
     .code-block::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 
-    .copy-indicator { position: absolute; top: 8px; right: 8px; background: var(--accent2); color: #000; padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 700; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; font-family: var(--font); display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .code-block.collapsible { max-height: 132px; overflow: hidden; }
+    .code-block.collapsible.expanded { max-height: 420px; overflow-y: auto; }
+
+    .code-fade {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 52px;
+      background: linear-gradient(to bottom, transparent, rgba(6, 10, 15, 0.95));
+      pointer-events: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
+      display: none; z-index: 2;
+    }
+
+    /* Кнопка разворота кода — только иконка */
+    .code-expand-btn {
+      position: absolute; bottom: 8px; right: 8px;
+      width: 30px; height: 30px;
+      border-radius: 50%;
+      background: rgba(20, 27, 34, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border);
+      color: var(--text);
+      cursor: pointer;
+      display: none; align-items: center; justify-content: center;
+      z-index: 6; box-shadow: 0 2px 10px rgba(0,0,0,0.35);
+      transition: color var(--transition), background var(--transition), border-color var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .code-expand-btn.visible { display: flex; }
+    .code-expand-btn:hover { color: var(--accent); border-color: rgba(77,171,247,0.4); }
+    .code-expand-btn i { font-size: 0.7rem; }
+
+    .copy-indicator {
+      position: absolute; top: 8px; right: 8px;
+      background: var(--accent2); color: #000; padding: 4px 10px; border-radius: 6px;
+      font-size: 0.65rem; font-weight: 700; opacity: 0; transition: opacity 0.25s ease;
+      pointer-events: none; font-family: var(--font); display: flex; align-items: center; gap: 4px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 5;
+    }
     .copy-indicator.visible { opacity: 1; }
     .notify-area { position: relative; }
 
-    .command-list { display: flex; flex-direction: column; gap: 4px; }
-    .command-item { display: flex; align-items: center; gap: 8px; background: var(--surface2); border-radius: var(--radius-sm); padding: 7px; border: 1px solid transparent; transition: border var(--transition), background var(--transition); flex-wrap: wrap; }
-    .command-item:hover { border-color: var(--border); background: #1f2937; }
-    .command-item select { width: 68px; padding: 8px 22px 8px 10px; font-size: 0.75rem; background: var(--surface); background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%238f9bb3' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'%3E%3C/path%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 5px center; }
-    .command-item .cmd-text { flex: 1 1 120px; min-width: 90px; padding: 8px 10px; font-size: 0.8rem; background: var(--surface); }
-    .command-item .btn-icon { background: none; border: none; color: var(--text2); cursor: pointer; font-size: 1rem; border-radius: 6px; transition: color var(--transition), background var(--transition); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0; }
-    .command-item .btn-icon:active { color: var(--danger); background: rgba(240,101,101,0.15); }
+    /* ---------- Клавиша запуска ---------- */
+    .key-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
+    .key-row .custom-select { flex: 1 1 120px; width: auto; min-width: 90px; }
 
-    .delay-row { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 5px 8px; background: rgba(0,0,0,0.25); font-size: 0.73rem; margin: 0 8px; color: var(--text2); border-radius: 6px; transition: background var(--transition); }
+    .listen-wrap { display: flex; gap: 6px; flex: 1 1 150px; height: var(--input-h); align-items: stretch; }
+    .listen-wrap input { flex: 1; min-width: 0; height: 100%; font-family: var(--mono); font-size: 0.78rem; padding: 0 10px; }
+    .listen-wrap .btn-icon { width: 42px; height: 100%; }
+    .listen-wrap.listening input {
+      border-color: var(--accent2);
+      color: var(--accent2);
+      animation: listenPulse 1.2s ease-in-out infinite;
+    }
+    @keyframes listenPulse {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(81,207,102,0.10); }
+      50% { box-shadow: 0 0 0 6px rgba(81,207,102,0.22); }
+    }
+
+    /* ---------- Сегментированный выбор клавиши чата ---------- */
+    .segmented {
+      display: flex; gap: 4px; align-items: stretch;
+      background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      padding: 4px;
+      height: var(--input-h);
+    }
+    .seg-btn {
+      flex: 1 1 0; min-width: 0;
+      padding: 0 10px; border-radius: 6px;
+      border: 1px solid transparent; background: transparent;
+      color: var(--text2); font-family: var(--mono);
+      font-size: 0.78rem; font-weight: 700; cursor: pointer;
+      transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .seg-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
+    .seg-btn.active {
+      background: rgba(77,171,247,0.18);
+      color: var(--accent);
+      box-shadow: inset 0 0 0 1px rgba(77,171,247,0.35);
+    }
+    .segmented input[type="text"] {
+      flex: 1 1 60px; min-width: 0;
+      padding: 0 10px; height: 100%;
+      font-size: 0.76rem; font-family: var(--mono);
+      background: rgba(20,27,34,0.6);
+    }
+
+    /* ---------- Глобальная задержка с внешними отступами ---------- */
+    .delay-input-wrap {
+      display: flex;
+      gap: 4px;
+      align-items: stretch;
+      height: var(--input-h);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--glass-border);
+      background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 4px;
+      transition: border var(--transition), box-shadow var(--transition);
+    }
+    .delay-input-wrap:focus-within {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(77,171,247,0.15);
+    }
+    .delay-input-wrap input[type="number"] {
+      flex: 1 1 0;
+      width: 0;
+      min-width: 0;
+      height: 100%;
+      border: none;
+      border-radius: 6px;
+      background: rgba(20,27,34,0.6);
+      padding: 0 10px;
+      font-size: 0.85rem;
+      box-shadow: none;
+    }
+    .delay-input-wrap input[type="number"]:focus {
+      box-shadow: none;
+      background: rgba(20,27,34,0.6);
+    }
+    .delay-input-wrap input[type="number"]:disabled {
+      opacity: 0.4;
+    }
+    .delay-toggle {
+      width: 32px;
+      height: 100%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(20,27,34,0.6);
+      border: none;
+      border-radius: 6px;
+      color: var(--text2);
+      cursor: pointer;
+      font-size: 0.8rem;
+      transition: all var(--transition);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .delay-toggle:hover { color: var(--accent); background: rgba(77,171,247,0.15); }
+    .delay-toggle.active { color: var(--accent); background: rgba(77,171,247,0.25); }
+    .delay-toggle:active { transform: scale(0.94); }
+
+    /* ---------- Команды ---------- */
+    .command-list { display: flex; flex-direction: column; gap: 6px; }
+
+    .command-block { display: flex; flex-direction: column; gap: 4px; }
+    .command-block.dragging .command-item {
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6);
+      border-color: var(--accent);
+      background: rgba(30, 42, 58, 0.95);
+    }
+    .command-block-placeholder {
+      border: 1px dashed rgba(77, 171, 247, 0.6);
+      background: rgba(77, 171, 247, 0.07);
+      border-radius: var(--radius-sm);
+    }
+
+    .command-item {
+      display: flex; align-items: center; gap: 8px;
+      background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--radius-sm); padding: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: border var(--transition), background var(--transition);
+      flex-wrap: wrap;
+    }
+    .command-item:hover { border-color: var(--border); background: rgba(31, 41, 55, 0.7); }
+
+    .drag-handle {
+      display: flex; align-items: center; justify-content: center;
+      width: 24px; height: 30px; color: var(--text2); cursor: grab;
+      border-radius: 6px; flex-shrink: 0;
+      touch-action: none; -webkit-touch-callout: none;
+      transition: color var(--transition), background var(--transition);
+    }
+    .drag-handle:hover { color: var(--accent); background: rgba(77, 171, 247, 0.1); }
+    .drag-handle:active { cursor: grabbing; }
+
+    .command-item .cmd-text { flex: 1 1 120px; min-width: 90px; padding: 8px 10px; font-size: 0.8rem; background: rgba(20,27,34,0.6); }
+    .command-item .btn-icon { width: 30px; height: 30px; }
+
+    /* Режим редактирования */
+    .command-list:not(.edit-mode) .drag-handle,
+    .command-list:not(.edit-mode) .cmd-delete { display: none; }
+
+    .delay-row {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 5px 8px; background: rgba(0,0,0,0.25);
+      font-size: 0.73rem; margin: 0 8px; color: var(--text2); border-radius: 6px;
+      transition: background var(--transition);
+    }
     .delay-row:hover { background: rgba(77,171,247,0.1); }
-    .delay-row i { font-size: 0.9rem; color: var(--accent); }
+    .delay-row i { font-size: 0.85rem; color: var(--accent); }
     .delay-row span { font-weight: 600; font-size: 0.7rem; }
-    .delay-row input { width: 80px; padding: 6px 8px; background: var(--surface2); border: 1px solid var(--border); border-radius: 4px; color: #fff; font-size: 0.75rem; text-align: center; font-family: var(--mono); }
+    .delay-row input { width: 80px; padding: 6px 8px; background: rgba(27,36,48,0.7); border: 1px solid var(--glass-border); border-radius: 4px; color: #fff; font-size: 0.75rem; text-align: center; font-family: var(--mono); }
     .delay-row .ms-label { margin-left: 2px; font-size: 0.65rem; color: var(--text2); }
 
-    .preset-item { display: flex; align-items: center; justify-content: space-between; padding: 12px; background: var(--surface2); border-radius: var(--radius-sm); gap: 8px; cursor: pointer; transition: all var(--transition); border: 1px solid transparent; flex-wrap: wrap; }
-    .preset-item:active { border-color: var(--accent); background: #1e2a3a; transform: scale(0.985); }
+    /* Сводка свёрнутых команд */
+    .commands-summary {
+      display: none;
+      background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      cursor: pointer;
+      flex-direction: column;
+      gap: 4px;
+      transition: background var(--transition);
+    }
+    .commands-summary:hover { background: rgba(31, 41, 55, 0.7); }
+    .commands-summary .summary-title { font-weight: 700; font-size: 0.78rem; color: #fff; }
+    .commands-summary .summary-preview { font-size: 0.7rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    /* ---------- Кастомный селект ---------- */
+    .custom-select { position: relative; flex-shrink: 0; width: 82px; }
+    .custom-select.full { width: 100%; }
+    .custom-select-trigger {
+      width: 100%; height: var(--input-h);
+      padding: 0 10px;
+      font-size: 0.75rem; font-family: var(--mono);
+      background: rgba(20, 27, 34, 0.7);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm);
+      color: #fff; cursor: pointer;
+      display: flex; align-items: center; justify-content: space-between; gap: 4px;
+      text-align: left; touch-action: manipulation;
+      transition: border var(--transition), box-shadow var(--transition);
+    }
+    .custom-select-trigger:hover { border-color: var(--border); }
+    .custom-select-trigger.open { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77,171,247,0.15); }
+    .custom-select-trigger .cs-arrow {
+      font-size: 0.6rem; color: var(--text2);
+      transition: transform 0.25s ease;
+    }
+    .custom-select-trigger.open .cs-arrow { transform: rotate(180deg); color: var(--accent); }
+    .cs-value { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+    .custom-select-menu {
+      position: fixed;
+      background: rgba(18, 25, 33, 0.92);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-sm);
+      box-shadow: 0 18px 46px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
+      max-height: 300px; overflow-y: auto;
+      padding: 5px;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+      animation: dropIn 0.18s ease;
+    }
+    .custom-select-menu::-webkit-scrollbar { width: 3px; }
+    .custom-select-menu::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    @keyframes dropIn { from { opacity: 0; transform: translateY(-6px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    .cs-option {
+      padding: 8px 10px; border-radius: 6px; cursor: pointer;
+      display: flex; flex-direction: column; gap: 2px;
+      transition: background var(--transition);
+    }
+    .cs-option:hover, .cs-option.selected { background: rgba(77, 171, 247, 0.16); }
+    .cs-option.selected .cs-opt-title { color: var(--accent); }
+    .cs-opt-title { font-size: 0.78rem; font-weight: 700; color: #fff; font-family: var(--mono); }
+    .cs-opt-desc { font-size: 0.65rem; color: var(--text2); line-height: 1.25; }
+
+    /* Сетка клавиш запуска */
+    .key-grid-menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
+      gap: 6px;
+      padding: 8px;
+      max-height: 260px;
+    }
+    .key-tile {
+      padding: 9px 4px;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text);
+      background: rgba(27,36,48,0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .key-tile:hover { border-color: var(--border); background: rgba(31,41,55,0.9); }
+    .key-tile.selected { background: rgba(77,171,247,0.22); border-color: var(--accent); color: var(--accent); }
+    .key-tile:active { transform: scale(0.95); }
+
+    /* ---------- Заготовки / готовые ---------- */
+    .preset-item {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px; background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--radius-sm); gap: 8px; cursor: pointer;
+      transition: all var(--transition); border: 1px solid rgba(255,255,255,0.05);
+      flex-wrap: wrap;
+    }
+    .preset-item:active { border-color: var(--accent); background: rgba(30, 42, 58, 0.85); transform: scale(0.985); }
     .preset-info { flex: 1; min-width: 110px; }
-    .preset-info .name { font-weight: 600; font-size: 0.82rem; color: #fff; }
+    .preset-info .name { font-weight: 600; font-size: 0.82rem; color: #fff; display: flex; align-items: center; gap: 6px; }
+    .preset-info .name i { color: var(--accent); }
     .preset-info .desc { font-size: 0.68rem; color: var(--text2); }
     .preset-actions { display: flex; gap: 4px; flex-shrink: 0; }
 
@@ -166,19 +607,75 @@
     .tag-orange { background: rgba(240,177,94,0.15); color: #f0b15e; border-color: #f0b15e; }
     .tag-purple { background: rgba(177,139,240,0.2); color: #b18bf0; }
 
-    .toast { position: fixed; bottom: calc(var(--nav-height) + var(--safe-bottom) + 30px); right: -20px; left: auto; transform: translateX(120%); background: #2b8a3e; color: #fff; padding: 10px 20px; border-radius: 25px; font-weight: 600; font-size: 0.8rem; z-index: 1600; transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55); pointer-events: none; box-shadow: 0 8px 24px rgba(0,0,0,0.35); display: flex; align-items: center; gap: 8px; white-space: nowrap; max-width: calc(100% - 32px); }
+    .toast {
+      position: fixed; bottom: calc(var(--nav-height) + var(--safe-bottom) + 30px); right: -20px; left: auto;
+      transform: translateX(120%);
+      background: rgba(43, 138, 62, 0.82);
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff; padding: 10px 20px; border-radius: 25px;
+      font-weight: 600; font-size: 0.8rem; z-index: 1600;
+      transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+      pointer-events: none;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 8px;
+      white-space: nowrap; max-width: calc(100% - 32px);
+    }
     .toast.show { transform: translateX(-50%); pointer-events: auto; }
+    .toast i { font-size: 0.9rem; }
 
-    .undo-toast { position: fixed; bottom: calc(var(--nav-height) + var(--safe-bottom) + 75px); right: 16px; left: auto; transform: translateX(120%); background: #1e2a3a; color: #fff; padding: 10px 14px; border-radius: 25px; font-size: 0.78rem; z-index: 1601; transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55); pointer-events: auto; box-shadow: 0 8px 24px rgba(0,0,0,0.35); display: flex; align-items: center; gap: 16px; border: 1px solid var(--border); white-space: nowrap; overflow: hidden; max-width: calc(100% - 32px); }
-    .undo-toast.show { transform: translateX(0); }
-    .undo-toast .btn-undo { background: var(--accent); color: #000; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.75rem; white-space: nowrap; -webkit-tap-highlight-color: transparent; }
+    /* Undo toast — в неактивном состоянии опущен ниже */
+    .undo-toast {
+      position: fixed;
+      bottom: calc(var(--nav-height) + var(--safe-bottom) + 75px);
+      right: 16px; left: auto;
+      transform: translateX(120%) translateY(28px);
+      opacity: 0;
+      background: rgba(30, 42, 58, 0.85);
+      backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid var(--glass-border);
+      color: #fff; padding: 10px 14px; border-radius: 25px;
+      font-size: 0.78rem; z-index: 1601;
+      transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.25s ease;
+      pointer-events: none;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 16px;
+      white-space: nowrap; overflow: hidden; max-width: calc(100% - 32px);
+    }
+    .undo-toast.show { transform: translateX(0) translateY(0); opacity: 1; pointer-events: auto; }
+    .undo-toast .btn-undo {
+      background: var(--accent); color: #000; border: none;
+      padding: 6px 14px; border-radius: 20px; cursor: pointer;
+      font-weight: 600; font-size: 0.75rem; white-space: nowrap;
+      -webkit-tap-highlight-color: transparent;
+    }
     .undo-toast .btn-undo:active { transform: scale(0.94); }
-    .undo-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent); border-radius: 0 0 25px 25px; width: 100%; transition: width 10s linear; }
+    .undo-progress {
+      position: absolute; bottom: 0; left: 0; height: 3px;
+      background: var(--accent); border-radius: 0 0 25px 25px;
+      width: 100%; transition: width 10s linear;
+    }
 
-    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 2000; display: flex; align-items: center; justify-content: center; padding: 16px; animation: fadeIn 0.2s ease; backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000;
+      display: flex; align-items: center; justify-content: center; padding: 16px;
+      animation: fadeIn 0.2s ease;
+      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    }
     .modal-overlay.hidden { display: none; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .modal-box { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; max-width: 360px; width: 100%; display: flex; flex-direction: column; gap: 14px; box-shadow: 0 16px 48px rgba(0,0,0,0.5); }
+    .modal-box {
+      background: rgba(20, 27, 34, 0.78);
+      backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius); padding: 20px;
+      max-width: 360px; width: 100%;
+      display: flex; flex-direction: column; gap: 14px;
+      box-shadow: 0 20px 54px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
+    }
     .modal-box h3 { font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 8px; }
     .modal-box p { font-size: 0.8rem; color: var(--text2); line-height: 1.4; }
     .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
@@ -187,10 +684,13 @@
     .bottom-nav {
       position: fixed; bottom: var(--nav-margin); left: var(--nav-margin); right: var(--nav-margin);
       bottom: calc(var(--nav-margin) + var(--safe-bottom)); height: var(--nav-height);
-      background: rgba(20,27,34,0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--border); border-radius: 25px; display: flex; align-items: center;
-      justify-content: space-around; padding: 0 8px; z-index: 1500;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.05) inset;
+      background: rgba(20,27,34,0.72);
+      backdrop-filter: blur(24px) saturate(160%);
+      -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid var(--glass-border); border-radius: 25px;
+      display: flex; align-items: center; justify-content: space-around;
+      padding: 0 8px; z-index: 1500;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
     }
 
     .nav-item {
@@ -199,28 +699,33 @@
       -webkit-tap-highlight-color: transparent; border-radius: 16px; padding: 6px 4px;
       color: var(--text2); text-decoration: none; min-width: 0;
     }
-    .nav-item i { font-size: 1.35rem; transition: all var(--transition); position: relative; z-index: 1; }
+    .nav-item i { font-size: 1.3rem; transition: all var(--transition); position: relative; z-index: 1; }
     .nav-item .nav-label { font-size: 0.62rem; font-weight: 600; letter-spacing: 0.1px; transition: all var(--transition); white-space: nowrap; z-index: 1; }
     .nav-item.active { color: var(--accent); }
-    .nav-item.active i { transform: translateY(-2px); filter: drop-shadow(0 2px 6px rgba(77,171,247,0.4)); }
+    .nav-item.active i { transform: translateY(-2px); filter: drop-shadow(0 2px 6px rgba(77,171,247,0.45)); }
     .nav-item.active .nav-label { font-weight: 700; letter-spacing: 0.3px; }
-    .nav-item::before { content: ''; position: absolute; bottom: 4px; left: 50%; transform: translateX(-50%) scale(0); width: 28px; height: 3px; background: var(--accent); border-radius: 4px; transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55); }
+    .nav-item::before {
+      content: ''; position: absolute; bottom: 4px; left: 50%;
+      transform: translateX(-50%) scale(0); width: 28px; height: 3px;
+      background: var(--accent); border-radius: 4px;
+      transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
     .nav-item.active::before { transform: translateX(-50%) scale(1); }
     .nav-item:active { transform: scale(0.9); transition: transform 0.1s ease; }
 
-    .nav-badge { position: absolute; top: 2px; right: calc(50% - 18px); background: var(--accent2); color: #000; font-size: 0.55rem; font-weight: 700; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 5px; z-index: 2; line-height: 1; }
+    .nav-badge {
+      position: absolute; top: 2px; right: calc(50% - 18px);
+      background: var(--accent2); color: #000; font-size: 0.55rem; font-weight: 700;
+      min-width: 16px; height: 16px; border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      padding: 0 5px; z-index: 2; line-height: 1;
+    }
     .nav-item.active .nav-badge { background: var(--accent); color: #000; }
 
-    /* Боковая панель (десктоп) */
-    .side-nav {
-      display: none;
-    }
+    .side-nav { display: none; }
 
     @media (min-width: 768px) {
-      body {
-        flex-direction: column;
-        align-items: center;
-      }
+      body { flex-direction: column; align-items: center; }
 
       .bottom-nav { display: none; }
 
@@ -233,18 +738,11 @@
         position: relative;
       }
 
-      .header-wrapper {
-        padding: 20px 0 0;
-      }
+      .header-wrapper { padding: 20px 0 0; }
 
-      .screens-container {
-        flex: 1;
-      }
+      .screens-container { flex: 1; }
 
-      .screen {
-        padding: 20px 0;
-        padding-bottom: 20px;
-      }
+      .screen { padding: 20px 0; padding-bottom: 20px; }
 
       .side-nav {
         display: flex;
@@ -252,12 +750,12 @@
         align-items: center;
         justify-content: flex-start;
         width: var(--side-nav-width);
-        background: rgba(20,27,34,0.85);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid var(--border);
+        background: rgba(20,27,34,0.72);
+        backdrop-filter: blur(24px) saturate(160%);
+        -webkit-backdrop-filter: blur(24px) saturate(160%);
+        border: 1px solid var(--glass-border);
         border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.4), 0 1px 0 rgba(255,255,255,0.05) inset;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
         position: fixed;
         left: calc((100% - var(--desktop-content-width)) / 2 - var(--side-nav-width));
         top: 145px;
@@ -269,7 +767,6 @@
       .side-nav .nav-item {
         flex-direction: column;
         flex: 0 0 auto;
-        width: 100%;
         height: auto;
         padding: 12px 6px;
         border-radius: 12px;
@@ -280,13 +777,18 @@
 
       .toast { bottom: 30px; right: auto; left: 50%; transform: translateX(-50%) translateY(100px); }
       .toast.show { transform: translateX(-50%) translateY(0); }
-      .undo-toast { bottom: 80px; right: auto; left: 50%; transform: translateX(-50%) translateY(120px); }
-      .undo-toast.show { transform: translateX(-50%) translateY(0); }
+
+      .undo-toast {
+        bottom: 80px; right: auto; left: 50%;
+        transform: translateX(-50%) translateY(148px);
+        opacity: 0;
+      }
+      .undo-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
 
     @media (max-width: 380px) {
       .bottom-nav { left: 8px; right: 8px; bottom: calc(8px + var(--safe-bottom)); height: 60px; border-radius: 18px; }
-      .nav-item i { font-size: 1.2rem; }
+      .nav-item i { font-size: 1.15rem; }
       .nav-item .nav-label { font-size: 0.58rem; }
       .nav-badge { top: 0; right: calc(50% - 16px); font-size: 0.5rem; min-width: 14px; height: 14px; }
     }
@@ -297,36 +799,35 @@
 </head>
 <body>
 
-  <!-- Боковая панель (десктоп) - фиксированная слева -->
+  <!-- Боковая панель (десктоп) -->
   <nav class="side-nav" id="sideNav">
     <div class="nav-item active" data-screen="0" data-nav="generator">
-      <i class="bi bi-gear"></i>
+      <i class="fa-solid fa-gear"></i>
       <span class="nav-label">Генератор</span>
     </div>
     <div class="nav-item" data-screen="1" data-nav="presets">
-      <i class="bi bi-journal-code"></i>
+      <i class="fa-solid fa-book"></i>
       <span class="nav-label">Шаблоны</span>
     </div>
     <div class="nav-item" data-screen="2" data-nav="ready">
-      <i class="bi bi-box-seam"></i>
+      <i class="fa-solid fa-box-open"></i>
       <span class="nav-label">Готовые</span>
       <span class="nav-badge">4</span>
     </div>
   </nav>
 
-  <!-- Основная колонка (header + экраны) -->
   <div class="main-column">
     <div class="header-wrapper">
       <div class="header">
-        <div class="header-icon"><i class="bi bi-controller"></i></div>
+        <div class="header-icon"><i class="fa-solid fa-gamepad"></i></div>
         <div class="header-info">
           <h1>AHK RP Scripts</h1>
           <span>SAMP / CRMP · Генератор скриптов</span>
         </div>
       </div>
-      <div class="download tag-orange" style="border-color:#f0b15e;">
-        <span class="download-title"><i class="bi bi-gear"></i> Нет AutoHotkey?</span>
-        <a href="https://www.autohotkey.com/" target="_blank" rel="noopener" class="btn tag-orange"><i class="bi bi-box-arrow-up-right"></i> Скачать</a>
+      <div class="download">
+        <span class="download-title"><i class="fa-solid fa-gear"></i> Нет AutoHotkey?</span>
+        <a href="https://www.autohotkey.com/" target="_blank" rel="noopener" class="btn btn-xs tag-orange"><i class="fa-solid fa-arrow-up-right-from-square"></i> Скачать</a>
       </div>
     </div>
 
@@ -335,64 +836,87 @@
       <div class="screen active" id="screen-generator" data-screen="0">
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="bi bi-gear"></i> Создать скрипт</span>
-            <span class="tag tag-blue">AHK v1.1</span>
-          </div>
-          <div class="row">
-            <div>
-              <label>Клавиша запуска</label>
-              <select id="genKey">
-                <option value="F1">F1</option><option value="F2">F2</option><option value="F3">F3</option>
-                <option value="F4">F4</option><option value="F5">F5</option><option value="F6">F6</option>
-                <option value="F7">F7</option><option value="F8">F8</option>
-                <option value="Numpad1">Num1</option><option value="Numpad2" selected>Num2</option>
-                <option value="Numpad3">Num3</option><option value="Numpad4">Num4</option>
-                <option value="Numpad5">Num5</option><option value="Numpad0">Num0</option>
-                <option value="^1">Ctrl+1</option><option value="^2">Ctrl+2</option><option value="^3">Ctrl+3</option>
-                <option value="!1">Alt+1</option><option value="!2">Alt+2</option>
-                <option value="custom">Другая...</option>
-              </select>
-              <input type="text" id="genKeyCustom" placeholder="Например: NumpadDot" style="display:none; margin-top:4px;">
-            </div>
-            <div>
-              <label>Клавиша чата</label>
-              <input type="text" id="genChatKey" value="F6" placeholder="F6">
-            </div>
-          </div>
-          <div class="row" style="align-items: flex-end;">
-            <div style="flex: 1 1 100px;">
-              <label>Глобальная задержка (мс)</label>
-              <input type="number" id="genDelay" value="500" min="0" step="50">
-            </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
-              <label class="checkbox-wrap">
-                <input type="checkbox" id="genSendMessage" checked> Смена раскладки
-              </label>
-              <label class="checkbox-wrap">
-                <input type="checkbox" id="genIndividualDelay"> Настройка задержки
-              </label>
+            <span class="card-title"><i class="fa-solid fa-gear"></i> Создать скрипт</span>
+            <div style="display:flex; align-items:center; gap:8px;">
+              <button class="btn-square active" id="btnAutoLayout" title="Авто-смена раскладки"><i class="fa-solid fa-keyboard"></i></button>
+              <span class="tag tag-blue">AHK v1.1</span>
             </div>
           </div>
 
+          <!-- Строка 1: клавиша запуска -->
+          <div class="row">
+            <div style="flex:1 1 100%;">
+              <label>Клавиша запуска</label>
+              <div class="key-row">
+                <div class="custom-select" id="genKeySelect">
+                  <button type="button" class="custom-select-trigger">
+                    <span class="cs-value">Num2</span>
+                    <i class="fa-solid fa-chevron-down cs-arrow"></i>
+                  </button>
+                </div>
+                <input type="hidden" id="genKey" value="Numpad2">
+                <div class="listen-wrap" id="listenWrap" style="display:none;">
+                  <input type="text" id="genKeyCustom" placeholder="Нажмите клавиши…">
+                  <button class="btn-icon" id="btnListenKey" title="Слушать клавиши"><i class="fa-solid fa-keyboard"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Строка 2: клавиша чата + глобальная задержка с кнопкой раздельной задержки -->
+          <div class="row" style="align-items:flex-end;">
+            <div style="flex:1 1 190px;">
+              <label>Клавиша чата</label>
+              <div class="segmented" id="chatKeySeg">
+                <button type="button" class="seg-btn active" data-key="F6">F6</button>
+                <button type="button" class="seg-btn" data-key="T">T</button>
+                <input type="text" id="genChatKey" placeholder="Например: F6" style="display:none;">
+                <button type="button" class="seg-btn" data-key="custom">Своя</button>
+              </div>
+            </div>
+            <div style="flex:1 1 150px;">
+              <label>Глобальная задержка (мс)</label>
+              <div class="delay-input-wrap">
+                <input type="number" id="genDelay" value="500" min="0" step="50">
+                <button type="button" class="delay-toggle" id="btnIndividualDelay" title="Раздельная задержка">
+                  <i class="fa-solid fa-list"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Скрытые чекбоксы состояния -->
+          <input type="checkbox" id="genSendMessage" checked hidden>
+          <input type="checkbox" id="genIndividualDelay" hidden>
+
           <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; flex-wrap:wrap;">
               <label style="margin-bottom:0;">Команды</label>
-              <button class="btn btn-outline btn-xs" id="btnAddCommand"><i class="bi bi-plus-circle"></i> Добавить</button>
+              <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
+                <button class="toolbar-btn" id="btnEditCommands"><i class="fa-solid fa-pen-to-square"></i> Изменить</button>
+                <button class="toolbar-btn" id="btnAddCommand"><i class="fa-solid fa-circle-plus"></i> Добавить</button>
+                <button class="btn-square" id="btnCollapseCommands" title="Свернуть"><i class="fa-solid fa-chevron-up"></i></button>
+              </div>
             </div>
             <div id="commandListContainer" class="command-list"></div>
+            <div id="commandsSummary" class="commands-summary"></div>
           </div>
 
           <div class="btn-group">
-            <button class="btn btn-primary btn-block" id="btnGenerate"><i class="bi bi-lightning-charge"></i> Сгенерировать</button>
+            <button class="btn btn-primary btn-block" id="btnGenerate"><i class="fa-solid fa-bolt"></i> Сгенерировать</button>
           </div>
           <div class="notify-area">
             <div class="code-block" id="genOutput">Нажмите «Сгенерировать» чтобы увидеть код</div>
-            <div class="copy-indicator" id="copyIndicator"><i class="bi bi-check2"></i> Скопировано!</div>
+            <div class="code-fade" id="codeFade"></div>
+            <div class="copy-indicator" id="copyIndicator"><i class="fa-solid fa-check"></i> Скопировано!</div>
+            <button class="code-expand-btn" id="btnExpandCode" title="Развернуть">
+              <i class="fa-solid fa-chevron-down"></i>
+            </button>
           </div>
           <div class="btn-group">
-            <button class="btn btn-success btn-sm" id="btnCopyGen"><i class="bi bi-clipboard"></i> Копировать</button>
-            <button class="btn btn-outline btn-sm" id="btnDownloadGen"><i class="bi bi-download"></i> Скачать .ahk</button>
-            <button class="btn btn-outline btn-sm" id="btnClearGen"><i class="bi bi-eraser"></i> Очистить</button>
+            <button class="btn btn-success btn-sm" id="btnCopyGen"><i class="fa-regular fa-clipboard"></i> Копировать</button>
+            <button class="btn btn-outline btn-sm" id="btnDownloadGen"><i class="fa-solid fa-download"></i> Скачать .ahk</button>
+            <button class="btn btn-outline btn-sm" id="btnClearGen"><i class="fa-solid fa-eraser"></i> Очистить</button>
           </div>
         </div>
       </div>
@@ -401,7 +925,7 @@
       <div class="screen" id="screen-presets" data-screen="1">
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="bi bi-journal-code"></i> Быстрые заготовки</span>
+            <span class="card-title"><i class="fa-solid fa-book"></i> Быстрые заготовки</span>
             <span class="tag tag-orange">Загрузить в генератор</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:6px;" id="presetList"></div>
@@ -412,7 +936,7 @@
       <div class="screen" id="screen-ready" data-screen="2">
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="bi bi-box-seam"></i> Готовые скрипты</span>
+            <span class="card-title"><i class="fa-solid fa-box-open"></i> Готовые скрипты</span>
             <span class="tag tag-green">Копировать / Скачать</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;" id="readyList"></div>
@@ -424,15 +948,15 @@
   <!-- Мобильная нижняя панель -->
   <nav class="bottom-nav" id="bottomNav">
     <div class="nav-item active" data-screen="0" data-nav="generator">
-      <i class="bi bi-gear"></i>
+      <i class="fa-solid fa-gear"></i>
       <span class="nav-label">Генератор</span>
     </div>
     <div class="nav-item" data-screen="1" data-nav="presets">
-      <i class="bi bi-journal-code"></i>
+      <i class="fa-solid fa-book"></i>
       <span class="nav-label">Шаблоны</span>
     </div>
     <div class="nav-item" data-screen="2" data-nav="ready">
-      <i class="bi bi-box-seam"></i>
+      <i class="fa-solid fa-box-open"></i>
       <span class="nav-label">Готовые</span>
       <span class="nav-badge">4</span>
     </div>
@@ -440,17 +964,17 @@
 
   <div class="modal-overlay hidden" id="modalClear">
     <div class="modal-box">
-      <h3><i class="bi bi-exclamation-triangle" style="color: var(--orange);"></i> Подтверждение очистки</h3>
+      <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--orange);"></i> Подтверждение очистки</h3>
       <p>Вы действительно хотите удалить все команды и сбросить генератор? Это действие можно будет отменить в течение 10 секунд.</p>
       <div class="modal-actions">
-        <button class="btn btn-outline btn-sm" id="modalCancel"><i class="bi bi-x-circle"></i> Отмена</button>
-        <button class="btn btn-danger btn-sm" id="modalConfirm"><i class="bi bi-check-circle"></i> Очистить</button>
+        <button class="btn btn-outline btn-sm" id="modalCancel"><i class="fa-solid fa-circle-xmark"></i> Отмена</button>
+        <button class="btn btn-danger btn-sm" id="modalConfirm"><i class="fa-solid fa-circle-check"></i> Очистить</button>
       </div>
     </div>
   </div>
 
   <div class="undo-toast" id="undoToast">
-    <span><i class="bi bi-info-circle"></i> Генератор очищен</span>
+    <span><i class="fa-solid fa-circle-info"></i> Генератор очищен</span>
     <button class="btn-undo" id="btnUndo">Отмена</button>
     <div class="undo-progress" id="undoProgress"></div>
   </div>
@@ -459,25 +983,50 @@
 
   <script>
     (function() {
+      /* ============================================================
+         Элементы
+         ============================================================ */
       const screens = document.querySelectorAll('.screen');
       const navItems = document.querySelectorAll('.nav-item');
+
       const genKey = document.getElementById('genKey');
-      const genKeyCustom = document.getElementById('genKeyCustom');
-      const genChatKey = document.getElementById('genChatKey');
+      const genKeySelect = document.getElementById('genKeySelect');
+      const genKeyTrigger = genKeySelect.querySelector('.custom-select-trigger');
+      const genKeyCustomInput = document.getElementById('genKeyCustom');
+      const listenWrap = document.getElementById('listenWrap');
+      const btnListenKey = document.getElementById('btnListenKey');
+
+      const chatSeg = document.getElementById('chatKeySeg');
+      const chatF6Btn = chatSeg.querySelector('[data-key="F6"]');
+      const chatTBtn = chatSeg.querySelector('[data-key="T"]');
+      const chatCustomBtn = chatSeg.querySelector('[data-key="custom"]');
+      const genChatKeyInput = document.getElementById('genChatKey');
+
       const genDelay = document.getElementById('genDelay');
+      const btnIndividualDelay = document.getElementById('btnIndividualDelay');
       const genSendMessage = document.getElementById('genSendMessage');
       const genIndividualDelay = document.getElementById('genIndividualDelay');
+      const btnAutoLayout = document.getElementById('btnAutoLayout');
+
       const genOutput = document.getElementById('genOutput');
+      const codeFade = document.getElementById('codeFade');
+      const btnExpandCode = document.getElementById('btnExpandCode');
       const copyIndicator = document.getElementById('copyIndicator');
       const toast = document.getElementById('toast');
+
       const btnGenerate = document.getElementById('btnGenerate');
       const btnCopyGen = document.getElementById('btnCopyGen');
       const btnDownloadGen = document.getElementById('btnDownloadGen');
       const btnClearGen = document.getElementById('btnClearGen');
       const btnAddCommand = document.getElementById('btnAddCommand');
+      const btnEditCommands = document.getElementById('btnEditCommands');
+      const btnCollapseCommands = document.getElementById('btnCollapseCommands');
       const commandListContainer = document.getElementById('commandListContainer');
+      const commandsSummary = document.getElementById('commandsSummary');
+
       const presetListEl = document.getElementById('presetList');
       const readyListEl = document.getElementById('readyList');
+
       const modalClear = document.getElementById('modalClear');
       const modalCancel = document.getElementById('modalCancel');
       const modalConfirm = document.getElementById('modalConfirm');
@@ -485,6 +1034,35 @@
       const btnUndo = document.getElementById('btnUndo');
       const undoProgress = document.getElementById('undoProgress');
 
+      /* ============================================================
+         Константы
+         ============================================================ */
+      const COMMAND_OPTIONS = [
+        { value: 'me',     title: '/me',   desc: 'Действие от лица персонажа' },
+        { value: 'do',     title: '/do',   desc: 'Описание окружения / ситуации' },
+        { value: 'try',    title: '/try',  desc: 'Попытка действия' },
+        { value: 'todo',   title: '/todo', desc: 'Действие от лица окружения' },
+        { value: 's',      title: '/s',    desc: 'Крикнуть' },
+        { value: 'r',      title: '/r',    desc: 'Рация (департамент)' },
+        { value: 'd',      title: '/d',    desc: 'Департамент' },
+        { value: 'custom', title: 'Своя',  desc: 'Своя команда (без префикса)' }
+      ];
+
+      const KEY_OPTIONS = [
+        { value: 'F1', title: 'F1' }, { value: 'F2', title: 'F2' }, { value: 'F3', title: 'F3' },
+        { value: 'F4', title: 'F4' }, { value: 'F5', title: 'F5' }, { value: 'F6', title: 'F6' },
+        { value: 'F7', title: 'F7' }, { value: 'F8', title: 'F8' },
+        { value: 'Numpad1', title: 'Num1' }, { value: 'Numpad2', title: 'Num2' },
+        { value: 'Numpad3', title: 'Num3' }, { value: 'Numpad4', title: 'Num4' },
+        { value: 'Numpad5', title: 'Num5' }, { value: 'Numpad0', title: 'Num0' },
+        { value: '^1', title: 'Ctrl+1' }, { value: '^2', title: 'Ctrl+2' }, { value: '^3', title: 'Ctrl+3' },
+        { value: '!1', title: 'Alt+1' }, { value: '!2', title: 'Alt+2' },
+        { value: 'custom', title: 'Другая...' }
+      ];
+
+      /* ============================================================
+         Состояние
+         ============================================================ */
       let commands = [
         { type: 'me', text: 'взял документы у человека напротив', delay: 500 },
         { type: 'do', text: 'Документы в руках', delay: 500 },
@@ -498,13 +1076,119 @@
       let undoTimeout = null;
       let currentScreen = 0;
       let isTransitioning = false;
+      let editMode = false;
+      let commandsCollapsed = false;
 
-      function getDirection(from, to) {
-        if ((from === 0 && to === 1) || (from === 1 && to === 2) || (from === 0 && to === 2)) {
-          return 'left';
-        } else {
-          return 'right';
+      let chatMode = 'F6'; // 'F6' | 'T' | 'custom'
+
+      let customKeyAHK = '';
+      let customKeyLabel = '';
+
+      /* ============================================================
+         Кастомный выпадающий список / сетка клавиш
+         ============================================================ */
+      let openDropdownState = null;
+
+      function closeDropdown() {
+        if (!openDropdownState) return;
+        openDropdownState.menu.remove();
+        openDropdownState.trigger.classList.remove('open');
+        openDropdownState = null;
+      }
+
+      function openDropdown(trigger, options, currentValue, onSelect) {
+        if (openDropdownState && openDropdownState.trigger === trigger) {
+          closeDropdown();
+          return;
         }
+        closeDropdown();
+
+        const menu = document.createElement('div');
+        menu.className = 'custom-select-menu';
+        menu.innerHTML = options.map(opt => `
+          <div class="cs-option ${opt.value === currentValue ? 'selected' : ''}" data-value="${escapeAttr(opt.value)}">
+            <span class="cs-opt-title">${escapeHTML(opt.title)}</span>
+            ${opt.desc ? `<span class="cs-opt-desc">${escapeHTML(opt.desc)}</span>` : ''}
+          </div>`).join('');
+        document.body.appendChild(menu);
+
+        positionPopover(menu, trigger);
+
+        menu.addEventListener('click', (e) => {
+          const opt = e.target.closest('.cs-option');
+          if (!opt) return;
+          e.stopPropagation();
+          closeDropdown();
+          onSelect(opt.dataset.value);
+        });
+
+        trigger.classList.add('open');
+        openDropdownState = { trigger, menu };
+      }
+
+      function openKeyGrid(trigger, options, currentValue, onSelect) {
+        if (openDropdownState && openDropdownState.trigger === trigger) {
+          closeDropdown();
+          return;
+        }
+        closeDropdown();
+
+        const menu = document.createElement('div');
+        menu.className = 'custom-select-menu key-grid-menu';
+        menu.innerHTML = options.map(opt => `
+          <button type="button" class="key-tile ${opt.value === currentValue ? 'selected' : ''}" data-value="${escapeAttr(opt.value)}">
+            ${escapeHTML(opt.title)}
+          </button>`).join('');
+        document.body.appendChild(menu);
+
+        positionPopover(menu, trigger, 260);
+
+        menu.addEventListener('click', (e) => {
+          const tile = e.target.closest('.key-tile');
+          if (!tile) return;
+          e.stopPropagation();
+          closeDropdown();
+          onSelect(tile.dataset.value);
+        });
+
+        trigger.classList.add('open');
+        openDropdownState = { trigger, menu };
+      }
+
+      function positionPopover(menu, trigger, minWidth) {
+        const rect = trigger.getBoundingClientRect();
+        let menuWidth = Math.max(rect.width, minWidth || 200);
+        if (menuWidth > window.innerWidth - 16) menuWidth = window.innerWidth - 16;
+        let left = rect.left;
+        if (left + menuWidth > window.innerWidth - 8) left = window.innerWidth - menuWidth - 8;
+        if (left < 8) left = 8;
+        menu.style.left = left + 'px';
+        menu.style.width = menuWidth + 'px';
+        menu.style.zIndex = '5000';
+
+        const mh = menu.getBoundingClientRect().height;
+        let top = rect.bottom + 6;
+        if (top + mh > window.innerHeight - 8) top = rect.top - mh - 6;
+        if (top < 8) top = 8;
+        menu.style.top = top + 'px';
+      }
+
+      document.addEventListener('click', (e) => {
+        if (!openDropdownState) return;
+        if (e.target.closest('.custom-select-menu')) return;
+        if (e.target.closest('.custom-select-trigger')) return;
+        closeDropdown();
+      });
+
+      screens.forEach(s => s.addEventListener('scroll', closeDropdown, { passive: true }));
+      window.addEventListener('resize', closeDropdown);
+
+      /* ============================================================
+         Навигация
+         ============================================================ */
+      function getDirection(from, to) {
+        if ((from === 0 && to === 1) || (from === 1 && to === 2) || (from === 0 && to === 2)) return 'left';
+        return 'right';
       }
 
       function navigateTo(screenIndex) {
@@ -569,20 +1253,360 @@
       navItems.forEach(item => {
         item.addEventListener('click', () => {
           const targetScreen = parseInt(item.dataset.screen);
-          if (targetScreen !== currentScreen) {
-            navigateTo(targetScreen);
-          }
+          if (targetScreen !== currentScreen) navigateTo(targetScreen);
         });
       });
 
-      genKey.addEventListener('change', () => {
-        genKeyCustom.style.display = genKey.value === 'custom' ? 'block' : 'none';
-        if (genKey.value === 'custom') genKeyCustom.focus();
+      /* ============================================================
+         Утилиты
+         ============================================================ */
+      function escapeAttr(str) {
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/"/g, '&quot;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;');
+      }
+
+      function escapeHTML(str) {
+        const div = document.createElement('div');
+        div.textContent = str;
+        return div.innerHTML;
+      }
+
+      /* ============================================================
+         Клавиша запуска — сетка + слушание + ручной ввод
+         ============================================================ */
+      function setGenKey(value, focusCustom) {
+        const opt = KEY_OPTIONS.find(o => o.value === value) || { value, title: value };
+        genKey.value = value;
+        genKeySelect.querySelector('.cs-value').textContent = opt.title;
+
+        const isCustom = value === 'custom';
+        listenWrap.style.display = isCustom ? 'flex' : 'none';
+        genKeySelect.style.flex = isCustom ? '0 1 auto' : '1 1 auto';
+
+        if (isCustom) {
+          genKeyCustomInput.readOnly = false;
+          if (focusCustom) setTimeout(() => genKeyCustomInput.focus(), 40);
+        } else {
+          stopListening(false);
+          genKeyCustomInput.value = customKeyLabel || '';
+        }
+      }
+
+      genKeyTrigger.addEventListener('click', (e) => {
+        e.stopPropagation();
+        openKeyGrid(genKeyTrigger, KEY_OPTIONS, genKey.value, (val) => {
+          setGenKey(val, true);
+        });
       });
 
       function getSelectedKey() {
-        return genKey.value === 'custom' ? (genKeyCustom.value.trim() || 'Numpad2') : genKey.value;
+        if (genKey.value === 'custom') return customKeyAHK || 'Numpad2';
+        return genKey.value;
       }
+
+      /* ---- Таблицы клавиш ---- */
+      const MODIFIER_MAP = {
+        ControlLeft:  { ahk: '^', label: 'Ctrl' },
+        ControlRight: { ahk: '^', label: 'Ctrl' },
+        AltLeft:      { ahk: '!', label: 'Alt' },
+        AltRight:     { ahk: '!', label: 'Alt' },
+        ShiftLeft:    { ahk: '+', label: 'Shift' },
+        ShiftRight:   { ahk: '+', label: 'Shift' },
+        MetaLeft:     { ahk: '#', label: 'Win' },
+        MetaRight:    { ahk: '#', label: 'Win' }
+      };
+
+      const MAIN_KEY_MAP = {
+        KeyA: ['A','A'], KeyB: ['B','B'], KeyC: ['C','C'], KeyD: ['D','D'], KeyE: ['E','E'],
+        KeyF: ['F','F'], KeyG: ['G','G'], KeyH: ['H','H'], KeyI: ['I','I'], KeyJ: ['J','J'],
+        KeyK: ['K','K'], KeyL: ['L','L'], KeyM: ['M','M'], KeyN: ['N','N'], KeyO: ['O','O'],
+        KeyP: ['P','P'], KeyQ: ['Q','Q'], KeyR: ['R','R'], KeyS: ['S','S'], KeyT: ['T','T'],
+        KeyU: ['U','U'], KeyV: ['V','V'], KeyW: ['W','W'], KeyX: ['X','X'], KeyY: ['Y','Y'],
+        KeyZ: ['Z','Z'],
+        Digit0: ['0','0'], Digit1: ['1','1'], Digit2: ['2','2'], Digit3: ['3','3'], Digit4: ['4','4'],
+        Digit5: ['5','5'], Digit6: ['6','6'], Digit7: ['7','7'], Digit8: ['8','8'], Digit9: ['9','9'],
+        F1: ['F1','F1'], F2: ['F2','F2'], F3: ['F3','F3'], F4: ['F4','F4'], F5: ['F5','F5'],
+        F6: ['F6','F6'], F7: ['F7','F7'], F8: ['F8','F8'], F9: ['F9','F9'], F10: ['F10','F10'],
+        F11: ['F11','F11'], F12: ['F12','F12'],
+        Numpad0: ['Numpad0','Num0'], Numpad1: ['Numpad1','Num1'], Numpad2: ['Numpad2','Num2'],
+        Numpad3: ['Numpad3','Num3'], Numpad4: ['Numpad4','Num4'], Numpad5: ['Numpad5','Num5'],
+        Numpad6: ['Numpad6','Num6'], Numpad7: ['Numpad7','Num7'], Numpad8: ['Numpad8','Num8'],
+        Numpad9: ['Numpad9','Num9'],
+        NumpadAdd: ['NumpadAdd','Num+'], NumpadSubtract: ['NumpadSub','Num-'],
+        NumpadMultiply: ['NumpadMult','Num*'], NumpadDivide: ['NumpadDiv','Num/'],
+        NumpadDecimal: ['NumpadDot','Num.'],
+        ArrowUp: ['Up','↑'], ArrowDown: ['Down','↓'], ArrowLeft: ['Left','←'], ArrowRight: ['Right','→'],
+        Space: ['Space','Space'], Enter: ['Enter','Enter'], Tab: ['Tab','Tab'],
+        Backspace: ['Backspace','Backspace'], CapsLock: ['CapsLock','CapsLock'],
+        Home: ['Home','Home'], End: ['End','End'], Insert: ['Insert','Insert'],
+        Delete: ['Delete','Delete'], PageUp: ['PgUp','PgUp'], PageDown: ['PgDn','PgDn'],
+        Minus: ['-','-'], Equal: ['=','='], BracketLeft: ['[','['], BracketRight: [']',']'],
+        Backslash: ['\\','\\'], Semicolon: ['`;',';'], Quote: ["'","'"],
+        Comma: [',',','], Period: ['.','.'], Slash: ['/','/'], Backquote: ['`','`']
+      };
+
+      let listening = false;
+      const pressedCodes = new Set();
+      const liveMods = new Map();
+      let liveMain = null;
+
+      let comboMods = new Map();
+      let comboMain = null;
+
+      function updateListenDisplay() {
+        const order = ['^', '!', '+', '#'];
+        const parts = order.filter(m => liveMods.has(m)).map(m => liveMods.get(m));
+        if (liveMain) parts.push(liveMain[1]);
+        genKeyCustomInput.value = parts.length ? parts.join('+') : 'Нажмите клавиши…';
+      }
+
+      function onListenKeyDown(e) {
+        if (!listening) return;
+        if (e.code === 'Escape' || e.key === 'Escape') {
+          e.preventDefault();
+          e.stopPropagation();
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.repeat) return;
+
+        pressedCodes.add(e.code);
+
+        if (MODIFIER_MAP[e.code]) {
+          liveMods.set(MODIFIER_MAP[e.code].ahk, MODIFIER_MAP[e.code].label);
+        } else if (MAIN_KEY_MAP[e.code]) {
+          comboMods = new Map(liveMods);
+          comboMain = MAIN_KEY_MAP[e.code];
+          liveMain = MAIN_KEY_MAP[e.code];
+        }
+        updateListenDisplay();
+      }
+
+      function onListenKeyUp(e) {
+        if (!listening) return;
+        e.preventDefault();
+        e.stopPropagation();
+        pressedCodes.delete(e.code);
+
+        if (pressedCodes.size === 0) {
+          if (comboMain) stopListening(true);
+          else stopListening(false);
+        }
+      }
+
+      function onListenMouse(e) {
+        if (!listening) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      function onListenContext(e) {
+        if (!listening) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      function onListenWheel(e) {
+        if (!listening) return;
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      function startListening() {
+        if (listening) {
+          stopListening(false);
+          return;
+        }
+        if (genKey.value !== 'custom') return;
+
+        listening = true;
+        pressedCodes.clear();
+        liveMods.clear();
+        liveMain = null;
+        comboMods.clear();
+        comboMain = null;
+
+        listenWrap.classList.add('listening');
+        genKeyCustomInput.readOnly = true;
+        genKeyCustomInput.value = 'Нажмите клавиши…';
+        btnListenKey.innerHTML = '<i class="fa-solid fa-xmark"></i>';
+
+        window.addEventListener('keydown', onListenKeyDown, true);
+        window.addEventListener('keyup', onListenKeyUp, true);
+        window.addEventListener('mousedown', onListenMouse, true);
+        window.addEventListener('mouseup', onListenMouse, true);
+        window.addEventListener('click', onListenMouse, true);
+        window.addEventListener('contextmenu', onListenContext, true);
+        window.addEventListener('auxclick', onListenMouse, true);
+        window.addEventListener('wheel', onListenWheel, { capture: true, passive: false });
+      }
+
+      function stopListening(apply) {
+        if (!listening) return;
+        listening = false;
+
+        listenWrap.classList.remove('listening');
+        genKeyCustomInput.readOnly = false;
+        btnListenKey.innerHTML = '<i class="fa-solid fa-keyboard"></i>';
+
+        window.removeEventListener('keydown', onListenKeyDown, true);
+        window.removeEventListener('keyup', onListenKeyUp, true);
+        window.removeEventListener('mousedown', onListenMouse, true);
+        window.removeEventListener('mouseup', onListenMouse, true);
+        window.removeEventListener('click', onListenMouse, true);
+        window.removeEventListener('contextmenu', onListenContext, true);
+        window.removeEventListener('auxclick', onListenMouse, true);
+        window.removeEventListener('wheel', onListenWheel, { capture: true, passive: false });
+
+        pressedCodes.clear();
+
+        if (apply && comboMain) {
+          const order = ['^', '!', '+', '#'];
+          const mods = order.filter(m => comboMods.has(m));
+          const labels = mods.map(m => comboMods.get(m));
+          labels.push(comboMain[1]);
+
+          customKeyAHK = mods.join('') + comboMain[0];
+          customKeyLabel = labels.join('+');
+          genKeyCustomInput.value = customKeyLabel;
+          showToast('<i class="fa-solid fa-keyboard"></i> Клавиша: ' + customKeyLabel);
+        } else {
+          genKeyCustomInput.value = customKeyLabel || '';
+        }
+
+        comboMods.clear();
+        comboMain = null;
+        liveMods.clear();
+        liveMain = null;
+      }
+
+      btnListenKey.addEventListener('click', startListening);
+
+      /* ---- Ручной ввод комбинации ---- */
+      function parseCombo(str) {
+        const parts = str.split('+').map(s => s.trim()).filter(Boolean);
+        if (parts.length === 0) return { ahk: '', label: '' };
+
+        const modMap = { ctrl:'^', control:'^', alt:'!', shift:'+', win:'#', windows:'#' };
+        const mods = [];
+        let mainAhk = '';
+        let mainLabel = '';
+
+        parts.forEach(p => {
+          const low = p.toLowerCase();
+          if (modMap[low]) {
+            mods.push(modMap[low]);
+          } else {
+            let found = false;
+            for (const [ahk, label] of Object.values(MAIN_KEY_MAP)) {
+              if (label.toLowerCase() === low || ahk.toLowerCase() === low) {
+                mainAhk = ahk;
+                mainLabel = label;
+                found = true;
+                break;
+              }
+            }
+            if (!found) {
+              mainAhk = p;
+              mainLabel = p;
+            }
+          }
+        });
+
+        const order = ['^','!','+','#'];
+        mods.sort((a,b) => order.indexOf(a) - order.indexOf(b));
+
+        const ahk = mods.join('') + mainAhk;
+        const labels = [];
+        if (mods.includes('^')) labels.push('Ctrl');
+        if (mods.includes('!')) labels.push('Alt');
+        if (mods.includes('+')) labels.push('Shift');
+        if (mods.includes('#')) labels.push('Win');
+        labels.push(mainLabel);
+
+        return { ahk, label: labels.join('+') };
+      }
+
+      genKeyCustomInput.addEventListener('input', () => {
+        if (listening) return;
+        const parsed = parseCombo(genKeyCustomInput.value);
+        customKeyAHK = parsed.ahk;
+        customKeyLabel = parsed.label;
+      });
+
+      genKeyCustomInput.addEventListener('blur', () => {
+        if (listening) return;
+        genKeyCustomInput.value = customKeyLabel || '';
+      });
+
+      genKeyCustomInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          genKeyCustomInput.blur();
+        }
+      });
+
+      /* ============================================================
+         Клавиша чата — сегментированный переключатель
+         ============================================================ */
+      function setChatMode(mode) {
+        chatMode = mode;
+        const custom = mode === 'custom';
+
+        chatF6Btn.style.display = custom ? 'none' : '';
+        chatTBtn.style.display = custom ? 'none' : '';
+        genChatKeyInput.style.display = custom ? 'block' : 'none';
+
+        chatF6Btn.classList.toggle('active', mode === 'F6');
+        chatTBtn.classList.toggle('active', mode === 'T');
+        chatCustomBtn.classList.toggle('active', custom);
+
+        if (custom) setTimeout(() => genChatKeyInput.focus(), 30);
+      }
+
+      chatF6Btn.addEventListener('click', () => setChatMode('F6'));
+      chatTBtn.addEventListener('click', () => setChatMode('T'));
+      chatCustomBtn.addEventListener('click', () => {
+        if (chatMode === 'custom') setChatMode('F6');
+        else setChatMode('custom');
+      });
+
+      function getChatKey() {
+        if (chatMode === 'custom') return genChatKeyInput.value.trim() || 'F6';
+        return chatMode;
+      }
+
+      function setChatKeyValue(val) {
+        if (val === 'F6' || val === 'T') {
+          setChatMode(val);
+        } else {
+          setChatMode('custom');
+          genChatKeyInput.value = val;
+        }
+      }
+
+      /* ============================================================
+         Задержка + кнопка раздельной задержки внутри поля
+         ============================================================ */
+      function updateDelayDisabled() {
+        const indiv = genIndividualDelay.checked;
+        genDelay.disabled = indiv;
+        btnIndividualDelay.classList.toggle('active', indiv);
+      }
+
+      btnIndividualDelay.addEventListener('click', () => {
+        genIndividualDelay.checked = !genIndividualDelay.checked;
+        if (!genIndividualDelay.checked) {
+          const gd = parseInt(genDelay.value) || 500;
+          commands.forEach(cmd => cmd.delay = gd);
+        }
+        updateDelayDisabled();
+        renderCommands();
+      });
 
       genDelay.addEventListener('input', () => {
         if (!genIndividualDelay.checked) {
@@ -592,86 +1616,129 @@
         }
       });
 
-      genIndividualDelay.addEventListener('change', () => {
-        if (!genIndividualDelay.checked) {
-          const gd = parseInt(genDelay.value) || 500;
-          commands.forEach(cmd => cmd.delay = gd);
-        }
-        renderCommands();
+      /* ============================================================
+         Авто-смена раскладки — кнопка-иконка в шапке
+         ============================================================ */
+      function updateAutoLayoutButton() {
+        btnAutoLayout.classList.toggle('active', genSendMessage.checked);
+        btnAutoLayout.title = genSendMessage.checked
+          ? 'Авто-смена раскладки: вкл'
+          : 'Авто-смена раскладки: выкл';
+      }
+
+      btnAutoLayout.addEventListener('click', () => {
+        genSendMessage.checked = !genSendMessage.checked;
+        updateAutoLayoutButton();
       });
 
+      /* ============================================================
+         Рендер команд
+         ============================================================ */
       function renderCommands() {
         const individual = genIndividualDelay.checked;
         let html = '';
+
         commands.forEach((cmd, idx) => {
+          const typeOpt = COMMAND_OPTIONS.find(o => o.value === cmd.type) || COMMAND_OPTIONS[0];
           html += `
-          <div class="command-item" data-index="${idx}">
-            <select class="cmd-type" data-index="${idx}">
-              <option value="me" ${cmd.type==='me'?'selected':''}>/me</option>
-              <option value="do" ${cmd.type==='do'?'selected':''}>/do</option>
-              <option value="try" ${cmd.type==='try'?'selected':''}>/try</option>
-              <option value="todo" ${cmd.type==='todo'?'selected':''}>/todo</option>
-              <option value="s" ${cmd.type==='s'?'selected':''}>/s</option>
-              <option value="r" ${cmd.type==='r'?'selected':''}>/r</option>
-              <option value="d" ${cmd.type==='d'?'selected':''}>/d</option>
-              <option value="custom" ${cmd.type==='custom'?'selected':''}>Своя</option>
-            </select>
-            <input type="text" class="cmd-text" value="${escapeAttr(cmd.text)}" placeholder="Текст команды" data-index="${idx}">
-            <button class="btn-icon cmd-delete" data-index="${idx}" title="Удалить"><i class="bi bi-trash"></i></button>
-          </div>`;
-          if (individual && idx < commands.length - 1) {
-            const delayVal = cmd.delay !== undefined ? cmd.delay : 500;
-            html += `
-            <div class="delay-row" data-delay-index="${idx}">
-              <i class="bi bi-clock"></i>
-              <span>Задержка</span>
-              <input type="number" class="delay-input" value="${delayVal}" step="50" min="0" data-index="${idx}">
-              <span class="ms-label">мс</span>
+            <div class="command-block" data-block-index="${idx}">
+              <div class="command-item" data-index="${idx}">
+                <span class="drag-handle" title="Перетащить"><i class="fa-solid fa-grip-vertical"></i></span>
+                <div class="custom-select" data-index="${idx}">
+                  <button type="button" class="custom-select-trigger">
+                    <span class="cs-value">${escapeHTML(typeOpt.title)}</span>
+                    <i class="fa-solid fa-chevron-down cs-arrow"></i>
+                  </button>
+                </div>
+                <input type="text" class="cmd-text" value="${escapeAttr(cmd.text)}" placeholder="Текст команды" data-index="${idx}">
+                <button class="btn-icon cmd-delete" data-index="${idx}" title="Удалить"><i class="fa-solid fa-trash-can"></i></button>
+              </div>
+              ${individual && idx < commands.length - 1 ? `
+                <div class="delay-row" data-delay-index="${idx}">
+                  <i class="fa-regular fa-clock"></i>
+                  <span>Задержка</span>
+                  <input type="number" class="delay-input" value="${cmd.delay ?? 500}" step="50" min="0" data-index="${idx}">
+                  <span class="ms-label">мс</span>
+                </div>` : ''}
             </div>`;
-          }
         });
+
         commandListContainer.innerHTML = html;
+        updateCommandsSummary();
       }
 
-      function escapeAttr(str) { return str.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+      function updateCommandsSummary() {
+        if (commands.length === 0) {
+          commandsSummary.innerHTML = '<div class="summary-title">Нет команд</div>';
+          return;
+        }
+        const preview = commands.slice(0, 3).map(c => {
+          const opt = COMMAND_OPTIONS.find(o => o.value === c.type);
+          const prefix = opt ? opt.title : '/' + c.type;
+          return `${prefix} ${c.text}`;
+        }).join(' · ');
+        commandsSummary.innerHTML = `<div class="summary-title">${commands.length} команд</div><div class="summary-preview">${escapeHTML(preview)}${commands.length > 3 ? ' …' : ''}</div>`;
+      }
 
       function updateCommandsFromDOM() {
-        const items = commandListContainer.querySelectorAll('.command-item');
+        const blocks = commandListContainer.querySelectorAll('.command-block');
         const newCommands = [];
-        items.forEach(item => {
-          const idx = item.dataset.index;
-          const typeSelect = item.querySelector('.cmd-type');
-          const textInput = item.querySelector('.cmd-text');
-          if (typeSelect && textInput) {
-            newCommands.push({ type: typeSelect.value, text: textInput.value, delay: commands[idx]?.delay || 500 });
+
+        blocks.forEach(block => {
+          const idx = parseInt(block.dataset.blockIndex);
+          const textInput = block.querySelector('.cmd-text');
+          const delayInput = block.querySelector('.delay-input');
+          const prev = commands[idx] || {};
+
+          let delayVal = prev.delay ?? 500;
+          if (delayInput) {
+            const v = parseInt(delayInput.value);
+            delayVal = isNaN(v) ? 500 : v;
           }
+
+          newCommands.push({
+            type: prev.type || 'me',
+            text: textInput ? textInput.value : '',
+            delay: delayVal
+          });
         });
-        const delayRows = commandListContainer.querySelectorAll('.delay-row');
-        delayRows.forEach(row => {
-          const idx = parseInt(row.dataset.delayIndex);
-          const delayInput = row.querySelector('.delay-input');
-          if (delayInput && !isNaN(idx) && idx < newCommands.length) {
-            const val = parseInt(delayInput.value);
-            newCommands[idx].delay = isNaN(val) ? 500 : val;
-          }
-        });
+
         commands = newCommands;
+        updateCommandsSummary();
       }
 
       commandListContainer.addEventListener('input', (e) => {
-        if (e.target.classList.contains('cmd-type') || e.target.classList.contains('cmd-text') || e.target.classList.contains('delay-input')) {
+        if (e.target.classList.contains('cmd-text') || e.target.classList.contains('delay-input')) {
           updateCommandsFromDOM();
         }
       });
 
       commandListContainer.addEventListener('click', (e) => {
+        /* Селект типа команды */
+        const trigger = e.target.closest('.custom-select-trigger');
+        if (trigger) {
+          e.stopPropagation();
+          const wrapper = trigger.closest('.custom-select');
+          const idx = parseInt(wrapper.dataset.index);
+          const cmd = commands[idx];
+
+          openDropdown(trigger, COMMAND_OPTIONS, cmd ? cmd.type : 'me', (val) => {
+            if (commands[idx]) commands[idx].type = val;
+            const opt = COMMAND_OPTIONS.find(o => o.value === val);
+            wrapper.querySelector('.cs-value').textContent = opt ? opt.title : val;
+            updateCommandsSummary();
+          });
+          return;
+        }
+
+        /* Удаление */
         const deleteBtn = e.target.closest('.cmd-delete');
         if (deleteBtn) {
+          if (!editMode) return;
           const idx = parseInt(deleteBtn.dataset.index);
           if (!isNaN(idx) && commands.length > 0) {
             commands.splice(idx, 1);
             renderCommands();
-            updateCommandsFromDOM();
           }
         }
       });
@@ -680,38 +1747,206 @@
         const gd = parseInt(genDelay.value) || 500;
         commands.push({ type: 'me', text: '', delay: gd });
         renderCommands();
-        const lastItem = commandListContainer.lastElementChild;
-        if (lastItem) lastItem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const lastBlock = commandListContainer.lastElementChild;
+        if (lastBlock) lastBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
       });
 
+      /* ---- Кнопка «Изменить» ---- */
+      btnEditCommands.addEventListener('click', () => {
+        editMode = !editMode;
+        commandListContainer.classList.toggle('edit-mode', editMode);
+        btnEditCommands.classList.toggle('active', editMode);
+        btnEditCommands.innerHTML = editMode
+          ? '<i class="fa-solid fa-check"></i> Готово'
+          : '<i class="fa-solid fa-pen-to-square"></i> Изменить';
+        closeDropdown();
+      });
+
+      /* ---- Сворачивание всего блока команд ---- */
+      function toggleCommandsCollapse() {
+        commandsCollapsed = !commandsCollapsed;
+        commandListContainer.style.display = commandsCollapsed ? 'none' : 'flex';
+        commandsSummary.style.display = commandsCollapsed ? 'block' : 'none';
+        btnCollapseCommands.innerHTML = commandsCollapsed
+          ? '<i class="fa-solid fa-chevron-down"></i>'
+          : '<i class="fa-solid fa-chevron-up"></i>';
+        btnCollapseCommands.title = commandsCollapsed ? 'Развернуть' : 'Свернуть';
+        updateCommandsSummary();
+      }
+
+      btnCollapseCommands.addEventListener('click', toggleCommandsCollapse);
+      commandsSummary.addEventListener('click', toggleCommandsCollapse);
+
+      /* ============================================================
+         Drag & Drop команд
+         ============================================================ */
+      let drag = null;
+
+      function startDrag(e, block) {
+        if (drag) return;
+        if (e.button !== undefined && e.button !== 0) return;
+        e.preventDefault();
+        closeDropdown();
+
+        const rect = block.getBoundingClientRect();
+        const placeholder = document.createElement('div');
+        placeholder.className = 'command-block-placeholder';
+        placeholder.style.height = rect.height + 'px';
+
+        block.parentNode.insertBefore(placeholder, block);
+
+        block.style.position = 'fixed';
+        block.style.left = rect.left + 'px';
+        block.style.top = rect.top + 'px';
+        block.style.width = rect.width + 'px';
+        block.style.zIndex = '4000';
+        block.style.margin = '0';
+        block.classList.add('dragging');
+
+        document.body.appendChild(block);
+
+        drag = {
+          block,
+          placeholder,
+          offsetY: e.clientY - rect.top,
+          pointerId: e.pointerId,
+          startIndex: parseInt(block.dataset.blockIndex),
+          snapshot: commands.map(c => ({ ...c }))
+        };
+
+        try { e.target.setPointerCapture(e.pointerId); } catch (_) {}
+
+        document.addEventListener('pointermove', onDragMove, { passive: false });
+        document.addEventListener('pointerup', onDragEnd);
+        document.addEventListener('pointercancel', onDragEnd);
+      }
+
+      function onDragMove(e) {
+        if (!drag || e.pointerId !== drag.pointerId) return;
+
+        const y = e.clientY - drag.offsetY;
+        drag.block.style.top = y + 'px';
+
+        const blockRect = drag.block.getBoundingClientRect();
+        const blockMid = blockRect.top + blockRect.height / 2;
+
+        const blocks = Array.from(commandListContainer.querySelectorAll('.command-block'));
+        let target = null;
+        for (const b of blocks) {
+          const r = b.getBoundingClientRect();
+          if (blockMid < r.top + r.height / 2) { target = b; break; }
+        }
+
+        if (target) commandListContainer.insertBefore(drag.placeholder, target);
+        else commandListContainer.appendChild(drag.placeholder);
+      }
+
+      function onDragEnd(e) {
+        if (!drag || e.pointerId !== drag.pointerId) return;
+
+        const { block, placeholder, snapshot, startIndex } = drag;
+
+        let newIndex = 0;
+        const children = Array.from(commandListContainer.children);
+        for (const child of children) {
+          if (child === placeholder) break;
+          if (child !== block && child.classList.contains('command-block')) newIndex++;
+        }
+
+        const [moved] = snapshot.splice(startIndex, 1);
+        snapshot.splice(newIndex, 0, moved);
+        commands = snapshot;
+
+        drag = null;
+        document.removeEventListener('pointermove', onDragMove);
+        document.removeEventListener('pointerup', onDragEnd);
+        document.removeEventListener('pointercancel', onDragEnd);
+
+        block.remove();
+        placeholder.remove();
+
+        renderCommands();
+
+        if (newIndex !== startIndex) {
+          showToast('<i class="fa-solid fa-arrows-up-down"></i> Порядок обновлён');
+        }
+      }
+
+      commandListContainer.addEventListener('pointerdown', (e) => {
+        if (!editMode) return;
+        const handle = e.target.closest('.drag-handle');
+        if (!handle) return;
+        const block = handle.closest('.command-block');
+        if (!block) return;
+        startDrag(e, block);
+      });
+
+      /* ============================================================
+         Генерация
+         ============================================================ */
       function generateCode(key, chatKey, useSendMessage, cmds, individual, globalDelay) {
-        let lines = [`${key}::`];
-        if (useSendMessage) lines.push(`SendMessage, 0x50,, 0x4190419,, A`);
+        const lines = [`${key}::`];
+        if (useSendMessage) lines.push('SendMessage, 0x50,, 0x4190419,, A');
+
         cmds.forEach((cmd, idx) => {
-          const prefix = { me: '/me ', do: '/do ', try: '/try ', todo: '/todo ', s: '/s ', r: '/r ', d: '/d ', custom: '/' }[cmd.type] || '/me ';
+          const prefix = {
+            me: '/me ', do: '/do ', try: '/try ', todo: '/todo ',
+            s: '/s ', r: '/r ', d: '/d ', custom: '/'
+          }[cmd.type] || '/me ';
+
           lines.push(`Sendinput,{${chatKey}}${prefix}${cmd.text}{Enter}`);
+
           if (idx < cmds.length - 1) {
             const delay = individual ? (cmd.delay || globalDelay) : globalDelay;
             lines.push(`sleep ${delay}`);
           }
         });
+
         lines.push('Return');
         return lines.join('\n');
       }
 
+      function updateCodeBlockState() {
+        const lines = genOutput.textContent.split('\n').length;
+        const collapsible = lines > 6;
+        genOutput.classList.toggle('collapsible', collapsible);
+        if (!collapsible) genOutput.classList.remove('expanded');
+
+        const expanded = genOutput.classList.contains('expanded');
+        btnExpandCode.classList.toggle('visible', collapsible);
+        btnExpandCode.innerHTML = expanded
+          ? '<i class="fa-solid fa-chevron-up"></i>'
+          : '<i class="fa-solid fa-chevron-down"></i>';
+        codeFade.style.display = collapsible && !expanded ? 'block' : 'none';
+      }
+
+      btnExpandCode.addEventListener('click', () => {
+        genOutput.classList.toggle('expanded');
+        updateCodeBlockState();
+      });
+
       btnGenerate.addEventListener('click', () => {
         const key = getSelectedKey();
-        const chatKey = genChatKey.value.trim() || 'F6';
+        const chatKey = getChatKey();
         const globalDelay = parseInt(genDelay.value) || 500;
         const useSendMessage = genSendMessage.checked;
         const individual = genIndividualDelay.checked;
-        if (commands.length === 0) { showToast('⚠️ Добавьте хотя бы одну команду'); return; }
+
+        if (commands.length === 0) {
+          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Добавьте хотя бы одну команду');
+          return;
+        }
+
         const code = generateCode(key, chatKey, useSendMessage, commands, individual, globalDelay);
         genOutput.textContent = code;
         lastGeneratedCode = code;
-        showToast('✅ Скрипт сгенерирован');
+        updateCodeBlockState();
+        showToast('<i class="fa-solid fa-circle-check"></i> Скрипт сгенерирован');
       });
 
+      /* ============================================================
+         Очистка + Undo
+         ============================================================ */
       function startUndoProgress() {
         if (!undoProgress) return;
         undoProgress.style.transition = 'width 10s linear';
@@ -725,16 +1960,26 @@
         undoProgress.style.width = '100%';
       }
 
+      function resetCodeBlock() {
+        genOutput.textContent = 'Нажмите «Сгенерировать» чтобы увидеть код';
+        genOutput.classList.remove('collapsible', 'expanded');
+        codeFade.style.display = 'none';
+        btnExpandCode.classList.remove('visible');
+      }
+
       function performClear() {
         commandsBeforeClear = commands.map(c => ({ ...c }));
         lastGeneratedCodeBeforeClear = lastGeneratedCode;
-        genOutput.textContent = 'Нажмите «Сгенерировать» чтобы увидеть код';
+
+        resetCodeBlock();
         lastGeneratedCode = '';
         commands = [];
         renderCommands();
         copyIndicator.classList.remove('visible');
+
         undoToast.classList.add('show');
         startUndoProgress();
+
         clearTimeout(undoTimeout);
         undoTimeout = setTimeout(() => {
           undoToast.classList.remove('show');
@@ -745,7 +1990,10 @@
       }
 
       btnClearGen.addEventListener('click', () => {
-        if (commands.length === 0 && !lastGeneratedCode) { showToast('⚠️ Нечего очищать'); return; }
+        if (commands.length === 0 && !lastGeneratedCode) {
+          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Нечего очищать');
+          return;
+        }
         modalClear.classList.remove('hidden');
       });
 
@@ -754,79 +2002,140 @@
       modalClear.addEventListener('click', (e) => { if (e.target === modalClear) modalClear.classList.add('hidden'); });
 
       btnUndo.addEventListener('click', () => {
-        if (commandsBeforeClear) {
-          commands = commandsBeforeClear.map(c => ({ ...c }));
-          lastGeneratedCode = lastGeneratedCodeBeforeClear;
-          if (lastGeneratedCode) genOutput.textContent = lastGeneratedCode;
-          else genOutput.textContent = 'Нажмите «Сгенерировать» чтобы увидеть код';
-          renderCommands();
-          updateCommandsFromDOM();
-          commandsBeforeClear = null;
-          lastGeneratedCodeBeforeClear = null;
-          clearTimeout(undoTimeout);
-          undoToast.classList.remove('show');
-          stopUndoProgress();
-          showToast('↩️ Очистка отменена');
+        if (!commandsBeforeClear) return;
+
+        commands = commandsBeforeClear.map(c => ({ ...c }));
+        lastGeneratedCode = lastGeneratedCodeBeforeClear;
+
+        if (lastGeneratedCode) {
+          genOutput.textContent = lastGeneratedCode;
+          updateCodeBlockState();
+        } else {
+          resetCodeBlock();
         }
+
+        renderCommands();
+
+        commandsBeforeClear = null;
+        lastGeneratedCodeBeforeClear = null;
+        clearTimeout(undoTimeout);
+        undoToast.classList.remove('show');
+        stopUndoProgress();
+        showToast('<i class="fa-solid fa-rotate-left"></i> Очистка отменена');
       });
 
+      /* ============================================================
+         Буфер / файлы
+         ============================================================ */
       function copyToClipboard(text) {
-        return navigator.clipboard?.writeText(text) || new Promise(resolve => {
-          const ta = document.createElement('textarea'); ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
-          document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); resolve();
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          return navigator.clipboard.writeText(text);
+        }
+        return new Promise(resolve => {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          ta.style.position = 'fixed';
+          ta.style.opacity = '0';
+          document.body.appendChild(ta);
+          ta.select();
+          try { document.execCommand('copy'); } catch (_) {}
+          document.body.removeChild(ta);
+          resolve();
         });
       }
 
       btnCopyGen.addEventListener('click', () => {
-        if (!lastGeneratedCode) return showToast('⚠️ Сначала сгенерируйте скрипт');
+        if (!lastGeneratedCode) {
+          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Сначала сгенерируйте скрипт');
+          return;
+        }
         copyToClipboard(lastGeneratedCode).then(() => {
           copyIndicator.classList.add('visible');
           setTimeout(() => copyIndicator.classList.remove('visible'), 1500);
-          showToast('<i class="bi bi-clipboard-check"></i> Скопировано в буфер');
+          showToast('<i class="fa-solid fa-clipboard-check"></i> Скопировано в буфер');
         });
       });
 
       function downloadAHK(code, filename) {
         const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
-        const url = URL.createObjectURL(blob); const a = document.createElement('a');
-        a.href = url; a.download = filename; document.body.appendChild(a); a.click();
-        document.body.removeChild(a); URL.revokeObjectURL(url);
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
       }
 
       btnDownloadGen.addEventListener('click', () => {
-        if (!lastGeneratedCode) return showToast('⚠️ Сначала сгенерируйте скрипт');
+        if (!lastGeneratedCode) {
+          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Сначала сгенерируйте скрипт');
+          return;
+        }
         downloadAHK(lastGeneratedCode, `rp_script_${Date.now()}.ahk`);
-        showToast('<i class="bi bi-download"></i> Файл сохранён');
+        showToast('<i class="fa-solid fa-download"></i> Файл сохранён');
       });
 
+      /* ============================================================
+         Toast
+         ============================================================ */
       let toastTimer;
-      function showToast(msg) { clearTimeout(toastTimer); toast.innerHTML = msg; toast.classList.add('show'); toastTimer = setTimeout(() => toast.classList.remove('show'), 2000); }
+      function showToast(msg) {
+        clearTimeout(toastTimer);
+        toast.innerHTML = msg;
+        toast.classList.add('show');
+        toastTimer = setTimeout(() => toast.classList.remove('show'), 2200);
+      }
 
+      /* ============================================================
+         Заготовки
+         ============================================================ */
       const presets = [
-        { name: '📄 Осмотр документов', desc: 'Взять, изучить, положить', key: 'Numpad2', chatKey: 'F6', sendMessage: true, commands: [
-          { type: 'me', text: 'взял документы у человека напротив', delay: 500 },
-          { type: 'do', text: 'Документы в руках', delay: 500 },
-          { type: 'me', text: 'положил документы на стол', delay: 500 },
-          { type: 'me', text: 'достал из документов Мед. карту', delay: 500 },
-          { type: 'me', text: 'начал изучать Мед. карту', delay: 500 }
-        ]},
-        { name: '🆔 Проверка паспорта', desc: '400/600/200 мс', key: 'Numpad1', chatKey: 'F6', sendMessage: true, commands: [
-          { type: 'me', text: 'показал паспорт', delay: 400 },
-          { type: 'do', text: 'Паспорт в руках', delay: 600 },
-          { type: 'me', text: 'передал паспорт человеку напротив', delay: 200 },
-          { type: 'do', text: 'Паспорт передан', delay: 400 }
-        ]},
-        { name: '🚗 Досмотр авто', desc: 'Открыть, осмотреть, закрыть', key: 'F2', chatKey: 'F6', sendMessage: true, commands: [
-          { type: 'do', text: 'Дверь автомобиля открыта', delay: 600 },
-          { type: 'me', text: 'осмотрел салон автомобиля', delay: 600 },
-          { type: 'do', text: 'В салоне ничего подозрительного', delay: 600 },
-          { type: 'me', text: 'закрыл дверь автомобиля', delay: 600 }
-        ]},
-        { name: '📻 Рация патруля', desc: 'Доклад по рации', key: 'F5', chatKey: 'F6', sendMessage: true, commands: [
-          { type: 'r', text: 'Приём, патруль на связи', delay: 500 },
-          { type: 'd', text: 'Веду патрулирование в районе', delay: 500 },
-          { type: 'r', text: 'Обстановка спокойная', delay: 500 }
-        ]}
+        {
+          name: '<i class="fa-solid fa-file-lines"></i> Осмотр документов',
+          desc: 'Взять, изучить, положить',
+          key: 'Numpad2', chatKey: 'F6', sendMessage: true,
+          commands: [
+            { type: 'me', text: 'взял документы у человека напротив', delay: 500 },
+            { type: 'do', text: 'Документы в руках', delay: 500 },
+            { type: 'me', text: 'положил документы на стол', delay: 500 },
+            { type: 'me', text: 'достал из документов Мед. карту', delay: 500 },
+            { type: 'me', text: 'начал изучать Мед. карту', delay: 500 }
+          ]
+        },
+        {
+          name: '<i class="fa-solid fa-id-card"></i> Проверка паспорта',
+          desc: '400/600/200 мс',
+          key: 'Numpad1', chatKey: 'F6', sendMessage: true,
+          commands: [
+            { type: 'me', text: 'показал паспорт', delay: 400 },
+            { type: 'do', text: 'Паспорт в руках', delay: 600 },
+            { type: 'me', text: 'передал паспорт человеку напротив', delay: 200 },
+            { type: 'do', text: 'Паспорт передан', delay: 400 }
+          ]
+        },
+        {
+          name: '<i class="fa-solid fa-car"></i> Досмотр авто',
+          desc: 'Открыть, осмотреть, закрыть',
+          key: 'F2', chatKey: 'F6', sendMessage: true,
+          commands: [
+            { type: 'do', text: 'Дверь автомобиля открыта', delay: 600 },
+            { type: 'me', text: 'осмотрел салон автомобиля', delay: 600 },
+            { type: 'do', text: 'В салоне ничего подозрительного', delay: 600 },
+            { type: 'me', text: 'закрыл дверь автомобиля', delay: 600 }
+          ]
+        },
+        {
+          name: '<i class="fa-solid fa-radio"></i> Рация патруля',
+          desc: 'Доклад по рации',
+          key: 'F5', chatKey: 'F6', sendMessage: true,
+          commands: [
+            { type: 'r', text: 'Приём, патруль на связи', delay: 500 },
+            { type: 'd', text: 'Веду патрулирование в районе', delay: 500 },
+            { type: 'r', text: 'Обстановка спокойная', delay: 500 }
+          ]
+        }
       ];
 
       function renderPresets() {
@@ -837,8 +2146,8 @@
               <div class="desc">${p.desc} · ${p.commands.length} команд</div>
             </div>
             <div class="preset-actions">
-              <button class="btn btn-primary btn-xs" data-action="load-preset" data-index="${i}"><i class="bi bi-box-arrow-in-down"></i> Загрузить</button>
-              <button class="btn btn-outline btn-xs" data-action="copy-preset" data-index="${i}"><i class="bi bi-clipboard"></i></button>
+              <button class="btn btn-primary btn-xs" data-action="load-preset" data-index="${i}"><i class="fa-solid fa-download"></i> Загрузить</button>
+              <button class="btn btn-outline btn-xs" data-action="copy-preset" data-index="${i}"><i class="fa-regular fa-clipboard"></i></button>
             </div>
           </div>`).join('');
       }
@@ -849,34 +2158,64 @@
         const index = parseInt(btn.dataset.index);
         if (isNaN(index)) return;
         const preset = presets[index];
+
         if (btn.dataset.action === 'load-preset') {
-          if (preset.key === 'custom') {
-            genKey.value = 'custom';
-            genKeyCustom.style.display = 'block';
-            genKeyCustom.value = preset.key;
-          } else {
-            genKey.value = preset.key;
-            genKeyCustom.style.display = 'none';
-          }
-          genChatKey.value = preset.chatKey;
+          setGenKey(preset.key, false);
+          setChatKeyValue(preset.chatKey);
           genSendMessage.checked = preset.sendMessage;
+          updateAutoLayoutButton();
           genIndividualDelay.checked = true;
-          commands = preset.commands.map(c => ({ type: c.type, text: c.text, delay: c.delay }));
+
+          commands = preset.commands.map(c => ({
+            type: c.type, text: c.text, delay: c.delay
+          }));
+
           if (commands.length > 0) genDelay.value = commands[0].delay;
+          updateDelayDisabled();
           renderCommands();
           navigateTo(0);
-          showToast('<i class="bi bi-check-circle"></i> Заготовка загружена');
+          showToast('<i class="fa-solid fa-circle-check"></i> Заготовка загружена');
         } else if (btn.dataset.action === 'copy-preset') {
-          const code = generateCode(preset.key, preset.chatKey, preset.sendMessage, preset.commands, true, preset.commands[0]?.delay || 500);
-          copyToClipboard(code).then(() => showToast('<i class="bi bi-clipboard-check"></i> Скопировано'));
+          const code = generateCode(
+            preset.key, preset.chatKey, preset.sendMessage,
+            preset.commands, true, preset.commands[0]?.delay || 500
+          );
+          copyToClipboard(code).then(() => showToast('<i class="fa-solid fa-clipboard-check"></i> Скопировано'));
         }
       });
 
+      /* ============================================================
+         Готовые скрипты
+         ============================================================ */
       const readyScripts = [
-        { id: 'documents', title: 'Осмотр документов (Num2)', desc: 'Полный цикл', tags: ['RP', 'документы'], code: `Numpad2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me взял документы у человека напротив{Enter}\nsleep 500\nSendinput,{F6}/do Документы в руках{Enter}\nsleep 500\nSendinput,{F6}/me положил документы на стол{Enter}\nsleep 500\nSendinput,{F6}/me достал из документов Мед. карту{Enter}\nsleep 500\nSendinput,{F6}/me начал изучать Мед. карту{Enter}\nReturn` },
-        { id: 'passport', title: 'Проверка паспорта (Num1)', desc: 'Показать, передать', tags: ['RP', 'паспорт'], code: `Numpad1::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me показал паспорт{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт в руках{Enter}\nsleep 400\nSendinput,{F6}/me передал паспорт человеку напротив{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт передан{Enter}\nReturn` },
-        { id: 'car', title: 'Досмотр авто (F2)', desc: 'Открыть, осмотреть, закрыть', tags: ['RP', 'авто'], code: `F2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/do Дверь автомобиля открыта{Enter}\nsleep 600\nSendinput,{F6}/me осмотрел салон автомобиля{Enter}\nsleep 600\nSendinput,{F6}/do В салоне ничего подозрительного{Enter}\nsleep 600\nSendinput,{F6}/me закрыл дверь автомобиля{Enter}\nReturn` },
-        { id: 'radio', title: 'Рация патруля (F5)', desc: 'Доклад по рации и департаменту', tags: ['фракции', 'связь'], code: `F5::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/r Приём, патруль на связи{Enter}\nsleep 500\nSendinput,{F6}/d Веду патрулирование в районе{Enter}\nsleep 500\nSendinput,{F6}/r Обстановка спокойная{Enter}\nReturn` }
+        {
+          id: 'documents',
+          title: 'Осмотр документов (Num2)',
+          desc: 'Полный цикл',
+          tags: ['RP', 'документы'],
+          code: `Numpad2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me взял документы у человека напротив{Enter}\nsleep 500\nSendinput,{F6}/do Документы в руках{Enter}\nsleep 500\nSendinput,{F6}/me положил документы на стол{Enter}\nsleep 500\nSendinput,{F6}/me достал из документов Мед. карту{Enter}\nsleep 500\nSendinput,{F6}/me начал изучать Мед. карту{Enter}\nReturn`
+        },
+        {
+          id: 'passport',
+          title: 'Проверка паспорта (Num1)',
+          desc: 'Показать, передать',
+          tags: ['RP', 'паспорт'],
+          code: `Numpad1::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me показал паспорт{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт в руках{Enter}\nsleep 400\nSendinput,{F6}/me передал паспорт человеку напротив{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт передан{Enter}\nReturn`
+        },
+        {
+          id: 'car',
+          title: 'Досмотр авто (F2)',
+          desc: 'Открыть, осмотреть, закрыть',
+          tags: ['RP', 'авто'],
+          code: `F2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/do Дверь автомобиля открыта{Enter}\nsleep 600\nSendinput,{F6}/me осмотрел салон автомобиля{Enter}\nsleep 600\nSendinput,{F6}/do В салоне ничего подозрительного{Enter}\nsleep 600\nSendinput,{F6}/me закрыл дверь автомобиля{Enter}\nReturn`
+        },
+        {
+          id: 'radio',
+          title: 'Рация патруля (F5)',
+          desc: 'Доклад по рации и департаменту',
+          tags: ['фракции', 'связь'],
+          code: `F5::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/r Приём, патруль на связи{Enter}\nsleep 500\nSendinput,{F6}/d Веду патрулирование в районе{Enter}\nsleep 500\nSendinput,{F6}/r Обстановка спокойная{Enter}\nReturn`
+        }
       ];
 
       function renderReadyScripts() {
@@ -886,26 +2225,20 @@
               <div style="flex:1;min-width:0;">
                 <div style="font-weight:700;font-size:0.84rem;color:#fff;">${rs.title}</div>
                 <div style="font-size:0.68rem;color:var(--text2);">${rs.desc}</div>
-                <div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap;">
-                  ${rs.tags.map(t=>`<span class="tag tag-purple">${t}</span>`).join('')}
+                <div style="margin-top:5px;display:flex;gap:4px;flex-wrap:wrap;">
+                  ${rs.tags.map(t => `<span class="tag tag-purple">${t}</span>`).join('')}
                 </div>
               </div>
-              <span class="collapse-arrow"><i class="bi bi-chevron-down"></i></span>
+              <span class="collapse-arrow"><i class="fa-solid fa-chevron-down"></i></span>
             </div>
             <div class="collapse-body">
               <div class="code-block">${escapeHTML(rs.code)}</div>
               <div class="btn-group">
-                <button class="btn btn-success btn-sm" data-action="copy-ready" data-index="${i}"><i class="bi bi-clipboard"></i> Копировать</button>
-                <button class="btn btn-outline btn-sm" data-action="download-ready" data-index="${i}"><i class="bi bi-download"></i> Скачать</button>
+                <button class="btn btn-success btn-sm" data-action="copy-ready" data-index="${i}"><i class="fa-regular fa-clipboard"></i> Копировать</button>
+                <button class="btn btn-outline btn-sm" data-action="download-ready" data-index="${i}"><i class="fa-solid fa-download"></i> Скачать</button>
               </div>
             </div>
           </div>`).join('');
-      }
-
-      function escapeHTML(str) {
-        const div = document.createElement('div');
-        div.textContent = str;
-        return div.innerHTML;
       }
 
       readyListEl.addEventListener('click', (e) => {
@@ -919,25 +2252,38 @@
         const index = parseInt(btn.dataset.index);
         if (isNaN(index)) return;
         const script = readyScripts[index];
+
         if (btn.dataset.action === 'copy-ready') {
-          copyToClipboard(script.code).then(() => showToast('<i class="bi bi-clipboard-check"></i> Скопировано'));
+          copyToClipboard(script.code).then(() => showToast('<i class="fa-solid fa-clipboard-check"></i> Скопировано'));
         } else if (btn.dataset.action === 'download-ready') {
           downloadAHK(script.code, `${script.id}.ahk`);
-          showToast('<i class="bi bi-download"></i> Файл сохранён');
+          showToast('<i class="fa-solid fa-download"></i> Файл сохранён');
         }
       });
 
+      /* ============================================================
+         Инициализация
+         ============================================================ */
       function init() {
         renderCommands();
         renderPresets();
         renderReadyScripts();
         document.getElementById('collapse-0')?.classList.add('open');
-        if (genKey.value === 'custom') genKeyCustom.style.display = 'block';
+        setGenKey('Numpad2', false);
+        setChatMode('F6');
+        updateDelayDisabled();
+        updateAutoLayoutButton();
       }
 
       document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.key === 'Enter' && currentScreen === 0) { e.preventDefault(); btnGenerate.click(); }
-        if (e.key === 'Escape' && !modalClear.classList.contains('hidden')) modalClear.classList.add('hidden');
+        if (e.ctrlKey && e.key === 'Enter' && currentScreen === 0 && !listening) {
+          e.preventDefault();
+          btnGenerate.click();
+        }
+        if (e.key === 'Escape' && !listening) {
+          if (!modalClear.classList.contains('hidden')) modalClear.classList.add('hidden');
+          closeDropdown();
+        }
       });
 
       init();
