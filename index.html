@@ -30,144 +30,82 @@
       --side-nav-width: 60px;
       --desktop-content-width: 640px;
       --glass: rgba(20, 27, 34, 0.5);
-      --glass-strong: rgba(20, 27, 34, 0.78);
       --glass-border: rgba(255, 255, 255, 0.08);
       --input-h: 40px;
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html { font-size: 15px; scroll-behavior: smooth; height: 100%; overflow: hidden; }
-
     body {
-      background:
-        radial-gradient(820px 460px at 12% -14%, rgba(90, 130, 170, 0.10), transparent 62%),
-        radial-gradient(700px 440px at 110% 116%, rgba(120, 130, 150, 0.08), transparent 62%),
-        var(--bg);
-      color: var(--text); font-family: var(--font);
-      line-height: 1.5; height: 100%; overflow: hidden;
+      background: radial-gradient(820px 460px at 12% -14%, rgba(90, 130, 170, 0.10), transparent 62%),
+        radial-gradient(700px 440px at 110% 116%, rgba(120, 130, 150, 0.08), transparent 62%), var(--bg);
+      color: var(--text); font-family: var(--font); line-height: 1.5; height: 100%; overflow: hidden;
       -webkit-tap-highlight-color: transparent; -webkit-font-smoothing: antialiased;
-      -webkit-user-select: none; user-select: none;
-      display: flex; flex-direction: column; position: relative;
+      -webkit-user-select: none; user-select: none; display: flex; flex-direction: column; position: relative;
     }
-
     body::before, body::after {
-      content: '';
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      z-index: -1;
-      pointer-events: none;
+      content: ''; position: fixed; border-radius: 50%; filter: blur(100px); z-index: -1; pointer-events: none;
     }
     body::before { width: 320px; height: 320px; background: rgba(77, 171, 247, 0.13); top: -140px; left: -120px; }
     body::after { width: 340px; height: 340px; background: rgba(140, 150, 170, 0.09); bottom: -160px; right: -130px; }
-
-    .main-column {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
-      height: 100%;
-      overflow: hidden;
-      position: relative;
-      z-index: 1;
-    }
-
+    .main-column { display: flex; flex-direction: column; flex: 1; height: 100%; overflow: hidden; position: relative; z-index: 1; }
     .header-wrapper {
-      padding: 12px 14px 0;
-      flex-shrink: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      background: transparent;
-      max-height: 125px;
+      padding: 12px 14px 0; flex-shrink: 0; display: flex; flex-direction: column; gap: 10px;
+      background: transparent; max-height: 125px;
     }
-
     .header { display: flex; align-items: center; gap: 12px; padding: 6px 0 2px; }
     .header-icon {
       width: 40px; height: 40px; border-radius: var(--radius-sm);
       background: linear-gradient(135deg, #f7b731, #f06565);
       display: flex; align-items: center; justify-content: center;
-      font-size: 19px; flex-shrink: 0; color: #fff;
-      box-shadow: 0 4px 14px rgba(240,101,101,0.35);
+      font-size: 19px; flex-shrink: 0; color: #fff; box-shadow: 0 4px 14px rgba(240,101,101,0.35);
     }
     .header-info h1 { font-size: 1.15rem; font-weight: 700; letter-spacing: -0.3px; color: #fff; line-height: 1.2; }
     .header-info span { font-size: 0.7rem; color: var(--text2); font-weight: 500; }
-
-    /* Плашка Download — старый оранжевый, стеклянный фон */
     .download {
       display: flex; align-items: center; justify-content: space-between; gap: 8px;
       background: rgba(240, 177, 94, 0.12);
-      backdrop-filter: blur(18px) saturate(150%);
-      -webkit-backdrop-filter: blur(18px) saturate(150%);
-      border: 1px solid rgba(240, 177, 94, 0.6);
-      border-radius: var(--radius);
-      padding: 4px 4px 4px 10px;
-      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
-      color: #f0b15e;
+      backdrop-filter: blur(18px) saturate(150%); -webkit-backdrop-filter: blur(18px) saturate(150%);
+      border: 1px solid rgba(240, 177, 94, 0.6); border-radius: var(--radius);
+      padding: 4px 4px 4px 10px; box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset; color: #f0b15e;
     }
     .download-title { font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 6px; }
     .tag-orange { background: rgba(240,177,94,0.15); color: #f0b15e; border-color: #f0b15e; }
-
     .screens-container { flex: 1; overflow: hidden; position: relative; }
-
     .screen {
-      position: absolute; inset: 0;
-      overflow-y: auto; overflow-x: hidden;
-      padding: 12px 14px;
+      position: absolute; inset: 0; overflow-y: auto; overflow-x: hidden; padding: 12px 14px;
       padding-bottom: calc(var(--nav-height) + var(--nav-margin)*2 + var(--safe-bottom));
-      display: flex; flex-direction: column; gap: 10px;
-      opacity: 0; transform: translateX(30px);
+      display: flex; flex-direction: column; gap: 10px; opacity: 0; transform: translateX(30px);
       transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       pointer-events: none; -webkit-overflow-scrolling: touch;
-      scrollbar-width: thin; scrollbar-color: var(--border) transparent;
-      will-change: transform, opacity;
+      scrollbar-width: thin; scrollbar-color: var(--border) transparent; will-change: transform, opacity;
     }
     .screen::-webkit-scrollbar { width: 3px; }
     .screen::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
-    .screen.active {
-      opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 1;
-    }
-
+    .screen.active { opacity: 1; transform: translateX(0); pointer-events: auto; z-index: 1; }
     .card {
-      background: var(--glass);
-      backdrop-filter: blur(20px) saturate(150%);
-      -webkit-backdrop-filter: blur(20px) saturate(150%);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 16px;
+      background: var(--glass); backdrop-filter: blur(20px) saturate(150%); -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--glass-border); border-radius: var(--radius); padding: 16px;
       display: flex; flex-direction: column; gap: 14px;
-      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
-      flex-shrink: 0;
+      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset; flex-shrink: 0;
     }
     .card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .card-title { font-weight: 700; font-size: 0.9rem; color: #fff; letter-spacing: -0.2px; display: flex; align-items: center; gap: 7px; }
-
     label { font-size: 0.7rem; font-weight: 600; color: var(--text2); text-transform: uppercase; letter-spacing: 0.4px; display: block; margin-bottom: 4px; }
-
     input[type="text"], input[type="number"], textarea {
-      width: 100%; padding: 10px 12px;
-      background: rgba(27, 36, 48, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
+      width: 100%; padding: 10px 12px; background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
       color: #fff; font-size: 0.85rem; font-family: var(--font);
-      transition: border var(--transition), box-shadow var(--transition), background var(--transition);
-      outline: none; resize: vertical;
+      transition: border var(--transition), box-shadow var(--transition), background var(--transition); outline: none; resize: vertical;
     }
     input[type="number"] { -moz-appearance: textfield; appearance: textfield; }
     input[type="number"]::-webkit-inner-spin-button, input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
     input[type="text"]:focus, input[type="number"]:focus, textarea:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(77,171,247,0.15);
-      background: rgba(27, 36, 48, 0.78);
+      border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77,171,247,0.15); background: rgba(27, 36, 48, 0.78);
     }
     input:disabled { opacity: 0.45; cursor: not-allowed; }
-
     .row { display: flex; gap: 10px; flex-wrap: wrap; }
     .row > * { flex: 1 1 90px; min-width: 70px; }
-
     .btn {
       padding: 10px 16px; border: none; border-radius: var(--radius-sm); cursor: pointer;
       font-weight: 600; font-size: 0.8rem; font-family: var(--font);
@@ -184,113 +122,76 @@
     .btn-outline:active { background: var(--surface2); }
     .btn-danger { background: var(--danger); color: #fff; }
     .btn-danger:active { background: #d94f4f; }
+    .btn-danger-outline { color: var(--danger); border-color: rgba(240, 101, 101, 0.35); }
+    .btn-danger-outline:active { background: rgba(240, 101, 101, 0.15); }
     .btn-sm { padding: 8px 14px; font-size: 0.75rem; }
     .btn-xs { padding: 6px 12px; font-size: 0.68rem; }
     .btn-block { width: 100%; }
     .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
-    /* Единая кнопка тулбара — замена btn-square и toolbar-btn */
+    .btn-group-3 {
+      display: flex; gap: 6px; flex-wrap: nowrap; width: 100%;
+    }
+    .btn-group-3 .btn {
+      flex: 1 1 0; min-width: 0;
+      padding: 10px 8px; font-size: 0.74rem; gap: 5px;
+    }
+    .btn-group-3 .btn .btn-label {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+    }
+    .btn-group-3 .btn i { flex-shrink: 0; }
+    @media (max-width: 400px) {
+      .btn-group-3 .btn { padding: 10px; gap: 0; }
+      .btn-group-3 .btn .btn-label { display: none; }
+    }
+
     .toolbar-btn {
-      height: 30px;
-      padding: 0 12px;
-      font-size: 0.68rem;
-      border-radius: 6px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      font-weight: 600;
-      white-space: nowrap;
-      cursor: pointer;
-      transition: all var(--transition);
-      background: rgba(27,36,48,0.4);
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      -webkit-tap-highlight-color: transparent;
-      font-family: var(--font);
-      letter-spacing: -0.2px;
-      flex-shrink: 0;
-      position: relative;
+      height: 30px; padding: 0 12px; font-size: 0.68rem; border-radius: 6px;
+      display: inline-flex; align-items: center; justify-content: center; gap: 5px;
+      font-weight: 600; white-space: nowrap; cursor: pointer; transition: all var(--transition);
+      background: rgba(27,36,48,0.4); border: 1px solid var(--glass-border); color: var(--text);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      -webkit-tap-highlight-color: transparent; font-family: var(--font); letter-spacing: -0.2px;
+      flex-shrink: 0; position: relative;
     }
     .toolbar-btn:hover { background: var(--surface2); }
     .toolbar-btn:active { transform: scale(0.95); }
-    .toolbar-btn.active {
-      background: rgba(77, 171, 247, 0.18);
-      color: var(--accent);
-      border-color: rgba(77, 171, 247, 0.5);
-    }
-    .toolbar-btn.icon-only {
-      width: 30px;
-      padding: 0;
-    }
-
-    /* Зелёная точка у авто-смены раскладки */
-    #btnAutoLayout.active::after {
-      content: '';
-      position: absolute;
-      top: -1px;
-      right: -1px;
-      width: 7px;
-      height: 7px;
-      background: var(--accent2);
-      border-radius: 50%;
-      border: 1.5px solid var(--bg);
-      box-shadow: 0 0 6px rgba(81, 207, 102, 0.7);
-    }
-
-    /* Мобильная адаптация тулбара — только иконки */
+    .toolbar-btn.active { background: rgba(77, 171, 247, 0.18); color: var(--accent); border-color: rgba(77, 171, 247, 0.5); }
+    .toolbar-btn.icon-only { width: 30px; padding: 0; }
     @media (max-width: 500px) {
       .toolbar-btn .btn-text { display: none; }
       .toolbar-btn { width: 30px; padding: 0; }
     }
-
     .btn-icon {
       background: rgba(20,27,34,0.5); border: 1px solid var(--glass-border); color: var(--text2);
       cursor: pointer; font-size: 0.85rem; border-radius: 6px;
       transition: color var(--transition), background var(--transition);
-      display: flex; align-items: center; justify-content: center;
-      width: 30px; height: 30px; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0;
     }
     .btn-icon:hover { color: var(--accent); background: rgba(77,171,247,0.12); }
     .btn-icon:active { color: var(--danger); background: rgba(240,101,101,0.15); }
-
     .code-block {
-      background: rgba(6, 10, 15, 0.75);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm); padding: 14px;
-      font-family: var(--mono); font-size: 0.7rem; line-height: 1.6;
-      color: #c9d1d9; overflow-x: auto; white-space: pre-wrap; word-break: break-all;
+      background: rgba(6, 10, 15, 0.75); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 14px;
+      font-family: var(--mono); font-size: 0.7rem; line-height: 1.6; color: #c9d1d9;
+      overflow-x: auto; white-space: pre-wrap; word-break: break-all;
       max-height: 320px; overflow-y: auto; position: relative;
       scrollbar-width: thin; scrollbar-color: var(--border) transparent;
       transition: max-height 0.25s ease;
     }
     .code-block::-webkit-scrollbar { width: 3px; height: 3px; }
     .code-block::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-
     .code-block.collapsible { max-height: 132px; overflow: hidden; }
     .code-block.collapsible.expanded { max-height: 420px; overflow-y: auto; }
-
     .code-fade {
       position: absolute; left: 0; right: 0; bottom: 0; height: 52px;
       background: linear-gradient(to bottom, transparent, rgba(6, 10, 15, 0.95));
-      pointer-events: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm);
-      display: none; z-index: 2;
+      pointer-events: none; border-radius: 0 0 var(--radius-sm) var(--radius-sm); display: none; z-index: 2;
     }
-
     .code-expand-btn {
-      position: absolute; bottom: 8px; right: 8px;
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      background: rgba(20, 27, 34, 0.88);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border: 1px solid var(--glass-border);
-      color: var(--text);
-      cursor: pointer;
+      position: absolute; bottom: 8px; right: 8px; width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(20, 27, 34, 0.88); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-border); color: var(--text); cursor: pointer;
       display: none; align-items: center; justify-content: center;
       z-index: 6; box-shadow: 0 2px 10px rgba(0,0,0,0.35);
       transition: color var(--transition), background var(--transition), border-color var(--transition);
@@ -299,462 +200,484 @@
     .code-expand-btn.visible { display: flex; }
     .code-expand-btn:hover { color: var(--accent); border-color: rgba(77,171,247,0.4); }
     .code-expand-btn i { font-size: 0.7rem; }
-
     .copy-indicator {
-      position: absolute; top: 8px; right: 8px;
-      background: var(--accent2); color: #000; padding: 4px 10px; border-radius: 6px;
-      font-size: 0.65rem; font-weight: 700; opacity: 0; transition: opacity 0.25s ease;
-      pointer-events: none; font-family: var(--font); display: flex; align-items: center; gap: 4px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 5;
+      position: absolute; top: 8px; right: 8px; background: var(--accent2); color: #000;
+      padding: 4px 10px; border-radius: 6px; font-size: 0.65rem; font-weight: 700;
+      opacity: 0; transition: opacity 0.25s ease; pointer-events: none; font-family: var(--font);
+      display: flex; align-items: center; gap: 4px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 5;
     }
     .copy-indicator.visible { opacity: 1; }
-
     .code-outdated-badge {
-      position: absolute;
-      top: 8px;
-      left: 8px;
-      background: rgba(240, 177, 94, 0.92);
-      color: #000;
-      padding: 3px 8px;
-      border-radius: 6px;
-      font-size: 0.6rem;
-      font-weight: 700;
-      display: none;
-      align-items: center;
-      gap: 4px;
-      z-index: 5;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.25);
-      font-family: var(--font);
-      pointer-events: none;
+      position: absolute; top: 8px; left: 8px; background: rgba(240, 177, 94, 0.92); color: #000;
+      padding: 3px 8px; border-radius: 6px; font-size: 0.6rem; font-weight: 700;
+      display: none; align-items: center; gap: 4px; z-index: 5;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.25); font-family: var(--font); pointer-events: none;
     }
     .code-outdated-badge.visible { display: flex; }
-
     .notify-area { position: relative; }
-
-    /* ---------- Клавиша запуска ---------- */
     .key-row { display: flex; gap: 10px; align-items: stretch; flex-wrap: wrap; }
     .key-row .custom-select { flex: 1 1 120px; width: auto; min-width: 90px; }
-
     .listen-wrap { display: flex; gap: 6px; flex: 1 1 150px; height: var(--input-h); align-items: stretch; }
     .listen-wrap input { flex: 1; min-width: 0; height: 100%; font-family: var(--mono); font-size: 0.78rem; padding: 0 10px; }
     .listen-wrap .btn-icon { width: 42px; height: 100%; }
-    .listen-wrap.listening input {
-      border-color: var(--accent2);
-      color: var(--accent2);
-      animation: listenPulse 1.2s ease-in-out infinite;
-    }
-    .listen-wrap.invalid input {
-      border-color: var(--danger);
-      box-shadow: 0 0 0 3px rgba(240, 101, 101, 0.15);
-    }
+    .listen-wrap.listening input { border-color: var(--accent2); color: var(--accent2); animation: listenPulse 1.2s ease-in-out infinite; }
+    .listen-wrap.invalid input { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(240, 101, 101, 0.15); }
     @keyframes listenPulse {
       0%, 100% { box-shadow: 0 0 0 3px rgba(81,207,102,0.10); }
       50% { box-shadow: 0 0 0 6px rgba(81,207,102,0.22); }
     }
-
-    /* ---------- Сегментированный выбор клавиши чата ---------- */
     .segmented {
-      display: flex; gap: 4px; align-items: stretch;
-      background: rgba(27, 36, 48, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
-      padding: 4px;
-      height: var(--input-h);
+      display: flex; gap: 4px; align-items: stretch; background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border); border-radius: var(--radius-sm); padding: 4px; height: var(--input-h);
     }
     .seg-btn {
-      flex: 1 1 0; min-width: 0;
-      padding: 0 10px; border-radius: 6px;
-      border: 1px solid transparent; background: transparent;
-      color: var(--text2); font-family: var(--mono);
-      font-size: 0.78rem; font-weight: 700; cursor: pointer;
-      transition: all var(--transition);
-      display: flex; align-items: center; justify-content: center;
-      -webkit-tap-highlight-color: transparent;
+      flex: 1 1 0; min-width: 0; padding: 0 10px; border-radius: 6px; border: 1px solid transparent;
+      background: transparent; color: var(--text2); font-family: var(--mono); font-size: 0.78rem;
+      font-weight: 700; cursor: pointer; transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center; -webkit-tap-highlight-color: transparent;
     }
     .seg-btn:hover { color: var(--text); background: rgba(255,255,255,0.03); }
-    .seg-btn.active {
-      background: rgba(77,171,247,0.18);
-      color: var(--accent);
-      box-shadow: inset 0 0 0 1px rgba(77,171,247,0.35);
-    }
+    .seg-btn.active { background: rgba(77,171,247,0.18); color: var(--accent); box-shadow: inset 0 0 0 1px rgba(77,171,247,0.35); }
     .segmented input[type="text"] {
-      flex: 1 1 60px; min-width: 0;
-      padding: 0 10px; height: 100%;
-      font-size: 0.76rem; font-family: var(--mono);
-      background: rgba(20,27,34,0.6);
+      flex: 1 1 60px; min-width: 0; padding: 0 10px; height: 100%; font-size: 0.76rem;
+      font-family: var(--mono); background: rgba(20,27,34,0.6);
     }
-
-    /* ---------- Глобальная задержка с внешними отступами ---------- */
     .delay-input-wrap {
-      display: flex;
-      gap: 4px;
-      align-items: stretch;
-      height: var(--input-h);
-      border-radius: var(--radius-sm);
-      border: 1px solid var(--glass-border);
-      background: rgba(27, 36, 48, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      padding: 4px;
-      transition: border var(--transition), box-shadow var(--transition);
+      display: flex; gap: 4px; align-items: stretch; height: var(--input-h);
+      border-radius: var(--radius-sm); border: 1px solid var(--glass-border);
+      background: rgba(27, 36, 48, 0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      padding: 4px; transition: border var(--transition), box-shadow var(--transition);
     }
-    .delay-input-wrap:focus-within {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(77,171,247,0.15);
-    }
+    .delay-input-wrap:focus-within { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77,171,247,0.15); }
     .delay-input-wrap input[type="number"] {
-      flex: 1 1 0;
-      width: 0;
-      min-width: 0;
-      height: 100%;
-      border: none;
-      border-radius: 6px;
-      background: rgba(20,27,34,0.6);
-      padding: 0 10px;
-      font-size: 0.85rem;
-      box-shadow: none;
+      flex: 1 1 0; width: 0; min-width: 0; height: 100%; border: none; border-radius: 6px;
+      background: rgba(20,27,34,0.6); padding: 0 10px; font-size: 0.85rem; box-shadow: none;
     }
-    .delay-input-wrap input[type="number"]:focus {
-      box-shadow: none;
-      background: rgba(20,27,34,0.6);
-    }
+    .delay-input-wrap input[type="number"]:focus { box-shadow: none; background: rgba(20,27,34,0.6); }
     .delay-input-wrap input[type="number"]:disabled { opacity: 0.4; }
     .delay-toggle {
-      width: 32px;
-      height: 100%;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(20,27,34,0.6);
-      border: none;
-      border-radius: 6px;
-      color: var(--text2);
-      cursor: pointer;
-      font-size: 0.8rem;
-      transition: all var(--transition);
-      -webkit-tap-highlight-color: transparent;
+      width: 32px; height: 100%; flex-shrink: 0; display: flex; align-items: center; justify-content: center;
+      background: rgba(20,27,34,0.6); border: none; border-radius: 6px; color: var(--text2);
+      cursor: pointer; font-size: 0.8rem; transition: all var(--transition); -webkit-tap-highlight-color: transparent;
     }
     .delay-toggle:hover { color: var(--accent); background: rgba(77,171,247,0.15); }
     .delay-toggle.active { color: var(--accent); background: rgba(77,171,247,0.25); }
     .delay-toggle:active { transform: scale(0.94); }
-
-    /* ---------- Команды ---------- */
     .command-list { display: flex; flex-direction: column; gap: 6px; }
-
     .command-block { display: flex; flex-direction: column; gap: 4px; }
     .command-block.dragging .command-item {
-      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6);
-      border-color: var(--accent);
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6); border-color: var(--accent);
       background: rgba(30, 42, 58, 0.95);
     }
     .command-block-placeholder {
-      border: 1px dashed rgba(77, 171, 247, 0.6);
-      background: rgba(77, 171, 247, 0.07);
+      border: 1px dashed rgba(77, 171, 247, 0.6); background: rgba(77, 171, 247, 0.07);
       border-radius: var(--radius-sm);
     }
-
     .command-item {
-      display: flex; align-items: center; gap: 8px;
-      background: rgba(27, 36, 48, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border-radius: var(--radius-sm); padding: 7px;
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      transition: border var(--transition), background var(--transition);
-      flex-wrap: wrap;
+      display: flex; align-items: center; gap: 8px; background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border-radius: var(--radius-sm); padding: 7px; border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: border var(--transition), background var(--transition); flex-wrap: wrap;
     }
     .command-item:hover { border-color: var(--border); background: rgba(31, 41, 55, 0.7); }
-
     .drag-handle {
       display: flex; align-items: center; justify-content: center;
       width: 24px; height: 30px; color: var(--text2); cursor: grab;
-      border-radius: 6px; flex-shrink: 0;
-      touch-action: none; -webkit-touch-callout: none;
+      border-radius: 6px; flex-shrink: 0; touch-action: none; -webkit-touch-callout: none;
       transition: color var(--transition), background var(--transition);
     }
     .drag-handle:hover { color: var(--accent); background: rgba(77, 171, 247, 0.1); }
     .drag-handle:active { cursor: grabbing; }
-
-    .command-item .cmd-text { flex: 1 1 120px; min-width: 90px; padding: 8px 10px; font-size: 0.8rem; background: rgba(20,27,34,0.6); }
+    .command-item .cmd-text {
+      flex: 1 1 120px; min-width: 90px; height: var(--input-h); padding: 0 10px;
+      font-size: 0.78rem; background: rgba(20,27,34,0.6);
+    }
     .command-item .btn-icon { width: 30px; height: 30px; }
-
     .command-list:not(.edit-mode) .drag-handle,
     .command-list:not(.edit-mode) .cmd-delete { display: none; }
-
     @media (max-width: 767px) {
       .command-list.edit-mode .command-item { touch-action: pan-y; }
       .command-list.edit-mode .drag-handle { touch-action: none; }
     }
-
     .delay-row {
       display: flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 5px 8px; background: rgba(0,0,0,0.25);
-      font-size: 0.73rem; margin: 0 8px; color: var(--text2); border-radius: 6px;
-      transition: background var(--transition);
+      padding: 5px 8px; background: rgba(0,0,0,0.25); font-size: 0.73rem; margin: 0 8px;
+      color: var(--text2); border-radius: 6px; transition: background var(--transition);
     }
     .delay-row:hover { background: rgba(77,171,247,0.1); }
     .delay-row i { font-size: 0.85rem; color: var(--accent); }
     .delay-row span { font-weight: 600; font-size: 0.7rem; }
-    .delay-row input { width: 80px; padding: 6px 8px; background: rgba(27,36,48,0.7); border: 1px solid var(--glass-border); border-radius: 4px; color: #fff; font-size: 0.75rem; text-align: center; font-family: var(--mono); }
+    .delay-row input {
+      width: 80px; padding: 6px 8px; background: rgba(27,36,48,0.7);
+      border: 1px solid var(--glass-border); border-radius: 4px; color: #fff;
+      font-size: 0.75rem; text-align: center; font-family: var(--mono);
+    }
+    .delay-row input:disabled { opacity: 0.45; cursor: not-allowed; }
     .delay-row .ms-label { margin-left: 2px; font-size: 0.65rem; color: var(--text2); }
 
-    .commands-summary {
-      display: none;
-      background: rgba(27, 36, 48, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
-      padding: 10px 12px;
-      cursor: pointer;
-      flex-direction: column;
-      gap: 4px;
-      transition: background var(--transition);
+    .commands-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 6px; gap: 8px; flex-wrap: wrap;
     }
-    .commands-summary:hover { background: rgba(31, 41, 55, 0.7); }
-    .commands-summary .summary-title { font-weight: 700; font-size: 0.78rem; color: #fff; }
-    .commands-summary .summary-preview { font-size: 0.7rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .commands-toolbar { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .commands-summary {
+      display: flex; align-items: center; gap: 10px;
+      padding: 12px; background: rgba(27, 36, 48, 0.55);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+      cursor: pointer; transition: background var(--transition);
+    }
+    .commands-summary:hover { background: rgba(31, 41, 55, 0.75); }
+    .commands-summary-icon {
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(77,171,247,0.15); color: var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; flex-shrink: 0;
+    }
+    .commands-summary-info { flex: 1; min-width: 0; }
+    .commands-summary-title { font-weight: 700; font-size: 0.78rem; color: #fff; }
+    .commands-summary-preview { font-size: 0.68rem; color: var(--text2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 1px; }
+    .commands-summary > i { color: var(--text2); font-size: 0.75rem; flex-shrink: 0; }
 
-    /* ---------- Кастомный селект ---------- */
     .custom-select { position: relative; flex-shrink: 0; width: 82px; }
     .custom-select.full { width: 100%; }
     .custom-select-trigger {
-      width: 100%; height: var(--input-h);
-      padding: 0 10px;
-      font-size: 0.75rem; font-family: var(--mono);
-      background: rgba(20, 27, 34, 0.7);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
-      color: #fff; cursor: pointer;
-      display: flex; align-items: center; justify-content: space-between; gap: 4px;
-      text-align: left; touch-action: manipulation;
+      width: 100%; height: var(--input-h); padding: 0 10px; font-size: 0.78rem;
+      font-family: var(--mono); background: rgba(20, 27, 34, 0.7);
+      backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+      color: #fff; cursor: pointer; display: flex; align-items: center; justify-content: space-between;
+      gap: 4px; text-align: left; touch-action: manipulation;
       transition: border var(--transition), box-shadow var(--transition);
     }
     .custom-select-trigger:hover { border-color: var(--border); }
     .custom-select-trigger.open { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77,171,247,0.15); }
-    .custom-select-trigger .cs-arrow {
-      font-size: 0.6rem; color: var(--text2);
-      transition: transform 0.25s ease;
-    }
+    .custom-select-trigger.locked { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+    .custom-select-trigger .cs-arrow { font-size: 0.6rem; color: var(--text2); transition: transform 0.25s ease; }
     .custom-select-trigger.open .cs-arrow { transform: rotate(180deg); color: var(--accent); }
     .cs-value { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-
     .custom-select-menu {
-      position: fixed;
-      background: rgba(18, 25, 33, 0.92);
-      backdrop-filter: blur(24px) saturate(160%);
-      -webkit-backdrop-filter: blur(24px) saturate(160%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius-sm);
+      position: fixed; background: rgba(18, 25, 33, 0.92);
+      backdrop-filter: blur(24px) saturate(160%); -webkit-backdrop-filter: blur(24px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.1); border-radius: var(--radius-sm);
       box-shadow: 0 18px 46px rgba(0, 0, 0, 0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
-      max-height: 300px; overflow-y: auto;
-      padding: 5px;
+      max-height: 300px; overflow-y: auto; padding: 5px;
       scrollbar-width: thin; scrollbar-color: var(--border) transparent;
       animation: dropIn 0.18s ease;
     }
     .custom-select-menu::-webkit-scrollbar { width: 3px; }
     .custom-select-menu::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
     @keyframes dropIn { from { opacity: 0; transform: translateY(-6px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
-
     .cs-option {
       padding: 8px 10px; border-radius: 6px; cursor: pointer;
-      display: flex; flex-direction: column; gap: 2px;
-      transition: background var(--transition);
+      display: flex; flex-direction: column; gap: 2px; transition: background var(--transition);
     }
     .cs-option:hover, .cs-option.selected { background: rgba(77, 171, 247, 0.16); }
     .cs-option.selected .cs-opt-title { color: var(--accent); }
     .cs-opt-title { font-size: 0.78rem; font-weight: 700; color: #fff; font-family: var(--mono); }
     .cs-opt-desc { font-size: 0.65rem; color: var(--text2); line-height: 1.25; }
-
-    .key-grid-menu {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(56px, 1fr));
-      gap: 6px;
-      padding: 8px;
-      max-height: 280px;
+    .command-select-menu .cs-option {
+      height: var(--input-h); min-height: var(--input-h); padding: 0 12px;
+      flex-direction: row; align-items: center; gap: 10px;
     }
+    .command-select-menu .cs-opt-title { font-size: 0.82rem; flex-shrink: 0; }
+    .command-select-menu .cs-opt-desc {
+      font-size: 0.68rem; flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; text-align: right;
+    }
+    .key-grid-menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 6px; padding: 8px; max-height: 280px; }
     .key-tile {
-      padding: 9px 4px;
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      font-weight: 700;
-      color: var(--text);
-      background: rgba(27,36,48,0.7);
-      border: 1px solid var(--glass-border);
-      border-radius: 6px;
-      cursor: pointer;
-      text-align: center;
-      transition: all var(--transition);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      -webkit-tap-highlight-color: transparent;
+      padding: 9px 4px; font-family: var(--mono); font-size: 0.7rem; font-weight: 700;
+      color: var(--text); background: rgba(27,36,48,0.7); border: 1px solid var(--glass-border);
+      border-radius: 6px; cursor: pointer; text-align: center; transition: all var(--transition);
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis; -webkit-tap-highlight-color: transparent;
     }
     .key-tile:hover { border-color: var(--border); background: rgba(31,41,55,0.9); }
     .key-tile.selected { background: rgba(77,171,247,0.22); border-color: var(--accent); color: var(--accent); }
     .key-tile:active { transform: scale(0.95); }
-
-    /* ---------- Единые карточки скриптов ---------- */
+    .key-tile.disabled {
+      opacity: 0.3; cursor: not-allowed; text-decoration: line-through;
+      pointer-events: none; color: var(--danger);
+    }
     .script-card {
-      background: rgba(27, 36, 48, 0.55);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      border-radius: var(--radius-sm);
-      overflow: hidden;
-      transition: all var(--transition);
+      background: rgba(27, 36, 48, 0.55); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.05); border-radius: var(--radius-sm);
+      overflow: hidden; transition: all var(--transition);
     }
     .script-card:hover { border-color: var(--border); }
     .script-card-header {
-      padding: 12px;
-      cursor: pointer;
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      justify-content: space-between;
-      user-select: none;
-      -webkit-tap-highlight-color: transparent;
+      padding: 12px; cursor: pointer; display: flex; gap: 10px;
+      align-items: flex-start; justify-content: space-between;
+      user-select: none; -webkit-tap-highlight-color: transparent;
     }
     .script-card-info { flex: 1; min-width: 0; }
-    .script-card-title {
-      font-weight: 700;
-      font-size: 0.82rem;
-      color: #fff;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .script-card-title { font-weight: 700; font-size: 0.82rem; color: #fff; display: flex; align-items: center; gap: 6px; }
     .script-card-title i { color: var(--accent); }
     .script-card-desc { font-size: 0.68rem; color: var(--text2); margin-top: 2px; }
     .script-card-tags { margin-top: 5px; display: flex; gap: 4px; flex-wrap: wrap; }
-    .script-card-arrow {
-      color: var(--text2);
-      font-size: 0.75rem;
-      transition: transform 0.25s ease;
-      margin-top: 3px;
-      flex-shrink: 0;
-    }
+    .script-card-arrow { color: var(--text2); font-size: 0.75rem; transition: transform 0.25s ease; margin-top: 3px; flex-shrink: 0; }
     .script-card.open .script-card-arrow { transform: rotate(180deg); }
-    .script-card-body {
-      display: none;
-      flex-direction: column;
-      gap: 8px;
-      padding: 0 12px 12px;
-    }
+    .script-card-body { display: none; flex-direction: column; gap: 8px; padding: 0 12px 12px; }
     .script-card.open .script-card-body { display: flex; }
-    .script-card-body .code-block {
-      max-height: 220px;
+    .script-card-body .code-block { max-height: 220px; }
+    .script-card-actions { display: flex; gap: 6px; flex-wrap: nowrap; }
+    .script-card-actions .btn {
+      flex: 1 1 0; min-width: 0; padding: 8px 6px; font-size: 0.72rem; gap: 4px;
     }
-    .script-card-actions { display: flex; gap: 6px; flex-wrap: wrap; }
-
+    .script-card-actions .btn .btn-label {
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; min-width: 0;
+    }
+    @media (max-width: 400px) {
+      .script-card-actions .btn .btn-label { display: none; }
+      .script-card-actions .btn { gap: 0; }
+    }
     .tag { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.2px; }
     .tag-blue { background: rgba(77,171,247,0.2); color: #74c0fc; }
     .tag-green { background: rgba(81,207,102,0.2); color: #69db7c; }
     .tag-orange { background: rgba(240,177,94,0.15); color: #f0b15e; border-color: #f0b15e; }
     .tag-purple { background: rgba(177,139,240,0.2); color: #b18bf0; }
-
     .toast {
       position: fixed; bottom: calc(var(--nav-height) + var(--safe-bottom) + 30px); right: -20px; left: auto;
-      transform: translateX(120%);
-      background: rgba(43, 138, 62, 0.82);
-      backdrop-filter: blur(18px) saturate(160%);
-      -webkit-backdrop-filter: blur(18px) saturate(160%);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: #fff; padding: 10px 20px; border-radius: 25px;
-      font-weight: 600; font-size: 0.8rem; z-index: 1600;
+      transform: translateX(120%); background: rgba(43, 138, 62, 0.82);
+      backdrop-filter: blur(18px) saturate(160%); -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border: 1px solid rgba(255, 255, 255, 0.18); color: #fff;
+      padding: 10px 20px; border-radius: 25px; font-weight: 600; font-size: 0.8rem; z-index: 1600;
       transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55), background 0.25s ease;
-      pointer-events: none;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-      display: flex; align-items: center; gap: 8px;
-      white-space: nowrap; max-width: calc(100% - 32px);
+      pointer-events: none; box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 8px; white-space: nowrap; max-width: calc(100% - 32px);
     }
     .toast.show { transform: translateX(-50%); pointer-events: auto; }
     .toast i { font-size: 0.9rem; }
-    .toast.error {
-      background: rgba(240, 101, 101, 0.88);
-      border-color: rgba(255, 255, 255, 0.22);
-    }
-
+    .toast.error { background: rgba(240, 101, 101, 0.88); border-color: rgba(255, 255, 255, 0.22); }
     .undo-toast {
-      position: fixed;
-      bottom: calc(var(--nav-height) + var(--safe-bottom) + 75px);
-      right: 16px; left: auto;
-      transform: translateX(120%) translateY(28px);
-      opacity: 0;
-      background: rgba(30, 42, 58, 0.85);
-      backdrop-filter: blur(18px) saturate(150%);
-      -webkit-backdrop-filter: blur(18px) saturate(150%);
-      border: 1px solid var(--glass-border);
-      color: #fff; padding: 10px 14px; border-radius: 25px;
-      font-size: 0.78rem; z-index: 1601;
+      position: fixed; bottom: calc(var(--nav-height) + var(--safe-bottom) + 75px);
+      right: 16px; left: auto; transform: translateX(120%) translateY(28px); opacity: 0;
+      background: rgba(30, 42, 58, 0.85); backdrop-filter: blur(18px) saturate(150%);
+      -webkit-backdrop-filter: blur(18px) saturate(150%); border: 1px solid var(--glass-border);
+      color: #fff; padding: 10px 14px; border-radius: 25px; font-size: 0.78rem; z-index: 1601;
       transition: transform 0.35s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.25s ease;
-      pointer-events: none;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.4);
-      display: flex; align-items: center; gap: 16px;
-      white-space: nowrap; overflow: hidden; max-width: calc(100% - 32px);
+      pointer-events: none; box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+      display: flex; align-items: center; gap: 16px; white-space: nowrap; overflow: hidden; max-width: calc(100% - 32px);
     }
     .undo-toast.show { transform: translateX(0) translateY(0); opacity: 1; pointer-events: auto; }
     .undo-toast .btn-undo {
-      background: var(--accent); color: #000; border: none;
-      padding: 6px 14px; border-radius: 20px; cursor: pointer;
-      font-weight: 600; font-size: 0.75rem; white-space: nowrap;
-      -webkit-tap-highlight-color: transparent;
+      background: var(--accent); color: #000; border: none; padding: 6px 14px;
+      border-radius: 20px; cursor: pointer; font-weight: 600; font-size: 0.75rem;
+      white-space: nowrap; -webkit-tap-highlight-color: transparent;
     }
     .undo-toast .btn-undo:active { transform: scale(0.94); }
-    .undo-progress {
-      position: absolute; bottom: 0; left: 0; height: 3px;
-      background: var(--accent); border-radius: 0 0 25px 25px;
-      width: 100%; transition: width 10s linear;
-    }
-
+    .undo-progress { position: absolute; bottom: 0; left: 0; height: 3px; background: var(--accent); border-radius: 0 0 25px 25px; width: 100%; transition: width 10s linear; }
     .modal-overlay {
       position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 2000;
       display: flex; align-items: center; justify-content: center; padding: 16px;
-      animation: fadeIn 0.2s ease;
-      backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+      animation: fadeIn 0.2s ease; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
     }
     .modal-overlay.hidden { display: none; }
     @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     .modal-box {
-      background: rgba(20, 27, 34, 0.78);
-      backdrop-filter: blur(28px) saturate(160%);
-      -webkit-backdrop-filter: blur(28px) saturate(160%);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: var(--radius); padding: 20px;
-      max-width: 360px; width: 100%;
+      background: rgba(20, 27, 34, 0.78); backdrop-filter: blur(28px) saturate(160%);
+      -webkit-backdrop-filter: blur(28px) saturate(160%); border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius); padding: 20px; max-width: 360px; width: 100%;
       display: flex; flex-direction: column; gap: 14px;
       box-shadow: 0 20px 54px rgba(0,0,0,0.55), 0 1px 0 rgba(255,255,255,0.06) inset;
+      animation: modalIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: scale(1); } }
     .modal-box h3 { font-size: 0.95rem; color: #fff; display: flex; align-items: center; gap: 8px; }
     .modal-box p { font-size: 0.8rem; color: var(--text2); line-height: 1.4; }
     .modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+    .duration-estimate { font-size: 0.68rem; color: var(--text2); text-align: center; margin-top: -6px; min-height: 1em; }
 
-    .duration-estimate {
-      font-size: 0.68rem;
-      color: var(--text2);
-      text-align: center;
-      margin-top: -6px;
-      min-height: 1em;
+    .blocks-toolbar { display: flex; gap: 8px; flex-shrink: 0; }
+
+    .script-block {
+      background: var(--glass); backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--glass-border); border-radius: var(--radius);
+      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
+      overflow: hidden; flex-shrink: 0; transition: border-color var(--transition);
     }
+    .script-block:hover { border-color: var(--border); }
+    .script-block-header {
+      display: flex; align-items: center; gap: 6px; padding: 10px 12px;
+      cursor: pointer; user-select: none; -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .script-block-arrow {
+      color: var(--text2); font-size: 0.75rem; transition: transform 0.25s ease; flex-shrink: 0;
+      width: 18px; display: flex; justify-content: center;
+    }
+    .script-block.collapsed .script-block-arrow { transform: rotate(-90deg); }
+    .script-block-title {
+      font-weight: 700; font-size: 0.9rem; color: #fff;
+      font-family: var(--mono);
+      flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .script-block-title.duplicate { color: var(--danger); }
+    .script-block-title .dup-icon { font-size: 0.7rem; color: var(--danger); flex-shrink: 0; }
+    .script-block-action {
+      width: 28px; height: 28px; border-radius: 6px;
+      border: none; background: transparent; color: var(--text2);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      transition: all var(--transition); flex-shrink: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .script-block-action:hover { color: var(--accent); background: rgba(77,171,247,0.12); }
+    .script-block-action.active { color: var(--accent2); background: rgba(81,207,102,0.15); }
+    .script-block-action.active:hover { color: var(--accent2); background: rgba(81,207,102,0.22); }
+    .script-block-action.danger:hover { color: var(--danger); background: rgba(240,101,101,0.15); }
+    .script-block-body {
+      padding: 14px; display: flex; flex-direction: column; gap: 14px;
+      border-top: 1px solid var(--glass-border);
+    }
+    .script-block.collapsed .script-block-body { display: none; }
+
+    .filename-wrap { display: flex; flex-direction: column; gap: 4px; }
+    .filename-wrap input { font-family: var(--mono); font-size: 0.8rem; }
+    .filename-hint { font-size: 0.65rem; color: var(--text2); }
+
+    /* ====== НАСТРОЙКИ ====== */
+    .settings-section {
+      background: var(--glass); backdrop-filter: blur(20px) saturate(150%);
+      -webkit-backdrop-filter: blur(20px) saturate(150%);
+      border: 1px solid var(--glass-border); border-radius: var(--radius);
+      box-shadow: var(--shadow), 0 1px 0 rgba(255,255,255,0.04) inset;
+      overflow: hidden; flex-shrink: 0;
+    }
+    .settings-section-header {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 14px; border-bottom: 1px solid var(--glass-border);
+      font-weight: 700; font-size: 0.82rem; color: #fff;
+    }
+    .settings-section-header i {
+      width: 26px; height: 26px; border-radius: 7px;
+      background: rgba(77,171,247,0.15); color: var(--accent);
+      display: flex; align-items: center; justify-content: center; font-size: 0.72rem;
+    }
+    .settings-section-body {
+      padding: 4px 14px 12px;
+    }
+    .setting-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-info { flex: 1; min-width: 0; }
+    .setting-name { font-size: 0.8rem; font-weight: 600; color: #fff; }
+    .setting-desc { font-size: 0.68rem; color: var(--text2); margin-top: 2px; line-height: 1.35; }
+    .setting-code {
+      display: inline-block; font-family: var(--mono); font-size: 0.68rem;
+      background: rgba(6, 10, 15, 0.7); border: 1px solid var(--glass-border);
+      padding: 1px 6px; border-radius: 4px; color: var(--accent2);
+      margin-top: 3px;
+    }
+
+    /* Toggle switch */
+    .switch { position: relative; display: inline-block; width: 44px; height: 24px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .switch-slider {
+      position: absolute; cursor: pointer; inset: 0;
+      background: rgba(27, 36, 48, 0.9);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .switch-slider::before {
+      content: '';
+      position: absolute; height: 16px; width: 16px;
+      left: 3px; top: 3px;
+      background: var(--text2); border-radius: 50%;
+      transition: transform var(--transition), background var(--transition);
+    }
+    .switch input:checked + .switch-slider {
+      background: rgba(81, 207, 102, 0.3);
+      border-color: var(--accent2);
+    }
+    .switch input:checked + .switch-slider::before {
+      transform: translateX(20px);
+      background: var(--accent2);
+    }
+
+    .setting-subfield {
+      display: flex; align-items: center; gap: 8px;
+      padding: 0 0 12px 56px;
+    }
+    .setting-subfield label { margin-bottom: 0; flex-shrink: 0; }
+    .setting-subfield input {
+      flex: 1; height: 36px; padding: 0 10px; font-size: 0.8rem;
+      font-family: var(--mono);
+    }
+    @media (max-width: 480px) {
+      .setting-subfield { padding-left: 0; }
+    }
+
+    .select-wrap {
+      position: relative; flex-shrink: 0; min-width: 140px;
+    }
+    .select-wrap select {
+      width: 100%; height: 36px; padding: 0 30px 0 12px;
+      background: rgba(20, 27, 34, 0.7);
+      border: 1px solid var(--glass-border);
+      border-radius: var(--radius-sm); color: #fff;
+      font-size: 0.8rem; font-family: var(--mono);
+      -webkit-appearance: none; -moz-appearance: none; appearance: none;
+      cursor: pointer; outline: none;
+      transition: border var(--transition), box-shadow var(--transition);
+    }
+    .select-wrap select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(77,171,247,0.15); }
+    .select-wrap::after {
+      content: '\f078'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+      position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+      font-size: 0.6rem; color: var(--text2); pointer-events: none;
+    }
+
+    .data-buttons {
+      display: flex; flex-direction: column; gap: 8px;
+      padding-top: 6px;
+    }
+    .data-buttons .btn { justify-content: flex-start; gap: 10px; padding: 12px 14px; }
+    .data-buttons .btn i {
+      width: 26px; height: 26px; border-radius: 6px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; flex-shrink: 0;
+    }
+    .data-buttons .btn-outline i { background: rgba(77,171,247,0.15); color: var(--accent); }
+    .data-buttons .btn-danger-outline i { background: rgba(240,101,101,0.15); color: var(--danger); }
+
+    .about-info {
+      display: flex; flex-direction: column; gap: 8px;
+      padding-top: 4px; font-size: 0.78rem; color: var(--text2);
+    }
+    .about-info .row-line {
+      display: flex; justify-content: space-between; gap: 10px;
+      padding: 4px 0;
+    }
+    .about-info .row-line strong { color: var(--text); font-weight: 600; }
+    .about-info a { color: var(--accent); text-decoration: none; }
+    .about-info a:hover { text-decoration: underline; }
+
+    .library-section-title {
+      font-size: 0.7rem; font-weight: 700; color: var(--text2);
+      text-transform: uppercase; letter-spacing: 0.6px;
+      padding: 4px 2px; margin-bottom: 2px;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .library-section-title i { color: var(--accent); }
 
     /* Нижняя мобильная панель */
     .bottom-nav {
       position: fixed; bottom: var(--nav-margin); left: var(--nav-margin); right: var(--nav-margin);
       bottom: calc(var(--nav-margin) + var(--safe-bottom)); height: var(--nav-height);
-      background: rgba(20,27,34,0.72);
-      backdrop-filter: blur(24px) saturate(160%);
+      background: rgba(20,27,34,0.72); backdrop-filter: blur(24px) saturate(160%);
       -webkit-backdrop-filter: blur(24px) saturate(160%);
       border: 1px solid var(--glass-border); border-radius: 25px;
       display: flex; align-items: center; justify-content: space-around;
       padding: 0 8px; z-index: 1500;
       box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
     }
-
     .nav-item {
       display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
       flex: 1; height: 100%; cursor: pointer; position: relative; transition: all var(--transition);
@@ -774,74 +697,40 @@
     }
     .nav-item.active::before { transform: translateX(-50%) scale(1); }
     .nav-item:active { transform: scale(0.9); transition: transform 0.1s ease; }
-
     .nav-badge {
       position: absolute; top: 2px; right: calc(50% - 18px);
       background: var(--accent2); color: #000; font-size: 0.55rem; font-weight: 700;
       min-width: 16px; height: 16px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      padding: 0 5px; z-index: 2; line-height: 1;
+      display: flex; align-items: center; justify-content: center; padding: 0 5px; z-index: 2; line-height: 1;
     }
     .nav-item.active .nav-badge { background: var(--accent); color: #000; }
-
     .side-nav { display: none; }
-
     @media (min-width: 768px) {
       body { flex-direction: column; align-items: center; }
       .bottom-nav { display: none; }
-      .main-column {
-        width: 100%;
-        max-width: var(--desktop-content-width);
-        margin: 0 auto;
-        padding: 0 20px;
-        height: 100%;
-        position: relative;
-      }
+      .main-column { width: 100%; max-width: var(--desktop-content-width); margin: 0 auto; padding: 0 20px; height: 100%; position: relative; }
       .header-wrapper { padding: 20px 0 0; }
       .screens-container { flex: 1; }
       .screen { padding: 20px 0; padding-bottom: 20px; }
       .side-nav {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: flex-start;
-        width: var(--side-nav-width);
-        background: rgba(20,27,34,0.72);
-        backdrop-filter: blur(24px) saturate(160%);
-        -webkit-backdrop-filter: blur(24px) saturate(160%);
-        border: 1px solid var(--glass-border);
-        border-radius: 20px;
+        display: flex; flex-direction: column; align-items: center; justify-content: flex-start;
+        width: var(--side-nav-width); background: rgba(20,27,34,0.72);
+        backdrop-filter: blur(24px) saturate(160%); -webkit-backdrop-filter: blur(24px) saturate(160%);
+        border: 1px solid var(--glass-border); border-radius: 20px;
         box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.06) inset;
-        position: fixed;
-        left: calc((100% - var(--desktop-content-width)) / 2 - var(--side-nav-width));
-        top: 145px;
-        padding: 12px 0;
-        gap: 12px;
-        flex-shrink: 0;
-        z-index: 1500;
+        position: fixed; left: calc((100% - var(--desktop-content-width)) / 2 - var(--side-nav-width));
+        top: 145px; padding: 12px 0; gap: 12px; flex-shrink: 0; z-index: 1500;
       }
       .side-nav .nav-item {
-        flex-direction: column;
-        flex: 0 0 auto;
-        height: auto;
-        padding: 12px 6px;
-        border-radius: 12px;
-        margin: 0 4px;
-        width: calc(100% - 8px);
+        flex-direction: column; flex: 0 0 auto; height: auto; padding: 12px 6px;
+        border-radius: 12px; margin: 0 4px; width: calc(100% - 8px);
       }
       .side-nav .nav-item .nav-label { font-size: 0.6rem; }
-
       .toast { bottom: 30px; right: auto; left: 50%; transform: translateX(-50%) translateY(100px); }
       .toast.show { transform: translateX(-50%) translateY(0); }
-
-      .undo-toast {
-        bottom: 80px; right: auto; left: 50%;
-        transform: translateX(-50%) translateY(148px);
-        opacity: 0;
-      }
+      .undo-toast { bottom: 80px; right: auto; left: 50%; transform: translateX(-50%) translateY(148px); opacity: 0; }
       .undo-toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     }
-
     @media (max-width: 380px) {
       .bottom-nav { left: 8px; right: 8px; bottom: calc(8px + var(--safe-bottom)); height: 60px; border-radius: 18px; }
       .nav-item i { font-size: 1.15rem; }
@@ -857,17 +746,13 @@
 
   <nav class="side-nav" id="sideNav">
     <div class="nav-item active" data-screen="0" data-nav="generator">
-      <i class="fa-solid fa-gear"></i>
-      <span class="nav-label">Генератор</span>
+      <i class="fa-solid fa-bolt"></i><span class="nav-label">Генератор</span>
     </div>
-    <div class="nav-item" data-screen="1" data-nav="presets">
-      <i class="fa-solid fa-book"></i>
-      <span class="nav-label">Шаблоны</span>
+    <div class="nav-item" data-screen="1" data-nav="library">
+      <i class="fa-solid fa-layer-group"></i><span class="nav-label">Библиотека</span>
     </div>
-    <div class="nav-item" data-screen="2" data-nav="ready">
-      <i class="fa-solid fa-box-open"></i>
-      <span class="nav-label">Готовые</span>
-      <span class="nav-badge">4</span>
+    <div class="nav-item" data-screen="2" data-nav="settings">
+      <i class="fa-solid fa-sliders"></i><span class="nav-label">Настройки</span>
     </div>
   </nav>
 
@@ -889,78 +774,26 @@
     <div class="screens-container" id="screensContainer">
       <!-- Экран Генератор -->
       <div class="screen active" id="screen-generator" data-screen="0">
+        <div class="blocks-toolbar">
+          <button class="btn btn-primary btn-block" id="btnAddBlock">
+            <i class="fa-solid fa-circle-plus"></i> Добавить блок активации
+          </button>
+        </div>
+        <div id="blocksContainer" style="display:flex;flex-direction:column;gap:10px;"></div>
+
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="fa-solid fa-gear"></i> Создать скрипт</span>
-            <div style="display:flex; align-items:center; gap:8px;">
-              <button class="toolbar-btn icon-only active" id="btnAutoLayout" title="Авто-смена раскладки"><i class="fa-solid fa-keyboard"></i></button>
-              <span class="tag tag-blue">AHK v1.1</span>
-            </div>
-          </div>
-
-          <div class="row">
-            <div style="flex:1 1 100%;">
-              <label>Клавиша запуска</label>
-              <div class="key-row">
-                <div class="custom-select" id="genKeySelect">
-                  <button type="button" class="custom-select-trigger">
-                    <span class="cs-value">Num2</span>
-                    <i class="fa-solid fa-chevron-down cs-arrow"></i>
-                  </button>
-                </div>
-                <input type="hidden" id="genKey" value="Numpad2">
-                <div class="listen-wrap" id="listenWrap" style="display:none;">
-                  <input type="text" id="genKeyCustom" placeholder="Нажмите клавиши…">
-                  <button class="btn-icon" id="btnListenKey" title="Слушать клавиши"><i class="fa-solid fa-keyboard"></i></button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row" style="align-items:flex-end;">
-            <div style="flex:1 1 190px;">
-              <label>Клавиша чата</label>
-              <div class="segmented" id="chatKeySeg">
-                <button type="button" class="seg-btn active" data-key="F6">F6</button>
-                <button type="button" class="seg-btn" data-key="T">T</button>
-                <input type="text" id="genChatKey" placeholder="Например: F6" style="display:none;">
-                <button type="button" class="seg-btn" data-key="custom">Своя</button>
-              </div>
-            </div>
-            <div style="flex:1 1 150px;">
-              <label>Глобальная задержка (мс)</label>
-              <div class="delay-input-wrap">
-                <input type="number" id="genDelay" value="500" min="0" step="50">
-                <button type="button" class="delay-toggle" id="btnIndividualDelay" title="Раздельная задержка">
-                  <i class="fa-solid fa-clock"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; gap:8px; flex-wrap:wrap;">
-              <label style="margin-bottom:0;">Команды</label>
-              <div style="display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
-                <button class="toolbar-btn" id="btnEditCommands" title="Изменить команды">
-                  <i class="fa-solid fa-pen-to-square"></i><span class="btn-text">Изменить</span>
-                </button>
-                <button class="toolbar-btn" id="btnAddCommand" title="Добавить команду">
-                  <i class="fa-solid fa-circle-plus"></i><span class="btn-text">Добавить</span>
-                </button>
-                <button class="toolbar-btn icon-only" id="btnCollapseCommands" title="Свернуть"><i class="fa-solid fa-chevron-up"></i></button>
-              </div>
-            </div>
-            <div id="commandListContainer" class="command-list"></div>
-            <div id="commandsSummary" class="commands-summary"></div>
+            <span class="card-title"><i class="fa-solid fa-bolt"></i> Итоговый скрипт</span>
+            <span class="tag tag-blue">AHK v1.1</span>
           </div>
 
           <div class="btn-group">
-            <button class="btn btn-primary btn-block" id="btnGenerate"><i class="fa-solid fa-bolt"></i> Сгенерировать</button>
+            <button class="btn btn-primary btn-block" id="btnGenerate"><i class="fa-solid fa-bolt"></i> Сгенерировать всё</button>
           </div>
           <div class="duration-estimate" id="durationEstimate"></div>
+
           <div class="notify-area">
-            <div class="code-block" id="genOutput">Нажмите «Сгенерировать» чтобы увидеть код</div>
+            <div class="code-block" id="genOutput">Добавьте блок и нажмите «Сгенерировать»</div>
             <div class="code-fade" id="codeFade"></div>
             <div class="code-outdated-badge" id="codeOutdatedBadge">
               <i class="fa-solid fa-triangle-exclamation"></i> Устарело
@@ -970,33 +803,135 @@
               <i class="fa-solid fa-chevron-down"></i>
             </button>
           </div>
-          <div class="btn-group">
-            <button class="btn btn-success btn-sm" id="btnCopyGen"><i class="fa-regular fa-clipboard"></i> Копировать</button>
-            <button class="btn btn-outline btn-sm" id="btnDownloadGen"><i class="fa-solid fa-download"></i> Скачать .ahk</button>
-            <button class="btn btn-outline btn-sm" id="btnClearGen"><i class="fa-solid fa-eraser"></i> Очистить</button>
+
+          <div class="filename-wrap">
+            <label for="filenameInput">Имя файла</label>
+            <input type="text" id="filenameInput" placeholder="rp_script">
+            <span class="filename-hint">Расширение .ahk добавится автоматически</span>
+          </div>
+
+          <div class="btn-group-3">
+            <button class="btn btn-success btn-sm" id="btnCopyGen"><i class="fa-regular fa-clipboard"></i><span class="btn-label">Копировать</span></button>
+            <button class="btn btn-primary btn-sm" id="btnDownloadGen"><i class="fa-solid fa-download"></i><span class="btn-label">Скачать .ahk</span></button>
+            <button class="btn btn-outline btn-sm btn-danger-outline" id="btnClearGen"><i class="fa-solid fa-eraser"></i><span class="btn-label">Очистить</span></button>
           </div>
         </div>
       </div>
 
-      <!-- Экран Заготовки -->
-      <div class="screen" id="screen-presets" data-screen="1">
+      <!-- Экран Библиотека (объединяет пресеты и готовые скрипты) -->
+      <div class="screen" id="screen-library" data-screen="1">
         <div class="card">
           <div class="card-header">
-            <span class="card-title"><i class="fa-solid fa-book"></i> Быстрые заготовки</span>
-            <span class="tag tag-orange">Загрузить в генератор</span>
+            <span class="card-title"><i class="fa-solid fa-layer-group"></i> Библиотека</span>
+            <span class="tag tag-green">Готовые наборы</span>
+          </div>
+
+          <div class="library-section-title">
+            <i class="fa-solid fa-bolt-lightning"></i> Заготовки
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;" id="presetList"></div>
+
+          <div class="library-section-title" style="margin-top:8px;">
+            <i class="fa-solid fa-box-open"></i> Готовые скрипты
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;" id="readyList"></div>
         </div>
       </div>
 
-      <!-- Экран Готовые скрипты -->
-      <div class="screen" id="screen-ready" data-screen="2">
-        <div class="card">
-          <div class="card-header">
-            <span class="card-title"><i class="fa-solid fa-box-open"></i> Готовые скрипты</span>
-            <span class="tag tag-green">Копировать / Скачать</span>
+      <!-- Экран Настройки -->
+      <div class="screen" id="screen-settings" data-screen="2">
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <i class="fa-solid fa-code"></i> Генерация AHK
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;" id="readyList"></div>
+          <div class="settings-section-body">
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-name">Защита от самозапуска</div>
+                <div class="setting-desc">Префикс <span class="setting-code">$</span> в хоткее — предотвращает зацикливание, если назначенная клавиша совпадает с клавишей чата.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="optPreventSelfTrigger">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-name">Только в окне игры</div>
+                <div class="setting-desc">Оборачивает хоткеи в <span class="setting-code">#IfWinActive</span> — скрипт не сработает в других приложениях.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="optOnlyInGame">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+            <div class="setting-subfield" id="windowTitleRow" style="display:none;">
+              <label for="optWindowTitle">Окно:</label>
+              <input type="text" id="optWindowTitle" placeholder="GTA:SA:MP" value="GTA:SA:MP">
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-name">#SingleInstance, Force</div>
+                <div class="setting-desc">Запрещает запускать несколько копий скрипта одновременно.</div>
+              </div>
+              <label class="switch">
+                <input type="checkbox" id="optSingleInstance">
+                <span class="switch-slider"></span>
+              </label>
+            </div>
+
+            <div class="setting-row">
+              <div class="setting-info">
+                <div class="setting-name">SendMode</div>
+                <div class="setting-desc">Input — быстро и рекомендовано. Event — медленно, но надёжнее в некоторых играх.</div>
+              </div>
+              <div class="select-wrap">
+                <select id="optSendMode">
+                  <option value="Input">Input</option>
+                  <option value="Event">Event</option>
+                  <option value="Play">Play</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <i class="fa-solid fa-database"></i> Данные
+          </div>
+          <div class="settings-section-body">
+            <div class="data-buttons">
+              <button class="btn btn-outline btn-sm" id="btnExportJSON">
+                <i class="fa-solid fa-download"></i>
+                <span>Скачать конфиг (.json)</span>
+              </button>
+              <button class="btn btn-outline btn-sm" id="btnImportJSON">
+                <i class="fa-solid fa-upload"></i>
+                <span>Загрузить конфиг</span>
+              </button>
+              <input type="file" id="importFile" accept=".json,application/json" style="display:none;">
+              <button class="btn btn-outline btn-sm btn-danger-outline" id="btnResetStorage">
+                <i class="fa-solid fa-trash-can"></i>
+                <span>Очистить всё хранилище</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="settings-section">
+          <div class="settings-section-header">
+            <i class="fa-solid fa-circle-info"></i> О программе
+          </div>
+          <div class="settings-section-body">
+            <div class="about-info">
+              <div class="row-line"><span>Версия</span><strong>2.1</strong></div>
+              <div class="row-line"><span>AHK</span><strong>v1.1</strong></div>
+              <div class="row-line"><span>Репозиторий</span><a href="https://www.autohotkey.com/" target="_blank" rel="noopener">autohotkey.com <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:0.6rem;"></i></a></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1004,30 +939,15 @@
 
   <nav class="bottom-nav" id="bottomNav">
     <div class="nav-item active" data-screen="0" data-nav="generator">
-      <i class="fa-solid fa-gear"></i>
-      <span class="nav-label">Генератор</span>
+      <i class="fa-solid fa-bolt"></i><span class="nav-label">Генератор</span>
     </div>
-    <div class="nav-item" data-screen="1" data-nav="presets">
-      <i class="fa-solid fa-book"></i>
-      <span class="nav-label">Шаблоны</span>
+    <div class="nav-item" data-screen="1" data-nav="library">
+      <i class="fa-solid fa-layer-group"></i><span class="nav-label">Библиотека</span>
     </div>
-    <div class="nav-item" data-screen="2" data-nav="ready">
-      <i class="fa-solid fa-box-open"></i>
-      <span class="nav-label">Готовые</span>
-      <span class="nav-badge">4</span>
+    <div class="nav-item" data-screen="2" data-nav="settings">
+      <i class="fa-solid fa-sliders"></i><span class="nav-label">Настройки</span>
     </div>
   </nav>
-
-  <div class="modal-overlay hidden" id="modalClear">
-    <div class="modal-box">
-      <h3><i class="fa-solid fa-triangle-exclamation" style="color: var(--orange);"></i> Подтверждение очистки</h3>
-      <p>Вы действительно хотите удалить все команды и сбросить генератор? Это действие можно будет отменить в течение 10 секунд.</p>
-      <div class="modal-actions">
-        <button class="btn btn-outline btn-sm" id="modalCancel"><i class="fa-solid fa-circle-xmark"></i> Отмена</button>
-        <button class="btn btn-danger btn-sm" id="modalConfirm"><i class="fa-solid fa-circle-check"></i> Очистить</button>
-      </div>
-    </div>
-  </div>
 
   <div class="undo-toast" id="undoToast">
     <span><i class="fa-solid fa-circle-info"></i> Генератор очищен</span>
@@ -1045,22 +965,8 @@
       const screens = document.querySelectorAll('.screen');
       const navItems = document.querySelectorAll('.nav-item');
 
-      const genKey = document.getElementById('genKey');
-      const genKeySelect = document.getElementById('genKeySelect');
-      const genKeyTrigger = genKeySelect.querySelector('.custom-select-trigger');
-      const genKeyCustomInput = document.getElementById('genKeyCustom');
-      const listenWrap = document.getElementById('listenWrap');
-      const btnListenKey = document.getElementById('btnListenKey');
-
-      const chatSeg = document.getElementById('chatKeySeg');
-      const chatF6Btn = chatSeg.querySelector('[data-key="F6"]');
-      const chatTBtn = chatSeg.querySelector('[data-key="T"]');
-      const chatCustomBtn = chatSeg.querySelector('[data-key="custom"]');
-      const genChatKeyInput = document.getElementById('genChatKey');
-
-      const genDelay = document.getElementById('genDelay');
-      const btnIndividualDelay = document.getElementById('btnIndividualDelay');
-      const btnAutoLayout = document.getElementById('btnAutoLayout');
+      const blocksContainer = document.getElementById('blocksContainer');
+      const btnAddBlock = document.getElementById('btnAddBlock');
 
       const genOutput = document.getElementById('genOutput');
       const codeFade = document.getElementById('codeFade');
@@ -1069,41 +975,55 @@
       const copyIndicator = document.getElementById('copyIndicator');
       const durationEstimate = document.getElementById('durationEstimate');
       const toast = document.getElementById('toast');
+      const filenameInput = document.getElementById('filenameInput');
 
       const btnGenerate = document.getElementById('btnGenerate');
       const btnCopyGen = document.getElementById('btnCopyGen');
       const btnDownloadGen = document.getElementById('btnDownloadGen');
       const btnClearGen = document.getElementById('btnClearGen');
-      const btnAddCommand = document.getElementById('btnAddCommand');
-      const btnEditCommands = document.getElementById('btnEditCommands');
-      const btnCollapseCommands = document.getElementById('btnCollapseCommands');
-      const commandListContainer = document.getElementById('commandListContainer');
-      const commandsSummary = document.getElementById('commandsSummary');
 
       const presetListEl = document.getElementById('presetList');
       const readyListEl = document.getElementById('readyList');
 
-      const modalClear = document.getElementById('modalClear');
-      const modalCancel = document.getElementById('modalCancel');
-      const modalConfirm = document.getElementById('modalConfirm');
       const undoToast = document.getElementById('undoToast');
       const btnUndo = document.getElementById('btnUndo');
       const undoProgress = document.getElementById('undoProgress');
 
+      // Настройки
+      const optPreventSelfTrigger = document.getElementById('optPreventSelfTrigger');
+      const optOnlyInGame = document.getElementById('optOnlyInGame');
+      const optWindowTitle = document.getElementById('optWindowTitle');
+      const windowTitleRow = document.getElementById('windowTitleRow');
+      const optSingleInstance = document.getElementById('optSingleInstance');
+      const optSendMode = document.getElementById('optSendMode');
+      const btnExportJSON = document.getElementById('btnExportJSON');
+      const btnImportJSON = document.getElementById('btnImportJSON');
+      const importFile = document.getElementById('importFile');
+      const btnResetStorage = document.getElementById('btnResetStorage');
+
       /* ============================================================
-         Константы и состояние
+         Константы
          ============================================================ */
-      const STORAGE_KEY = 'ahk-rp-scripts-v1';
+      const STORAGE_KEY = 'ahk-rp-scripts-v2';
+
+      const DEFAULT_SETTINGS = {
+        preventSelfTrigger: false,
+        onlyInGame: false,
+        windowTitle: 'GTA:SA:MP',
+        singleInstance: true,
+        sendMode: 'Input'
+      };
+      const appSettings = { ...DEFAULT_SETTINGS };
 
       const COMMAND_OPTIONS = [
-        { value: 'me',     title: '/me',   desc: 'Действие от лица персонажа' },
-        { value: 'do',     title: '/do',   desc: 'Описание окружения / ситуации' },
+        { value: 'me',     title: '/me',   desc: 'Действие от персонажа' },
+        { value: 'do',     title: '/do',   desc: 'Описание окружения' },
         { value: 'try',    title: '/try',  desc: 'Попытка действия' },
-        { value: 'todo',   title: '/todo', desc: 'Действие от лица окружения' },
+        { value: 'todo',   title: '/todo', desc: 'Действие окружения' },
         { value: 's',      title: '/s',    desc: 'Крикнуть' },
-        { value: 'r',      title: '/r',    desc: 'Рация (департамент)' },
+        { value: 'r',      title: '/r',    desc: 'Рация' },
         { value: 'd',      title: '/d',    desc: 'Департамент' },
-        { value: 'custom', title: 'Своя',  desc: 'Своя команда (без префикса)' }
+        { value: 'custom', title: 'Своя',  desc: 'Без префикса' }
       ];
 
       const KEY_OPTIONS = [
@@ -1122,75 +1042,154 @@
         { value: 'custom', title: 'Другая...' }
       ];
 
-      let commands = [
-        { type: 'me', text: 'взял документы у человека напротив', delay: 500 },
-        { type: 'do', text: 'Документы в руках', delay: 500 },
-        { type: 'me', text: 'положил документы на стол', delay: 500 },
-        { type: 'me', text: 'достал из документов Мед. карту', delay: 500 },
-        { type: 'me', text: 'начал изучать Мед. карту', delay: 500 }
-      ];
-
-      const state = {
-        sendMessage: true,
-        individualDelay: false,
-        chatMode: 'F6'
-      };
-
+      /* ============================================================
+         Состояние
+         ============================================================ */
+      let blocks = [];
       let lastGeneratedCode = '';
       let codeOutdated = false;
-      let commandsBeforeClear = null;
+      let blocksBeforeClear = null;
       let lastGeneratedCodeBeforeClear = null;
+      let filenameBeforeClear = '';
       let undoTimeout = null;
       let currentScreen = 0;
       let isTransitioning = false;
-      let editMode = false;
-      let commandsCollapsed = false;
-      let customKeyAHK = '';
-      let customKeyLabel = '';
+      let openDropdownState = null;
+      let listeningBlockId = null;
 
       /* ============================================================
          Утилиты
          ============================================================ */
       function escapeAttr(str) {
-        return String(str)
-          .replace(/&/g, '&amp;')
-          .replace(/"/g, '&quot;')
-          .replace(/</g, '&lt;')
-          .replace(/>/g, '&gt;');
+        return String(str).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
       }
-
       function escapeHTML(str) {
         const div = document.createElement('div');
         div.textContent = str;
         return div.innerHTML;
       }
+      function uid() {
+        return 'b' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+      }
+      function pluralize(n, one, few, many) {
+        const mod10 = n % 10, mod100 = n % 100;
+        if (mod10 === 1 && mod100 !== 11) return one;
+        if (mod10 >= 2 && mod10 <= 4 && (mod100 < 10 || mod100 >= 20)) return few;
+        return many;
+      }
 
       /* ============================================================
-         Сохранение / загрузка состояния (localStorage)
+         Кастомные модалки
+         ============================================================ */
+      function showConfirm({ title = 'Подтверждение', message, confirmText = 'ОК', cancelText = 'Отмена', danger = false, onConfirm, onCancel } = {}) {
+        const overlay = document.createElement('div');
+        overlay.className = 'modal-overlay';
+        overlay.innerHTML = `
+          <div class="modal-box">
+            <h3>
+              <i class="fa-solid ${danger ? 'fa-triangle-exclamation' : 'fa-circle-info'}" style="color:${danger ? 'var(--danger)' : 'var(--accent)'};"></i>
+              ${escapeHTML(title)}
+            </h3>
+            <p>${escapeHTML(message || '')}</p>
+            <div class="modal-actions">
+              ${cancelText ? `<button class="btn btn-outline btn-sm" data-modal-action="cancel">${escapeHTML(cancelText)}</button>` : ''}
+              <button class="btn ${danger ? 'btn-danger' : 'btn-primary'} btn-sm" data-modal-action="confirm">${escapeHTML(confirmText)}</button>
+            </div>
+          </div>`;
+        document.body.appendChild(overlay);
+        const close = () => overlay.remove();
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) { close(); onCancel && onCancel(); return; }
+          const btn = e.target.closest('[data-modal-action]');
+          if (!btn) return;
+          if (btn.dataset.modalAction === 'confirm') { close(); onConfirm && onConfirm(); }
+          else { close(); onCancel && onCancel(); }
+        });
+        const onKey = (e) => {
+          if (e.key === 'Escape') { close(); document.removeEventListener('keydown', onKey); onCancel && onCancel(); }
+          if (e.key === 'Enter') { close(); document.removeEventListener('keydown', onKey); onConfirm && onConfirm(); }
+        };
+        document.addEventListener('keydown', onKey);
+      }
+
+      /* ============================================================
+         Создание блока
+         ============================================================ */
+      function createBlock(data = {}) {
+        return {
+          id: data.id || uid(),
+          key: data.key || 'Numpad2',
+          customKeyAHK: data.customKeyAHK || '',
+          customKeyLabel: data.customKeyLabel || '',
+          chatMode: data.chatMode || 'F6',
+          chatCustomValue: data.chatCustomValue || '',
+          delay: typeof data.delay === 'number' ? data.delay : 500,
+          sendMessage: data.sendMessage !== false,
+          individualDelay: !!data.individualDelay,
+          commands: Array.isArray(data.commands) && data.commands.length > 0
+            ? data.commands.map(c => ({
+                type: typeof c.type === 'string' ? c.type : 'me',
+                text: typeof c.text === 'string' ? c.text : '',
+                delay: typeof c.delay === 'number' ? c.delay : 500
+              }))
+            : [{ type: 'me', text: '', delay: 500 }],
+          collapsed: !!data.collapsed,
+          commandsCollapsed: !!data.commandsCollapsed,
+          editMode: false
+        };
+      }
+
+      function getKeyValue(block) {
+        return block.key === 'custom' ? (block.customKeyAHK || '') : block.key;
+      }
+      function getKeyLabel(block) {
+        if (block.key === 'custom') return block.customKeyLabel || 'Своя';
+        const opt = KEY_OPTIONS.find(o => o.value === block.key);
+        return opt ? opt.title : block.key;
+      }
+      function getChatValue(block) {
+        if (block.chatMode === 'custom') return (block.chatCustomValue || '').trim() || 'F6';
+        return block.chatMode;
+      }
+      function findBlockById(id) {
+        return blocks.find(b => b.id === id);
+      }
+      function isKeyUsed(blockId, keyValue) {
+        if (!keyValue) return false;
+        return blocks.some(b => b.id !== blockId && getKeyValue(b) === keyValue);
+      }
+      function findFreeKey() {
+        for (const opt of KEY_OPTIONS) {
+          if (opt.value === 'custom') continue;
+          if (!blocks.some(b => getKeyValue(b) === opt.value)) return opt.value;
+        }
+        return null;
+      }
+
+      /* ============================================================
+         Сохранение / загрузка (включая настройки)
          ============================================================ */
       let saveTimer;
       function scheduleSave() {
         clearTimeout(saveTimer);
         saveTimer = setTimeout(saveState, 250);
       }
-
       function saveState() {
         try {
           const data = {
-            commands: commands.map(c => ({ type: c.type, text: c.text, delay: c.delay })),
-            sendMessage: state.sendMessage,
-            individualDelay: state.individualDelay,
-            genKeyValue: genKey.value,
-            customKeyAHK: customKeyAHK,
-            customKeyLabel: customKeyLabel,
-            chatMode: state.chatMode,
-            chatCustomValue: genChatKeyInput.value,
-            genDelay: genDelay.value
+            blocks: blocks.map(b => ({
+              id: b.id, key: b.key, customKeyAHK: b.customKeyAHK, customKeyLabel: b.customKeyLabel,
+              chatMode: b.chatMode, chatCustomValue: b.chatCustomValue,
+              delay: b.delay, sendMessage: b.sendMessage, individualDelay: b.individualDelay,
+              commands: b.commands.map(c => ({ type: c.type, text: c.text, delay: c.delay })),
+              collapsed: b.collapsed, commandsCollapsed: b.commandsCollapsed
+            })),
+            filename: filenameInput.value,
+            settings: { ...appSettings }
           };
           localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
         } catch (e) { /* ignore */ }
       }
-
       function loadSavedState() {
         try {
           const raw = localStorage.getItem(STORAGE_KEY);
@@ -1200,17 +1199,14 @@
       }
 
       /* ============================================================
-         Кастомный выпадающий список / сетка клавиш
+         Выпадающие списки
          ============================================================ */
-      let openDropdownState = null;
-
       function closeDropdown() {
         if (!openDropdownState) return;
         openDropdownState.menu.remove();
         openDropdownState.trigger.classList.remove('open');
         openDropdownState = null;
       }
-
       function positionPopover(menu, trigger, minWidth) {
         const rect = trigger.getBoundingClientRect();
         let menuWidth = Math.max(rect.width, minWidth || 200);
@@ -1221,23 +1217,17 @@
         menu.style.left = left + 'px';
         menu.style.width = menuWidth + 'px';
         menu.style.zIndex = '5000';
-
         const mh = menu.getBoundingClientRect().height;
         let top = rect.bottom + 6;
         if (top + mh > window.innerHeight - 8) top = rect.top - mh - 6;
         if (top < 8) top = 8;
         menu.style.top = top + 'px';
       }
-
-      function openDropdown(trigger, options, currentValue, onSelect) {
-        if (openDropdownState && openDropdownState.trigger === trigger) {
-          closeDropdown();
-          return;
-        }
+      function openDropdown(trigger, options, currentValue, onSelect, extraClass) {
+        if (openDropdownState && openDropdownState.trigger === trigger) { closeDropdown(); return; }
         closeDropdown();
-
         const menu = document.createElement('div');
-        menu.className = 'custom-select-menu';
+        menu.className = 'custom-select-menu' + (extraClass ? ' ' + extraClass : '');
         menu.innerHTML = options.map(opt => `
           <div class="cs-option ${opt.value === currentValue ? 'selected' : ''}" data-value="${opt.value}">
             <span class="cs-opt-title">${escapeHTML(opt.title)}</span>
@@ -1245,7 +1235,6 @@
           </div>`).join('');
         document.body.appendChild(menu);
         positionPopover(menu, trigger);
-
         menu.addEventListener('click', (e) => {
           const opt = e.target.closest('.cs-option');
           if (!opt) return;
@@ -1253,46 +1242,39 @@
           closeDropdown();
           onSelect(opt.dataset.value);
         });
-
         trigger.classList.add('open');
         openDropdownState = { trigger, menu };
       }
-
-      function openKeyGrid(trigger, options, currentValue, onSelect) {
-        if (openDropdownState && openDropdownState.trigger === trigger) {
-          closeDropdown();
-          return;
-        }
+      function openKeyGrid(trigger, options, currentValue, usedValues, onSelect) {
+        if (openDropdownState && openDropdownState.trigger === trigger) { closeDropdown(); return; }
         closeDropdown();
-
         const menu = document.createElement('div');
         menu.className = 'custom-select-menu key-grid-menu';
-        menu.innerHTML = options.map(opt => `
-          <button type="button" class="key-tile ${opt.value === currentValue ? 'selected' : ''}" data-value="${opt.value}">
+        menu.innerHTML = options.map(opt => {
+          const isUsed = usedValues.includes(opt.value) && opt.value !== currentValue && opt.value !== 'custom';
+          return `<button type="button" class="key-tile ${isUsed ? 'disabled' : ''} ${opt.value === currentValue ? 'selected' : ''}"
+                    data-value="${opt.value}" ${isUsed ? 'disabled title="Уже используется другим блоком"' : ''}>
             ${escapeHTML(opt.title)}
-          </button>`).join('');
+          </button>`;
+        }).join('');
         document.body.appendChild(menu);
         positionPopover(menu, trigger, 260);
-
         menu.addEventListener('click', (e) => {
           const tile = e.target.closest('.key-tile');
-          if (!tile) return;
+          if (!tile || tile.classList.contains('disabled')) return;
           e.stopPropagation();
           closeDropdown();
           onSelect(tile.dataset.value);
         });
-
         trigger.classList.add('open');
         openDropdownState = { trigger, menu };
       }
-
       document.addEventListener('click', (e) => {
         if (!openDropdownState) return;
         if (e.target.closest('.custom-select-menu')) return;
         if (e.target.closest('.custom-select-trigger')) return;
         closeDropdown();
       });
-
       screens.forEach(s => s.addEventListener('scroll', closeDropdown, { passive: true }));
       window.addEventListener('resize', closeDropdown);
 
@@ -1303,66 +1285,42 @@
         if ((from === 0 && to === 1) || (from === 1 && to === 2) || (from === 0 && to === 2)) return 'left';
         return 'right';
       }
-
       function navigateTo(screenIndex) {
         if (isTransitioning || screenIndex === currentScreen) return;
         isTransitioning = true;
-
         const oldScreen = screens[currentScreen];
         const newScreen = screens[screenIndex];
         const direction = getDirection(currentScreen, screenIndex);
-
         oldScreen.style.transition = 'none';
         newScreen.style.transition = 'none';
-
         if (direction === 'left') {
-          oldScreen.style.transform = 'translateX(0)';
-          oldScreen.style.opacity = '1';
-          newScreen.style.transform = 'translateX(30px)';
-          newScreen.style.opacity = '0';
+          oldScreen.style.transform = 'translateX(0)'; oldScreen.style.opacity = '1';
+          newScreen.style.transform = 'translateX(30px)'; newScreen.style.opacity = '0';
         } else {
-          oldScreen.style.transform = 'translateX(0)';
-          oldScreen.style.opacity = '1';
-          newScreen.style.transform = 'translateX(-30px)';
-          newScreen.style.opacity = '0';
+          oldScreen.style.transform = 'translateX(0)'; oldScreen.style.opacity = '1';
+          newScreen.style.transform = 'translateX(-30px)'; newScreen.style.opacity = '0';
         }
-
         newScreen.offsetHeight;
-
         oldScreen.style.transition = 'opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         newScreen.style.transition = 'opacity 0.3s ease, transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
-
         if (direction === 'left') {
-          oldScreen.style.transform = 'translateX(-30px)';
-          oldScreen.style.opacity = '0';
-          newScreen.style.transform = 'translateX(0)';
-          newScreen.style.opacity = '1';
+          oldScreen.style.transform = 'translateX(-30px)'; oldScreen.style.opacity = '0';
+          newScreen.style.transform = 'translateX(0)'; newScreen.style.opacity = '1';
         } else {
-          oldScreen.style.transform = 'translateX(30px)';
-          oldScreen.style.opacity = '0';
-          newScreen.style.transform = 'translateX(0)';
-          newScreen.style.opacity = '1';
+          oldScreen.style.transform = 'translateX(30px)'; oldScreen.style.opacity = '0';
+          newScreen.style.transform = 'translateX(0)'; newScreen.style.opacity = '1';
         }
-
         document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
         document.querySelectorAll(`.nav-item[data-screen="${screenIndex}"]`).forEach(item => item.classList.add('active'));
-
         setTimeout(() => {
-          oldScreen.style.transition = '';
-          oldScreen.style.transform = '';
-          oldScreen.style.opacity = '';
-          newScreen.style.transition = '';
-          newScreen.style.transform = '';
-          newScreen.style.opacity = '';
-
+          oldScreen.style.transition = ''; oldScreen.style.transform = ''; oldScreen.style.opacity = '';
+          newScreen.style.transition = ''; newScreen.style.transform = ''; newScreen.style.opacity = '';
           oldScreen.classList.remove('active');
           newScreen.classList.add('active');
-
           currentScreen = screenIndex;
           isTransitioning = false;
         }, 300);
       }
-
       navItems.forEach(item => {
         item.addEventListener('click', () => {
           const targetScreen = parseInt(item.dataset.screen);
@@ -1371,45 +1329,36 @@
       });
 
       /* ============================================================
-         Генерация карт клавиш из event.code
+         Клавиши
          ============================================================ */
       const SPECIAL_AHK = {
-        NumpadAdd: 'NumpadAdd', NumpadSubtract: 'NumpadSub',
-        NumpadMultiply: 'NumpadMult', NumpadDivide: 'NumpadDiv',
-        NumpadDecimal: 'NumpadDot', NumpadEnter: 'NumpadEnter',
+        NumpadAdd: 'NumpadAdd', NumpadSubtract: 'NumpadSub', NumpadMultiply: 'NumpadMult',
+        NumpadDivide: 'NumpadDiv', NumpadDecimal: 'NumpadDot', NumpadEnter: 'NumpadEnter',
         ArrowUp: 'Up', ArrowDown: 'Down', ArrowLeft: 'Left', ArrowRight: 'Right',
         Space: 'Space', Enter: 'Enter', Tab: 'Tab', Backspace: 'Backspace',
         CapsLock: 'CapsLock', Home: 'Home', End: 'End', Insert: 'Insert',
         Delete: 'Delete', PageUp: 'PgUp', PageDown: 'PgDn',
         Minus: '-', Equal: '=', BracketLeft: '[', BracketRight: ']',
-        Backslash: '\\', Semicolon: ';', Quote: "'",
-        Comma: ',', Period: '.', Slash: '/', Backquote: '`'
+        Backslash: '\\', Semicolon: ';', Quote: "'", Comma: ',', Period: '.',
+        Slash: '/', Backquote: '`'
       };
-
       const SPECIAL_LABEL = {
-        NumpadAdd: 'Num+', NumpadSubtract: 'Num-',
-        NumpadMultiply: 'Num*', NumpadDivide: 'Num/',
-        NumpadDecimal: 'Num.', NumpadEnter: 'NumEnter',
+        NumpadAdd: 'Num+', NumpadSubtract: 'Num-', NumpadMultiply: 'Num*',
+        NumpadDivide: 'Num/', NumpadDecimal: 'Num.', NumpadEnter: 'NumEnter',
         ArrowUp: '↑', ArrowDown: '↓', ArrowLeft: '←', ArrowRight: '→',
         Space: 'Space', Enter: 'Enter', Tab: 'Tab', Backspace: 'Backspace',
         CapsLock: 'CapsLock', Home: 'Home', End: 'End', Insert: 'Insert',
         Delete: 'Delete', PageUp: 'PgUp', PageDown: 'PgDn',
         Minus: '-', Equal: '=', BracketLeft: '[', BracketRight: ']',
-        Backslash: '\\', Semicolon: ';', Quote: "'",
-        Comma: ',', Period: '.', Slash: '/', Backquote: '`'
+        Backslash: '\\', Semicolon: ';', Quote: "'", Comma: ',', Period: '.',
+        Slash: '/', Backquote: '`'
       };
-
       const MODIFIER_MAP = {
-        ControlLeft:  { ahk: '^', label: 'Ctrl' },
-        ControlRight: { ahk: '^', label: 'Ctrl' },
-        AltLeft:      { ahk: '!', label: 'Alt' },
-        AltRight:     { ahk: '!', label: 'Alt' },
-        ShiftLeft:    { ahk: '+', label: 'Shift' },
-        ShiftRight:   { ahk: '+', label: 'Shift' },
-        MetaLeft:     { ahk: '#', label: 'Win' },
-        MetaRight:    { ahk: '#', label: 'Win' }
+        ControlLeft:  { ahk: '^', label: 'Ctrl' }, ControlRight: { ahk: '^', label: 'Ctrl' },
+        AltLeft:      { ahk: '!', label: 'Alt' },  AltRight:     { ahk: '!', label: 'Alt' },
+        ShiftLeft:    { ahk: '+', label: 'Shift' }, ShiftRight:   { ahk: '+', label: 'Shift' },
+        MetaLeft:     { ahk: '#', label: 'Win' },  MetaRight:    { ahk: '#', label: 'Win' }
       };
-
       function codeToAhk(code) {
         let m;
         if ((m = /^Key([A-Z])$/.exec(code))) return m[1];
@@ -1418,7 +1367,6 @@
         if ((m = /^Numpad([0-9])$/.exec(code))) return 'Numpad' + m[1];
         return SPECIAL_AHK[code] || null;
       }
-
       function codeToLabel(code) {
         let m;
         if ((m = /^Key([A-Z])$/.exec(code))) return m[1];
@@ -1427,24 +1375,12 @@
         if ((m = /^Numpad([0-9])$/.exec(code))) return 'Num' + m[1];
         return SPECIAL_LABEL[code] || code;
       }
-
-      /* ---- Карта для ручного парсинга строки типа "Ctrl+Alt+D" ---- */
       const PARSE_KEY_MAP = (function() {
         const map = {};
-        for (let i = 65; i <= 90; i++) {
-          const ch = String.fromCharCode(i);
-          map[ch.toLowerCase()] = [ch, ch];
-        }
-        for (let i = 0; i <= 9; i++) {
-          map[String(i)] = [String(i), String(i)];
-        }
-        for (let i = 1; i <= 12; i++) {
-          map['f' + i] = ['F' + i, 'F' + i];
-        }
-        for (let i = 0; i <= 9; i++) {
-          map['num' + i] = ['Numpad' + i, 'Num' + i];
-          map['numpad' + i] = ['Numpad' + i, 'Num' + i];
-        }
+        for (let i = 65; i <= 90; i++) { const ch = String.fromCharCode(i); map[ch.toLowerCase()] = [ch, ch]; }
+        for (let i = 0; i <= 9; i++) map[String(i)] = [String(i), String(i)];
+        for (let i = 1; i <= 12; i++) map['f' + i] = ['F' + i, 'F' + i];
+        for (let i = 0; i <= 9; i++) { map['num' + i] = ['Numpad' + i, 'Num' + i]; map['numpad' + i] = ['Numpad' + i, 'Num' + i]; }
         Object.assign(map, {
           'num+': ['NumpadAdd', 'Num+'], 'numpadadd': ['NumpadAdd', 'Num+'],
           'num-': ['NumpadSub', 'Num-'], 'numpadsub': ['NumpadSub', 'Num-'],
@@ -1456,103 +1392,274 @@
           'down': ['Down', '↓'], 'arrowdown': ['Down', '↓'],
           'left': ['Left', '←'], 'arrowleft': ['Left', '←'],
           'right': ['Right', '→'], 'arrowright': ['Right', '→'],
-          'space': ['Space', 'Space'],
-          'enter': ['Enter', 'Enter'],
-          'tab': ['Tab', 'Tab'],
-          'backspace': ['Backspace', 'Backspace'],
-          'capslock': ['CapsLock', 'CapsLock'],
-          'home': ['Home', 'Home'],
-          'end': ['End', 'End'],
-          'insert': ['Insert', 'Insert'],
-          'delete': ['Delete', 'Delete'],
+          'space': ['Space', 'Space'], 'enter': ['Enter', 'Enter'], 'tab': ['Tab', 'Tab'],
+          'backspace': ['Backspace', 'Backspace'], 'capslock': ['CapsLock', 'CapsLock'],
+          'home': ['Home', 'Home'], 'end': ['End', 'End'],
+          'insert': ['Insert', 'Insert'], 'delete': ['Delete', 'Delete'],
           'pgup': ['PgUp', 'PgUp'], 'pageup': ['PgUp', 'PgUp'],
           'pgdn': ['PgDn', 'PgDn'], 'pagedown': ['PgDn', 'PgDn'],
-          '-': ['-', '-'], '=': ['=', '='],
-          '[': ['[', '['], ']': [']', ']'],
-          '\\': ['\\', '\\'],
-          ';': [';', ';'], "'": ["'", "'"],
-          ',': [',', ','], '.': ['.', '.'],
-          '/': ['/', '/'], '`': ['`', '`']
+          '-': ['-', '-'], '=': ['=', '='], '[': ['[', '['], ']': [']', ']'],
+          '\\': ['\\', '\\'], ';': [';', ';'], "'": ["'", "'"],
+          ',': [',', ','], '.': ['.', '.'], '/': ['/', '/'], '`': ['`', '`']
         });
         return map;
       })();
 
-      /* ============================================================
-         Клавиша запуска — сетка + слушание + ручной ввод
-         ============================================================ */
-      function setGenKey(value, focusCustom) {
-        const opt = KEY_OPTIONS.find(o => o.value === value) || { value, title: value };
-        genKey.value = value;
-        genKeySelect.querySelector('.cs-value').textContent = opt.title;
-
-        const isCustom = value === 'custom';
-        listenWrap.style.display = isCustom ? 'flex' : 'none';
-        genKeySelect.style.flex = isCustom ? '0 1 auto' : '1 1 auto';
-
-        if (isCustom) {
-          genKeyCustomInput.readOnly = false;
-          if (focusCustom) setTimeout(() => genKeyCustomInput.focus(), 40);
-        } else {
-          stopListening(false);
-          genKeyCustomInput.value = customKeyLabel || '';
-        }
-        updateKeyValidation();
-        scheduleSave();
-      }
-
-      genKeyTrigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        openKeyGrid(genKeyTrigger, KEY_OPTIONS, genKey.value, (val) => {
-          setGenKey(val, true);
+      function parseCombo(str) {
+        const parts = str.split('+').map(s => s.trim()).filter(Boolean);
+        if (parts.length === 0) return { ahk: '', label: '', valid: false };
+        const modMap = { ctrl:'^', control:'^', alt:'!', shift:'+', win:'#', windows:'#' };
+        const mods = [];
+        let mainAhk = '', mainLabel = '', valid = true;
+        parts.forEach(p => {
+          const low = p.toLowerCase();
+          if (modMap[low]) mods.push(modMap[low]);
+          else {
+            const found = PARSE_KEY_MAP[low];
+            if (found) { mainAhk = found[0]; mainLabel = found[1]; }
+            else valid = false;
+          }
         });
-      });
-
-      function getSelectedKey() {
-        if (genKey.value === 'custom') return customKeyAHK || '';
-        return genKey.value;
+        if (!mainAhk) valid = false;
+        const order = ['^','!','+','#'];
+        mods.sort((a,b) => order.indexOf(a) - order.indexOf(b));
+        const ahk = mods.join('') + mainAhk;
+        const labels = [];
+        if (mods.includes('^')) labels.push('Ctrl');
+        if (mods.includes('!')) labels.push('Alt');
+        if (mods.includes('+')) labels.push('Shift');
+        if (mods.includes('#')) labels.push('Win');
+        if (mainLabel) labels.push(mainLabel);
+        return { ahk, label: labels.join('+'), valid };
       }
 
-      function updateKeyValidation() {
-        const isCustom = genKey.value === 'custom';
-        if (!isCustom) {
-          listenWrap.classList.remove('invalid');
-          return true;
+      /* ============================================================
+         Рендер блока
+         ============================================================ */
+      function renderCommandItem(cmd, idx, block) {
+        const typeOpt = COMMAND_OPTIONS.find(o => o.value === cmd.type) || COMMAND_OPTIONS[0];
+        const locked = block.editMode;
+        return `
+          <div class="command-block" data-block-index="${idx}">
+            <div class="command-item" data-index="${idx}">
+              <span class="drag-handle" title="Перетащить"><i class="fa-solid fa-grip-vertical"></i></span>
+              <div class="custom-select" data-action="cmd-select" data-index="${idx}">
+                <button type="button" class="custom-select-trigger ${locked ? 'locked' : ''}">
+                  <span class="cs-value">${escapeHTML(typeOpt.title)}</span>
+                  <i class="fa-solid fa-chevron-down cs-arrow"></i>
+                </button>
+              </div>
+              <input type="text" class="cmd-text" value="${escapeAttr(cmd.text)}" placeholder="Текст команды" data-index="${idx}" ${locked ? 'disabled' : ''}>
+              <button class="btn-icon cmd-delete" data-index="${idx}" title="Удалить"><i class="fa-solid fa-trash-can"></i></button>
+            </div>
+            ${block.individualDelay && idx < block.commands.length - 1 ? `
+              <div class="delay-row">
+                <i class="fa-regular fa-clock"></i>
+                <span>Задержка</span>
+                <input type="number" class="delay-input" value="${cmd.delay ?? 500}" step="50" min="0" data-index="${idx}" ${locked ? 'disabled' : ''}>
+                <span class="ms-label">мс</span>
+              </div>` : ''}
+          </div>`;
+      }
+
+      function renderCommandsSummary(block) {
+        if (block.commands.length === 0) {
+          return `<div class="commands-summary" data-action="toggle-commands-collapse">
+            <div class="commands-summary-icon"><i class="fa-solid fa-list"></i></div>
+            <div class="commands-summary-info">
+              <div class="commands-summary-title">Нет команд</div>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>`;
         }
-        const empty = !customKeyAHK && !listening;
-        listenWrap.classList.toggle('invalid', empty);
-        return !empty;
+        const preview = block.commands.slice(0, 2).map(c => {
+          const opt = COMMAND_OPTIONS.find(o => o.value === c.type);
+          const prefix = opt ? opt.title : '/' + c.type;
+          const text = (c.text || '').length > 22 ? (c.text || '').slice(0, 22) + '…' : (c.text || '');
+          return `${prefix} ${text}`;
+        }).join(' · ');
+        return `<div class="commands-summary" data-action="toggle-commands-collapse">
+          <div class="commands-summary-icon"><i class="fa-solid fa-list"></i></div>
+          <div class="commands-summary-info">
+            <div class="commands-summary-title">${block.commands.length} ${pluralize(block.commands.length, 'команда', 'команды', 'команд')}</div>
+            <div class="commands-summary-preview">${escapeHTML(preview)}${block.commands.length > 2 ? ' …' : ''}</div>
+          </div>
+          <i class="fa-solid fa-chevron-down"></i>
+        </div>`;
       }
 
-      /* ---- Слушание клавиш ---- */
-      let listening = false;
-      const pressedCodes = new Set();
-      const liveMods = new Map();
+      function renderBlock(block, index) {
+        const keyLabel = getKeyLabel(block);
+        const dup = block.key !== 'custom'
+          ? isKeyUsed(block.id, block.key)
+          : (block.customKeyAHK && isKeyUsed(block.id, block.customKeyAHK));
+        const isCustomKey = block.key === 'custom';
+        const commandsHtml = block.commands.map((cmd, idx) => renderCommandItem(cmd, idx, block)).join('');
+        const collapseIcon = block.commandsCollapsed ? 'fa-chevron-down' : 'fa-chevron-up';
+
+        return `
+          <div class="script-block ${block.collapsed ? 'collapsed' : ''}" data-block-id="${block.id}">
+            <div class="script-block-header" data-action="toggle-collapse">
+              <i class="fa-solid fa-chevron-down script-block-arrow"></i>
+              <span class="script-block-title ${dup ? 'duplicate' : ''}" title="${escapeAttr(keyLabel)}">
+                ${escapeHTML(keyLabel)}
+                ${dup ? '<i class="fa-solid fa-triangle-exclamation dup-icon"></i>' : ''}
+              </span>
+              <button class="script-block-action ${block.sendMessage ? 'active' : ''}" data-action="toggle-autolayout" title="Авто-переключение раскладки">
+                <i class="fa-solid fa-keyboard"></i>
+              </button>
+              <button class="script-block-action danger" data-action="delete-block" title="Удалить блок">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+            <div class="script-block-body">
+              <div>
+                <label>Клавиша запуска</label>
+                <div class="key-row">
+                  <div class="custom-select" data-action="block-key-select">
+                    <button type="button" class="custom-select-trigger">
+                      <span class="cs-value">${escapeHTML(keyLabel)}</span>
+                      <i class="fa-solid fa-chevron-down cs-arrow"></i>
+                    </button>
+                  </div>
+                  <div class="listen-wrap" id="listenWrap_${block.id}" style="display:${isCustomKey ? 'flex' : 'none'};">
+                    <input type="text" id="keyCustom_${block.id}" placeholder="Нажмите клавиши…" value="${escapeAttr(block.customKeyLabel || '')}">
+                    <button class="btn-icon" data-action="listen-key" title="Слушать клавиши"><i class="fa-solid fa-keyboard"></i></button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row" style="align-items:flex-end;">
+                <div style="flex:1 1 190px;">
+                  <label>Клавиша чата</label>
+                  <div class="segmented" data-action="chat-seg">
+                    <button type="button" class="seg-btn ${block.chatMode === 'F6' ? 'active' : ''}" data-chat="F6">F6</button>
+                    <button type="button" class="seg-btn ${block.chatMode === 'T' ? 'active' : ''}" data-chat="T">T</button>
+                    <input type="text" id="chatCustom_${block.id}" placeholder="Например: F6" value="${escapeAttr(block.chatCustomValue || '')}" style="display:${block.chatMode === 'custom' ? 'block' : 'none'};">
+                    <button type="button" class="seg-btn ${block.chatMode === 'custom' ? 'active' : ''}" data-chat="custom">Своя</button>
+                  </div>
+                </div>
+                <div style="flex:1 1 150px;">
+                  <label>Глобальная задержка (мс)</label>
+                  <div class="delay-input-wrap">
+                    <input type="number" id="blockDelay_${block.id}" value="${block.delay}" min="0" step="50" ${block.individualDelay ? 'disabled' : ''}>
+                    <button type="button" class="delay-toggle ${block.individualDelay ? 'active' : ''}" data-action="toggle-individual-delay" title="Раздельная задержка">
+                      <i class="fa-solid fa-clock"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <div class="commands-header">
+                  <label style="margin-bottom:0;">Команды</label>
+                  <div class="commands-toolbar">
+                    <button class="toolbar-btn ${block.editMode ? 'active' : ''}" data-action="toggle-edit" title="${block.editMode ? 'Готово' : 'Изменить'}">
+                      <i class="fa-solid ${block.editMode ? 'fa-check' : 'fa-pen-to-square'}"></i><span class="btn-text">${block.editMode ? 'Готово' : 'Изменить'}</span>
+                    </button>
+                    <button class="toolbar-btn" data-action="add-command" title="Добавить команду">
+                      <i class="fa-solid fa-circle-plus"></i><span class="btn-text">Добавить</span>
+                    </button>
+                    <button class="toolbar-btn icon-only" data-action="toggle-commands-collapse" title="${block.commandsCollapsed ? 'Развернуть' : 'Свернуть'}">
+                      <i class="fa-solid ${collapseIcon}"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="command-list ${block.editMode ? 'edit-mode' : ''}" data-block-id="${block.id}" style="display:${block.commandsCollapsed ? 'none' : 'flex'};">
+                  ${commandsHtml}
+                </div>
+                <div style="display:${block.commandsCollapsed ? 'block' : 'none'};">
+                  ${renderCommandsSummary(block)}
+                </div>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      function renderBlocks() {
+        blocksContainer.innerHTML = blocks.map((b, i) => renderBlock(b, i)).join('');
+      }
+
+      function rerenderBlock(block) {
+        const el = blocksContainer.querySelector(`[data-block-id="${block.id}"]`);
+        if (!el) return;
+        const idx = blocks.indexOf(block);
+        if (idx < 0) return;
+        const temp = document.createElement('div');
+        temp.innerHTML = renderBlock(block, idx);
+        const newEl = temp.firstElementChild;
+        el.replaceWith(newEl);
+      }
+
+      function rerenderAllBlockHeaders() {
+        blocks.forEach(b => {
+          const el = blocksContainer.querySelector(`[data-block-id="${b.id}"] .script-block-title`);
+          if (el) {
+            const label = getKeyLabel(b);
+            const dup = b.key !== 'custom'
+              ? isKeyUsed(b.id, b.key)
+              : (b.customKeyAHK && isKeyUsed(b.id, b.customKeyAHK));
+            el.classList.toggle('duplicate', !!dup);
+            el.title = label;
+            el.innerHTML = escapeHTML(label) + (dup ? ' <i class="fa-solid fa-triangle-exclamation dup-icon"></i>' : '');
+          }
+        });
+      }
+
+      function markOutdated() {
+        if (!lastGeneratedCode) return;
+        codeOutdated = true;
+        codeOutdatedBadge.classList.add('visible');
+      }
+      function clearOutdated() {
+        codeOutdated = false;
+        codeOutdatedBadge.classList.remove('visible');
+      }
+
+      function updateDurationEstimate() {
+        if (blocks.length === 0) { durationEstimate.textContent = ''; return; }
+        let total = 0, totalCmds = 0;
+        for (const block of blocks) {
+          totalCmds += block.commands.length;
+          if (block.individualDelay) {
+            for (let i = 0; i < block.commands.length - 1; i++) {
+              total += block.commands[i].delay ?? block.delay;
+            }
+          } else {
+            total += Math.max(0, block.commands.length - 1) * block.delay;
+          }
+        }
+        const sec = (total / 1000).toFixed(1);
+        durationEstimate.textContent = `≈ ${sec} сек · ${totalCmds} ${pluralize(totalCmds, 'команда', 'команды', 'команд')} · ${blocks.length} ${pluralize(blocks.length, 'блок', 'блока', 'блоков')}`;
+      }
+
+      /* ============================================================
+         Слушание клавиш
+         ============================================================ */
+      let pressedCodes = new Set();
+      let liveMods = new Map();
       let liveMain = null;
       let comboMods = new Map();
       let comboMain = null;
       let listenAutoCancel = null;
 
       function updateListenDisplay() {
+        const block = findBlockById(listeningBlockId);
+        if (!block) return;
+        const input = document.getElementById('keyCustom_' + block.id);
+        if (!input) return;
         const order = ['^', '!', '+', '#'];
         const parts = order.filter(m => liveMods.has(m)).map(m => liveMods.get(m));
         if (liveMain) parts.push(liveMain[1]);
-        genKeyCustomInput.value = parts.length ? parts.join('+') : 'Нажмите клавиши…';
+        input.value = parts.length ? parts.join('+') : 'Нажмите клавиши…';
       }
-
       function onListenKeyDown(e) {
-        if (!listening) return;
-        if (e.code === 'Escape' || e.key === 'Escape') {
-          e.preventDefault();
-          e.stopPropagation();
-          return;
-        }
-        e.preventDefault();
-        e.stopPropagation();
+        if (!listeningBlockId) return;
+        if (e.code === 'Escape' || e.key === 'Escape') { e.preventDefault(); e.stopPropagation(); return; }
+        e.preventDefault(); e.stopPropagation();
         if (e.repeat) return;
-
         pressedCodes.add(e.code);
         clearTimeout(listenAutoCancel);
-
         if (MODIFIER_MAP[e.code]) {
           liveMods.set(MODIFIER_MAP[e.code].ahk, MODIFIER_MAP[e.code].label);
         } else {
@@ -1566,63 +1673,40 @@
         }
         updateListenDisplay();
       }
-
       function onListenKeyUp(e) {
-        if (!listening) return;
-        e.preventDefault();
-        e.stopPropagation();
+        if (!listeningBlockId) return;
+        e.preventDefault(); e.stopPropagation();
         pressedCodes.delete(e.code);
-
-        if (MODIFIER_MAP[e.code]) {
-          liveMods.delete(MODIFIER_MAP[e.code].ahk);
-        }
-
+        if (MODIFIER_MAP[e.code]) liveMods.delete(MODIFIER_MAP[e.code].ahk);
         if (pressedCodes.size === 0) {
           if (comboMain) stopListening(true);
           else stopListening(false);
         }
       }
-
       function onListenMouse(e) {
-        if (!listening) return;
-        // Позволяем клик по кнопке-слушателю и по самому input — чтобы можно было отменить
+        if (!listeningBlockId) return;
         if (e.target && e.target.closest && e.target.closest('.listen-wrap')) return;
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
       }
-
       function onListenContext(e) {
-        if (!listening) return;
+        if (!listeningBlockId) return;
         if (e.target && e.target.closest && e.target.closest('.listen-wrap')) return;
-        e.preventDefault();
-        e.stopPropagation();
+        e.preventDefault(); e.stopPropagation();
       }
-
       function onListenWheel(e) {
-        if (!listening) return;
-        e.preventDefault();
-        e.stopPropagation();
+        if (!listeningBlockId) return;
+        e.preventDefault(); e.stopPropagation();
       }
-
-      function startListening() {
-        if (listening) {
-          stopListening(false);
-          return;
-        }
-        if (genKey.value !== 'custom') return;
-
-        listening = true;
-        pressedCodes.clear();
-        liveMods.clear();
-        liveMain = null;
-        comboMods.clear();
-        comboMain = null;
-
-        listenWrap.classList.add('listening');
-        genKeyCustomInput.readOnly = true;
-        genKeyCustomInput.value = 'Нажмите клавиши…';
-        btnListenKey.innerHTML = '<i class="fa-solid fa-xmark"></i>';
-
+      function startListening(block) {
+        if (listeningBlockId === block.id) { stopListening(false); return; }
+        if (listeningBlockId) stopListening(false);
+        listeningBlockId = block.id;
+        pressedCodes.clear(); liveMods.clear(); liveMain = null;
+        comboMods.clear(); comboMain = null;
+        const wrap = document.getElementById('listenWrap_' + block.id);
+        const input = document.getElementById('keyCustom_' + block.id);
+        if (wrap) { wrap.classList.add('listening'); wrap.classList.remove('invalid'); }
+        if (input) { input.readOnly = true; input.value = 'Нажмите клавиши…'; }
         window.addEventListener('keydown', onListenKeyDown, true);
         window.addEventListener('keyup', onListenKeyUp, true);
         window.addEventListener('mousedown', onListenMouse, true);
@@ -1631,22 +1715,21 @@
         window.addEventListener('contextmenu', onListenContext, true);
         window.addEventListener('auxclick', onListenMouse, true);
         window.addEventListener('wheel', onListenWheel, { capture: true, passive: false });
-
         clearTimeout(listenAutoCancel);
         listenAutoCancel = setTimeout(() => {
-          if (listening && pressedCodes.size === 0) stopListening(false);
+          if (listeningBlockId && pressedCodes.size === 0) stopListening(false);
         }, 7000);
       }
-
       function stopListening(apply) {
-        if (!listening) return;
-        listening = false;
+        if (!listeningBlockId) return;
+        const block = findBlockById(listeningBlockId);
+        const blockId = listeningBlockId;
+        listeningBlockId = null;
         clearTimeout(listenAutoCancel);
-
-        listenWrap.classList.remove('listening');
-        genKeyCustomInput.readOnly = false;
-        btnListenKey.innerHTML = '<i class="fa-solid fa-keyboard"></i>';
-
+        const wrap = document.getElementById('listenWrap_' + blockId);
+        const input = document.getElementById('keyCustom_' + blockId);
+        if (wrap) wrap.classList.remove('listening');
+        if (input) input.readOnly = false;
         window.removeEventListener('keydown', onListenKeyDown, true);
         window.removeEventListener('keyup', onListenKeyUp, true);
         window.removeEventListener('mousedown', onListenMouse, true);
@@ -1655,552 +1738,463 @@
         window.removeEventListener('contextmenu', onListenContext, true);
         window.removeEventListener('auxclick', onListenMouse, true);
         window.removeEventListener('wheel', onListenWheel, { capture: true, passive: false });
-
         pressedCodes.clear();
-
-        if (apply && comboMain) {
+        if (apply && comboMain && block) {
           const order = ['^', '!', '+', '#'];
           const mods = order.filter(m => comboMods.has(m));
           const labels = mods.map(m => comboMods.get(m));
           labels.push(comboMain[1]);
-
-          customKeyAHK = mods.join('') + comboMain[0];
-          customKeyLabel = labels.join('+');
-          genKeyCustomInput.value = customKeyLabel;
-          showToast('<i class="fa-solid fa-keyboard"></i> Клавиша: ' + customKeyLabel);
-        } else {
-          genKeyCustomInput.value = customKeyLabel || '';
-        }
-
-        comboMods.clear();
-        comboMain = null;
-        liveMods.clear();
-        liveMain = null;
-
-        updateKeyValidation();
-        scheduleSave();
-      }
-
-      btnListenKey.addEventListener('click', (e) => {
-        e.stopPropagation();
-        startListening();
-      });
-
-      /* ---- Ручной ввод комбинации ---- */
-      function parseCombo(str) {
-        const parts = str.split('+').map(s => s.trim()).filter(Boolean);
-        if (parts.length === 0) return { ahk: '', label: '', valid: false };
-
-        const modMap = { ctrl:'^', control:'^', alt:'!', shift:'+', win:'#', windows:'#' };
-        const mods = [];
-        let mainAhk = '';
-        let mainLabel = '';
-        let valid = true;
-
-        parts.forEach(p => {
-          const low = p.toLowerCase();
-          if (modMap[low]) {
-            mods.push(modMap[low]);
+          const ahk = mods.join('') + comboMain[0];
+          const label = labels.join('+');
+          if (isKeyUsed(block.id, ahk)) {
+            showToast('<i class="fa-solid fa-triangle-exclamation"></i> Комбинация уже занята', 'error');
+            if (input) input.value = block.customKeyLabel || '';
+            if (wrap) wrap.classList.add('invalid');
           } else {
-            const found = PARSE_KEY_MAP[low];
-            if (found) {
-              mainAhk = found[0];
-              mainLabel = found[1];
-            } else {
-              valid = false;
-            }
-          }
-        });
-
-        if (!mainAhk) valid = false;
-
-        const order = ['^','!','+','#'];
-        mods.sort((a,b) => order.indexOf(a) - order.indexOf(b));
-
-        const ahk = mods.join('') + mainAhk;
-        const labels = [];
-        if (mods.includes('^')) labels.push('Ctrl');
-        if (mods.includes('!')) labels.push('Alt');
-        if (mods.includes('+')) labels.push('Shift');
-        if (mods.includes('#')) labels.push('Win');
-        if (mainLabel) labels.push(mainLabel);
-
-        return { ahk, label: labels.join('+'), valid };
-      }
-
-      genKeyCustomInput.addEventListener('input', () => {
-        if (listening) return;
-        const parsed = parseCombo(genKeyCustomInput.value);
-        customKeyAHK = parsed.valid ? parsed.ahk : '';
-        customKeyLabel = parsed.label;
-        updateKeyValidation();
-        scheduleSave();
-      });
-
-      genKeyCustomInput.addEventListener('blur', () => {
-        if (listening) return;
-        genKeyCustomInput.value = customKeyLabel || '';
-      });
-
-      genKeyCustomInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          genKeyCustomInput.blur();
-        }
-      });
-
-      /* ============================================================
-         Клавиша чата — сегментированный переключатель
-         ============================================================ */
-      function setChatMode(mode) {
-        state.chatMode = mode;
-        const custom = mode === 'custom';
-
-        chatF6Btn.style.display = custom ? 'none' : '';
-        chatTBtn.style.display = custom ? 'none' : '';
-        genChatKeyInput.style.display = custom ? 'block' : 'none';
-
-        chatF6Btn.classList.toggle('active', mode === 'F6');
-        chatTBtn.classList.toggle('active', mode === 'T');
-        chatCustomBtn.classList.toggle('active', custom);
-
-        if (custom) setTimeout(() => genChatKeyInput.focus(), 30);
-        scheduleSave();
-      }
-
-      chatF6Btn.addEventListener('click', () => setChatMode('F6'));
-      chatTBtn.addEventListener('click', () => setChatMode('T'));
-      chatCustomBtn.addEventListener('click', () => {
-        if (state.chatMode === 'custom') setChatMode('F6');
-        else setChatMode('custom');
-      });
-
-      genChatKeyInput.addEventListener('input', scheduleSave);
-
-      function getChatKey() {
-        if (state.chatMode === 'custom') return genChatKeyInput.value.trim() || 'F6';
-        return state.chatMode;
-      }
-
-      function setChatKeyValue(val) {
-        if (val === 'F6' || val === 'T') {
-          setChatMode(val);
-        } else {
-          setChatMode('custom');
-          genChatKeyInput.value = val;
-        }
-      }
-
-      /* ============================================================
-         Задержка + раздельная задержка
-         ============================================================ */
-      function updateDelayDisabled() {
-        genDelay.disabled = state.individualDelay;
-        btnIndividualDelay.classList.toggle('active', state.individualDelay);
-      }
-
-      btnIndividualDelay.addEventListener('click', () => {
-        state.individualDelay = !state.individualDelay;
-        if (!state.individualDelay) {
-          const gd = parseInt(genDelay.value) || 500;
-          commands.forEach(cmd => cmd.delay = gd);
-        }
-        updateDelayDisabled();
-        renderCommands();
-        markOutdated();
-        updateDurationEstimate();
-        scheduleSave();
-      });
-
-      genDelay.addEventListener('input', () => {
-        if (!state.individualDelay) {
-          const gd = parseInt(genDelay.value) || 500;
-          commands.forEach(cmd => cmd.delay = gd);
-        }
-        markOutdated();
-        updateDurationEstimate();
-        scheduleSave();
-      });
-
-      /* ============================================================
-         Авто-смена раскладки
-         ============================================================ */
-      function updateAutoLayoutButton() {
-        btnAutoLayout.classList.toggle('active', state.sendMessage);
-        btnAutoLayout.title = state.sendMessage
-          ? 'Авто-смена раскладки: вкл'
-          : 'Авто-смена раскладки: выкл';
-      }
-
-      btnAutoLayout.addEventListener('click', () => {
-        state.sendMessage = !state.sendMessage;
-        updateAutoLayoutButton();
-        markOutdated();
-        scheduleSave();
-      });
-
-      /* ============================================================
-         Индикатор устаревания кода
-         ============================================================ */
-      function markOutdated() {
-        if (!lastGeneratedCode) return;
-        codeOutdated = true;
-        codeOutdatedBadge.classList.add('visible');
-      }
-
-      function clearOutdated() {
-        codeOutdated = false;
-        codeOutdatedBadge.classList.remove('visible');
-      }
-
-      /* ============================================================
-         Оценка длительности
-         ============================================================ */
-      function updateDurationEstimate() {
-        if (commands.length === 0) {
-          durationEstimate.textContent = '';
-          return;
-        }
-        const gd = parseInt(genDelay.value) || 500;
-        let total = 0;
-        if (state.individualDelay) {
-          for (let i = 0; i < commands.length - 1; i++) {
-            total += commands[i].delay ?? gd;
-          }
-        } else {
-          total += (commands.length - 1) * gd;
-        }
-        const sec = (total / 1000).toFixed(1);
-        durationEstimate.textContent = `≈ ${sec} сек · ${commands.length} ком.`;
-      }
-
-      /* ============================================================
-         Рендер команд (state-driven)
-         ============================================================ */
-      function renderCommands() {
-        let html = '';
-        commands.forEach((cmd, idx) => {
-          const typeOpt = COMMAND_OPTIONS.find(o => o.value === cmd.type) || COMMAND_OPTIONS[0];
-          html += `
-            <div class="command-block" data-block-index="${idx}">
-              <div class="command-item" data-index="${idx}">
-                <span class="drag-handle" title="Перетащить"><i class="fa-solid fa-grip-vertical"></i></span>
-                <div class="custom-select" data-index="${idx}">
-                  <button type="button" class="custom-select-trigger">
-                    <span class="cs-value">${escapeHTML(typeOpt.title)}</span>
-                    <i class="fa-solid fa-chevron-down cs-arrow"></i>
-                  </button>
-                </div>
-                <input type="text" class="cmd-text" value="${escapeAttr(cmd.text)}" placeholder="Текст команды" data-index="${idx}">
-                <button class="btn-icon cmd-delete" data-index="${idx}" title="Удалить"><i class="fa-solid fa-trash-can"></i></button>
-              </div>
-              ${state.individualDelay && idx < commands.length - 1 ? `
-                <div class="delay-row" data-delay-index="${idx}">
-                  <i class="fa-regular fa-clock"></i>
-                  <span>Задержка</span>
-                  <input type="number" class="delay-input" value="${cmd.delay ?? 500}" step="50" min="0" data-index="${idx}">
-                  <span class="ms-label">мс</span>
-                </div>` : ''}
-            </div>`;
-        });
-
-        commandListContainer.innerHTML = html;
-        updateCommandsSummary();
-      }
-
-      function updateCommandsSummary() {
-        if (commands.length === 0) {
-          commandsSummary.innerHTML = '<div class="summary-title">Нет команд</div>';
-          return;
-        }
-        const preview = commands.slice(0, 3).map(c => {
-          const opt = COMMAND_OPTIONS.find(o => o.value === c.type);
-          const prefix = opt ? opt.title : '/' + c.type;
-          return `${prefix} ${c.text}`;
-        }).join(' · ');
-        commandsSummary.innerHTML =
-          `<div class="summary-title">${commands.length} команд</div>` +
-          `<div class="summary-preview">${escapeHTML(preview)}${commands.length > 3 ? ' …' : ''}</div>`;
-      }
-
-      /* ---- Ввод текста / задержки — прямое изменение состояния ---- */
-      commandListContainer.addEventListener('input', (e) => {
-        const block = e.target.closest('.command-block');
-        if (!block) return;
-        const idx = parseInt(block.dataset.blockIndex);
-        if (isNaN(idx) || !commands[idx]) return;
-
-        if (e.target.classList.contains('cmd-text')) {
-          commands[idx].text = e.target.value;
-          updateCommandsSummary();
-          markOutdated();
-          scheduleSave();
-        } else if (e.target.classList.contains('delay-input')) {
-          const v = parseInt(e.target.value);
-          commands[idx].delay = isNaN(v) ? 500 : v;
-          markOutdated();
-          updateDurationEstimate();
-          scheduleSave();
-        }
-      });
-
-      /* ---- Клики: селект / удаление ---- */
-      commandListContainer.addEventListener('click', (e) => {
-        const trigger = e.target.closest('.custom-select-trigger');
-        if (trigger) {
-          e.stopPropagation();
-          const wrapper = trigger.closest('.custom-select');
-          const idx = parseInt(wrapper.dataset.index);
-          const cmd = commands[idx];
-
-          openDropdown(trigger, COMMAND_OPTIONS, cmd ? cmd.type : 'me', (val) => {
-            if (commands[idx]) commands[idx].type = val;
-            const opt = COMMAND_OPTIONS.find(o => o.value === val);
-            wrapper.querySelector('.cs-value').textContent = opt ? opt.title : val;
-            updateCommandsSummary();
-            markOutdated();
+            block.customKeyAHK = ahk;
+            block.customKeyLabel = label;
+            if (input) input.value = label;
+            if (wrap) wrap.classList.remove('invalid');
+            showToast('<i class="fa-solid fa-keyboard"></i> Клавиша: ' + label);
+            rerenderAllBlockHeaders();
             scheduleSave();
+          }
+        } else if (block) {
+          if (input) input.value = block.customKeyLabel || '';
+        }
+        comboMods.clear(); comboMain = null; liveMods.clear(); liveMain = null;
+        rerenderAllBlockHeaders();
+        scheduleSave();
+      }
+
+      /* ============================================================
+         Обработчики blocksContainer
+         ============================================================ */
+      blocksContainer.addEventListener('click', (e) => {
+        const blockEl = e.target.closest('.script-block');
+        if (!blockEl) return;
+        const block = findBlockById(blockEl.dataset.blockId);
+        if (!block) return;
+
+        if (e.target.closest('[data-action="toggle-collapse"]')) {
+          if (e.target.closest('[data-action="delete-block"]')) return;
+          if (e.target.closest('[data-action="toggle-autolayout"]')) return;
+          block.collapsed = !block.collapsed;
+          blockEl.classList.toggle('collapsed', block.collapsed);
+          scheduleSave();
+          return;
+        }
+
+        if (e.target.closest('[data-action="delete-block"]')) {
+          e.stopPropagation();
+          if (listeningBlockId === block.id) stopListening(false);
+          showConfirm({
+            title: 'Удалить блок?',
+            message: `Блок «${getKeyLabel(block)}» будет удалён.`,
+            confirmText: 'Удалить', cancelText: 'Отмена', danger: true,
+            onConfirm: () => deleteBlock(block.id)
           });
           return;
         }
 
-        const deleteBtn = e.target.closest('.cmd-delete');
-        if (deleteBtn) {
-          if (!editMode) return;
-          const idx = parseInt(deleteBtn.dataset.index);
-          if (!isNaN(idx) && commands.length > 0) {
-            commands.splice(idx, 1);
-            renderCommands();
+        if (e.target.closest('[data-action="toggle-autolayout"]')) {
+          e.stopPropagation();
+          block.sendMessage = !block.sendMessage;
+          const btn = e.target.closest('[data-action="toggle-autolayout"]');
+          btn.classList.toggle('active', block.sendMessage);
+          markOutdated();
+          scheduleSave();
+          showToast(
+            block.sendMessage
+              ? '<i class="fa-solid fa-keyboard"></i> Авто-переключение раскладки: вкл'
+              : '<i class="fa-solid fa-keyboard"></i> Авто-переключение раскладки: выкл'
+          );
+          return;
+        }
+
+        if (e.target.closest('[data-action="block-key-select"]')) {
+          const trigger = e.target.closest('.custom-select-trigger');
+          const usedValues = blocks.filter(b => b.id !== block.id).map(b => getKeyValue(b)).filter(Boolean);
+          openKeyGrid(trigger, KEY_OPTIONS, block.key, usedValues, (val) => {
+            if (val === 'custom') {
+              block.key = 'custom'; block.customKeyAHK = ''; block.customKeyLabel = '';
+            } else {
+              if (isKeyUsed(block.id, val)) {
+                showToast('<i class="fa-solid fa-triangle-exclamation"></i> Клавиша уже используется', 'error');
+                return;
+              }
+              block.key = val; block.customKeyAHK = ''; block.customKeyLabel = '';
+            }
+            rerenderBlock(block);
+            markOutdated();
+            scheduleSave();
+            if (val === 'custom') {
+              setTimeout(() => {
+                const inp = document.getElementById('keyCustom_' + block.id);
+                if (inp) inp.focus();
+              }, 50);
+            }
+          });
+          return;
+        }
+
+        if (e.target.closest('[data-action="listen-key"]')) {
+          e.stopPropagation();
+          startListening(block);
+          return;
+        }
+
+        const chatBtn = e.target.closest('[data-action="chat-seg"] .seg-btn');
+        if (chatBtn) {
+          const chat = chatBtn.dataset.chat;
+          if (block.chatMode === chat && chat === 'custom') block.chatMode = 'F6';
+          else block.chatMode = chat;
+          rerenderBlock(block);
+          markOutdated();
+          scheduleSave();
+          if (block.chatMode === 'custom') {
+            setTimeout(() => {
+              const inp = document.getElementById('chatCustom_' + block.id);
+              if (inp) inp.focus();
+            }, 30);
+          }
+          return;
+        }
+
+        if (e.target.closest('[data-action="toggle-individual-delay"]')) {
+          e.stopPropagation();
+          block.individualDelay = !block.individualDelay;
+          if (!block.individualDelay) {
+            const gd = parseInt(block.delay) || 500;
+            block.commands.forEach(cmd => cmd.delay = gd);
+          }
+          rerenderBlock(block);
+          markOutdated();
+          updateDurationEstimate();
+          scheduleSave();
+          return;
+        }
+
+        if (e.target.closest('[data-action="toggle-edit"]')) {
+          e.stopPropagation();
+          block.editMode = !block.editMode;
+          rerenderBlock(block);
+          scheduleSave();
+          return;
+        }
+
+        if (e.target.closest('[data-action="add-command"]')) {
+          e.stopPropagation();
+          const gd = parseInt(block.delay) || 500;
+          block.commands.push({ type: 'me', text: '', delay: gd });
+          block.commandsCollapsed = false;
+          rerenderBlock(block);
+          markOutdated();
+          updateDurationEstimate();
+          scheduleSave();
+          const newEl = blocksContainer.querySelector(`[data-block-id="${block.id}"]`);
+          const lastCmd = newEl?.querySelector('.command-list .command-block:last-child');
+          if (lastCmd) lastCmd.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        if (e.target.closest('[data-action="toggle-commands-collapse"]')) {
+          e.stopPropagation();
+          block.commandsCollapsed = !block.commandsCollapsed;
+          rerenderBlock(block);
+          scheduleSave();
+          return;
+        }
+
+        const cmdTrigger = e.target.closest('[data-action="cmd-select"] .custom-select-trigger');
+        if (cmdTrigger) {
+          e.stopPropagation();
+          if (block.editMode) {
+            showToast('<i class="fa-solid fa-lock"></i> Выйдите из режима редактирования', 'error');
+            return;
+          }
+          const wrapper = cmdTrigger.closest('[data-action="cmd-select"]');
+          const idx = parseInt(wrapper.dataset.index);
+          const cmd = block.commands[idx];
+          if (!cmd) return;
+          openDropdown(cmdTrigger, COMMAND_OPTIONS, cmd.type, (val) => {
+            if (block.commands[idx]) block.commands[idx].type = val;
+            const opt = COMMAND_OPTIONS.find(o => o.value === val);
+            wrapper.querySelector('.cs-value').textContent = opt ? opt.title : val;
+            markOutdated();
+            scheduleSave();
+          }, 'command-select-menu');
+          return;
+        }
+
+        const delBtn = e.target.closest('.cmd-delete');
+        if (delBtn) {
+          e.stopPropagation();
+          if (!block.editMode) return;
+          const idx = parseInt(delBtn.dataset.index);
+          if (!isNaN(idx) && block.commands.length > 0) {
+            block.commands.splice(idx, 1);
+            rerenderBlock(block);
             markOutdated();
             updateDurationEstimate();
             scheduleSave();
           }
+          return;
         }
       });
 
-      btnAddCommand.addEventListener('click', () => {
-        const gd = parseInt(genDelay.value) || 500;
-        commands.push({ type: 'me', text: '', delay: gd });
-        renderCommands();
-        markOutdated();
-        updateDurationEstimate();
-        scheduleSave();
-        const lastBlock = commandListContainer.lastElementChild;
-        if (lastBlock) lastBlock.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      });
-
-      /* ---- Кнопка «Изменить» ---- */
-      btnEditCommands.addEventListener('click', () => {
-        editMode = !editMode;
-        commandListContainer.classList.toggle('edit-mode', editMode);
-        btnEditCommands.classList.toggle('active', editMode);
-        const span = btnEditCommands.querySelector('.btn-text');
-        if (span) span.textContent = editMode ? 'Готово' : 'Изменить';
-        const icon = btnEditCommands.querySelector('i');
-        if (icon) {
-          icon.className = editMode ? 'fa-solid fa-check' : 'fa-solid fa-pen-to-square';
+      blocksContainer.addEventListener('input', (e) => {
+        const blockEl = e.target.closest('.script-block');
+        if (!blockEl) return;
+        const block = findBlockById(blockEl.dataset.blockId);
+        if (!block) return;
+        if (e.target.classList.contains('cmd-text')) {
+          const idx = parseInt(e.target.dataset.index);
+          if (!isNaN(idx) && block.commands[idx]) {
+            block.commands[idx].text = e.target.value;
+            markOutdated(); scheduleSave();
+          }
+          return;
         }
-        closeDropdown();
+        if (e.target.classList.contains('delay-input')) {
+          const idx = parseInt(e.target.dataset.index);
+          if (!isNaN(idx) && block.commands[idx]) {
+            const v = parseInt(e.target.value);
+            block.commands[idx].delay = isNaN(v) ? 500 : v;
+            markOutdated(); updateDurationEstimate(); scheduleSave();
+          }
+          return;
+        }
+        if (e.target.id === 'blockDelay_' + block.id) {
+          const v = parseInt(e.target.value);
+          block.delay = isNaN(v) ? 500 : v;
+          if (!block.individualDelay) block.commands.forEach(c => c.delay = block.delay);
+          markOutdated(); updateDurationEstimate(); scheduleSave();
+          return;
+        }
+        if (e.target.id === 'chatCustom_' + block.id) {
+          block.chatCustomValue = e.target.value;
+          markOutdated(); scheduleSave();
+          return;
+        }
+        if (e.target.id === 'keyCustom_' + block.id) {
+          if (listeningBlockId === block.id) return;
+          const parsed = parseCombo(e.target.value);
+          block.customKeyAHK = parsed.valid ? parsed.ahk : '';
+          block.customKeyLabel = parsed.label;
+          const wrap = document.getElementById('listenWrap_' + block.id);
+          if (parsed.valid && isKeyUsed(block.id, block.customKeyAHK)) {
+            if (wrap) wrap.classList.add('invalid');
+            showToast('<i class="fa-solid fa-triangle-exclamation"></i> Комбинация уже используется', 'error');
+          } else {
+            if (wrap) wrap.classList.toggle('invalid', !parsed.valid && e.target.value.length > 0);
+          }
+          markOutdated(); scheduleSave();
+          return;
+        }
       });
 
-      /* ---- Сворачивание всего блока команд ---- */
-      function toggleCommandsCollapse() {
-        commandsCollapsed = !commandsCollapsed;
-        commandListContainer.style.display = commandsCollapsed ? 'none' : 'flex';
-        commandsSummary.style.display = commandsCollapsed ? 'block' : 'none';
-        btnCollapseCommands.innerHTML = commandsCollapsed
-          ? '<i class="fa-solid fa-chevron-down"></i>'
-          : '<i class="fa-solid fa-chevron-up"></i>';
-        btnCollapseCommands.title = commandsCollapsed ? 'Развернуть' : 'Свернуть';
-        updateCommandsSummary();
-      }
+      blocksContainer.addEventListener('blur', (e) => {
+        if (!e.target.id?.startsWith('keyCustom_')) return;
+        const blockEl = e.target.closest('.script-block');
+        if (!blockEl) return;
+        const block = findBlockById(blockEl.dataset.blockId);
+        if (!block) return;
+        if (listeningBlockId === block.id) return;
+        const parsed = parseCombo(e.target.value);
+        if (parsed.valid && isKeyUsed(block.id, parsed.ahk)) {
+          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Клавиша уже занята', 'error');
+          e.target.value = '';
+          block.customKeyAHK = ''; block.customKeyLabel = '';
+          const wrap = document.getElementById('listenWrap_' + block.id);
+          if (wrap) wrap.classList.add('invalid');
+          scheduleSave();
+        } else {
+          e.target.value = block.customKeyLabel || '';
+        }
+      }, true);
 
-      btnCollapseCommands.addEventListener('click', toggleCommandsCollapse);
-      commandsSummary.addEventListener('click', toggleCommandsCollapse);
-
-      /* ============================================================
-         Drag & Drop команд
-         ============================================================ */
+      /* ---- Drag & Drop ---- */
       let drag = null;
-
-      function startDrag(e, block) {
+      function startDrag(e, cmdBlock, block) {
         if (drag) return;
         if (e.button !== undefined && e.button !== 0) return;
-        e.preventDefault();
-        closeDropdown();
-
-        const rect = block.getBoundingClientRect();
+        e.preventDefault(); closeDropdown();
+        const listEl = cmdBlock.closest('.command-list');
+        const rect = cmdBlock.getBoundingClientRect();
         const placeholder = document.createElement('div');
         placeholder.className = 'command-block-placeholder';
         placeholder.style.height = rect.height + 'px';
-
-        block.parentNode.insertBefore(placeholder, block);
-
-        block.style.position = 'fixed';
-        block.style.left = rect.left + 'px';
-        block.style.top = rect.top + 'px';
-        block.style.width = rect.width + 'px';
-        block.style.zIndex = '4000';
-        block.style.margin = '0';
-        block.style.touchAction = 'none';
-        block.classList.add('dragging');
-
-        document.body.appendChild(block);
-
+        cmdBlock.parentNode.insertBefore(placeholder, cmdBlock);
+        cmdBlock.style.position = 'fixed';
+        cmdBlock.style.left = rect.left + 'px';
+        cmdBlock.style.top = rect.top + 'px';
+        cmdBlock.style.width = rect.width + 'px';
+        cmdBlock.style.zIndex = '4000';
+        cmdBlock.style.margin = '0';
+        cmdBlock.style.touchAction = 'none';
+        cmdBlock.classList.add('dragging');
+        document.body.appendChild(cmdBlock);
         drag = {
-          block,
-          placeholder,
-          offsetY: e.clientY - rect.top,
-          pointerId: e.pointerId,
-          startIndex: parseInt(block.dataset.blockIndex),
-          snapshot: commands.map(c => ({ ...c }))
+          block, cmdBlock, placeholder, listEl,
+          offsetY: e.clientY - rect.top, pointerId: e.pointerId,
+          startIndex: parseInt(cmdBlock.dataset.blockIndex),
+          snapshot: block.commands.map(c => ({ ...c }))
         };
-
         try { e.target.setPointerCapture(e.pointerId); } catch (_) {}
-
         document.addEventListener('pointermove', onDragMove, { passive: false });
         document.addEventListener('pointerup', onDragEnd);
         document.addEventListener('pointercancel', onDragEnd);
       }
-
       function onDragMove(e) {
         if (!drag || e.pointerId !== drag.pointerId) return;
         e.preventDefault();
-
         const y = e.clientY - drag.offsetY;
-        drag.block.style.top = y + 'px';
-
-        const blockRect = drag.block.getBoundingClientRect();
+        drag.cmdBlock.style.top = y + 'px';
+        const blockRect = drag.cmdBlock.getBoundingClientRect();
         const blockMid = blockRect.top + blockRect.height / 2;
-
-        const blocks = Array.from(commandListContainer.querySelectorAll('.command-block'));
+        const blockEls = Array.from(drag.listEl.querySelectorAll('.command-block'));
         let target = null;
-        for (const b of blocks) {
+        for (const b of blockEls) {
           const r = b.getBoundingClientRect();
           if (blockMid < r.top + r.height / 2) { target = b; break; }
         }
-
-        if (target) commandListContainer.insertBefore(drag.placeholder, target);
-        else commandListContainer.appendChild(drag.placeholder);
+        if (target) drag.listEl.insertBefore(drag.placeholder, target);
+        else drag.listEl.appendChild(drag.placeholder);
       }
-
       function onDragEnd(e) {
         if (!drag || e.pointerId !== drag.pointerId) return;
-
-        const { block, placeholder, snapshot, startIndex } = drag;
-
+        const { cmdBlock, placeholder, snapshot, startIndex, block } = drag;
         let newIndex = 0;
-        const children = Array.from(commandListContainer.children);
+        const children = Array.from(drag.listEl.children);
         for (const child of children) {
           if (child === placeholder) break;
-          if (child !== block && child.classList.contains('command-block')) newIndex++;
+          if (child !== cmdBlock && child.classList.contains('command-block')) newIndex++;
         }
-
         const [moved] = snapshot.splice(startIndex, 1);
         snapshot.splice(newIndex, 0, moved);
-        commands = snapshot;
-
+        block.commands = snapshot;
         drag = null;
         document.removeEventListener('pointermove', onDragMove);
         document.removeEventListener('pointerup', onDragEnd);
         document.removeEventListener('pointercancel', onDragEnd);
-
-        block.remove();
-        placeholder.remove();
-
-        renderCommands();
-        markOutdated();
-        updateDurationEstimate();
-        scheduleSave();
-
-        if (newIndex !== startIndex) {
-          showToast('<i class="fa-solid fa-arrows-up-down"></i> Порядок обновлён');
-        }
+        cmdBlock.remove(); placeholder.remove();
+        rerenderBlock(block);
+        markOutdated(); updateDurationEstimate(); scheduleSave();
+        if (newIndex !== startIndex) showToast('<i class="fa-solid fa-arrows-up-down"></i> Порядок обновлён');
       }
-
-      commandListContainer.addEventListener('pointerdown', (e) => {
-        if (!editMode) return;
+      blocksContainer.addEventListener('pointerdown', (e) => {
         const handle = e.target.closest('.drag-handle');
         if (!handle) return;
-        const block = handle.closest('.command-block');
-        if (!block) return;
-        startDrag(e, block);
+        const blockEl = handle.closest('.script-block');
+        const block = findBlockById(blockEl.dataset.blockId);
+        if (!block || !block.editMode) return;
+        const cmdBlock = handle.closest('.command-block');
+        if (!cmdBlock) return;
+        startDrag(e, cmdBlock, block);
       });
 
       /* ============================================================
-         Генерация кода
+         Управление блоками
+         ============================================================ */
+      function deleteBlock(blockId) {
+        blocks = blocks.filter(b => b.id !== blockId);
+        if (blocks.length === 0) blocks.push(createBlock({ commands: [{ type: 'me', text: '', delay: 500 }] }));
+        renderBlocks();
+        markOutdated(); updateDurationEstimate(); scheduleSave();
+      }
+      btnAddBlock.addEventListener('click', () => {
+        const freeKey = findFreeKey() || 'Numpad2';
+        blocks.push(createBlock({ key: freeKey, commands: [{ type: 'me', text: '', delay: 500 }] }));
+        renderBlocks();
+        markOutdated(); updateDurationEstimate(); scheduleSave();
+        const last = blocksContainer.lastElementChild;
+        if (last) last.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+
+      /* ============================================================
+         Генерация с учётом глобальных настроек
          ============================================================ */
       function escapeAhkText(str) {
-        return String(str)
-          .replace(/\{/g, '{{}')
-          .replace(/\}/g, '{}}');
+        return String(str).replace(/\{/g, '{{}').replace(/\}/g, '{}}');
       }
-
-      function generateCode(key, chatKey, useSendMessage, cmds, individual, globalDelay) {
-        const lines = [`${key}::`];
-        if (useSendMessage) lines.push('SendMessage, 0x50,, 0x4190419,, A');
-
-        cmds.forEach((cmd, idx) => {
-          const prefixMap = {
-            me: '/me ', do: '/do ', try: '/try ', todo: '/todo ',
-            s: '/s ', r: '/r ', d: '/d ', custom: ''
-          };
-          let prefix = prefixMap[cmd.type] ?? '/me ';
-          let text = cmd.text;
-          if (cmd.type === 'custom' && !/^\//.test(text)) {
-            prefix = '/';
-          } else if (cmd.type === 'custom') {
-            prefix = '';
+      function validateAllBlocks() {
+        const usedKeys = new Set();
+        for (let i = 0; i < blocks.length; i++) {
+          const block = blocks[i];
+          const key = getKeyValue(block);
+          if (!key) {
+            showToast(`<i class="fa-solid fa-triangle-exclamation"></i> Блок «${getKeyLabel(block)}»: укажите клавишу`, 'error');
+            return false;
           }
-          lines.push(`Sendinput,{${chatKey}}${prefix}${escapeAhkText(text)}{Enter}`);
-
-          if (idx < cmds.length - 1) {
-            const delay = individual ? (cmd.delay || globalDelay) : globalDelay;
-            lines.push(`sleep ${delay}`);
+          if (block.commands.length === 0) {
+            showToast(`<i class="fa-solid fa-triangle-exclamation"></i> Блок «${getKeyLabel(block)}»: нет команд`, 'error');
+            return false;
           }
-        });
-
-        lines.push('Return');
-        return lines.join('\n');
+          if (usedKeys.has(key)) {
+            showToast(`<i class="fa-solid fa-triangle-exclamation"></i> Клавиша ${key} уже используется`, 'error');
+            return false;
+          }
+          usedKeys.add(key);
+        }
+        return true;
       }
-
+      function generateCombinedFrom(arr, options = {}) {
+        const { withGlobalHeaders = false } = options;
+        const keyPrefix = appSettings.preventSelfTrigger ? '$' : '';
+        const parts = [];
+        for (let i = 0; i < arr.length; i++) {
+          const block = arr[i];
+          const key = getKeyValue(block);
+          const chat = getChatValue(block);
+          const lines = [`; ${getKeyLabel(block)}`, `${keyPrefix}${key}::`];
+          if (block.sendMessage) lines.push('SendMessage, 0x50,, 0x4190419,, A');
+          block.commands.forEach((cmd, idx) => {
+            const pm = { me:'/me ', do:'/do ', try:'/try ', todo:'/todo ', s:'/s ', r:'/r ', d:'/d ', custom:'' };
+            let prefix = pm[cmd.type] ?? '/me ';
+            let text = cmd.text;
+            if (cmd.type === 'custom' && !/^\//.test(text)) prefix = '/';
+            else if (cmd.type === 'custom') prefix = '';
+            lines.push(`Sendinput,{${chat}}${prefix}${escapeAhkText(text)}{Enter}`);
+            if (idx < block.commands.length - 1) {
+              const d = block.individualDelay ? (cmd.delay || block.delay) : block.delay;
+              lines.push(`sleep ${d}`);
+            }
+          });
+          lines.push('Return');
+          parts.push(lines.join('\n'));
+        }
+        let code = parts.join('\n\n');
+        if (withGlobalHeaders) {
+          const headers = [];
+          if (appSettings.singleInstance) headers.push('#SingleInstance, Force');
+          if (appSettings.sendMode && appSettings.sendMode !== 'Input') headers.push(`SendMode ${appSettings.sendMode}`);
+          if (headers.length) code = headers.join('\n') + '\n\n' + code;
+          if (appSettings.onlyInGame && (appSettings.windowTitle || '').trim()) {
+            code = `#IfWinActive, ${appSettings.windowTitle.trim()}\n\n${code}\n\n#IfWinActive`;
+          }
+        }
+        return code;
+      }
       function updateCodeBlockState() {
         const lines = genOutput.textContent.split('\n').length;
         const collapsible = lines > 6;
         genOutput.classList.toggle('collapsible', collapsible);
         if (!collapsible) genOutput.classList.remove('expanded');
-
         const expanded = genOutput.classList.contains('expanded');
         btnExpandCode.classList.toggle('visible', collapsible);
-        btnExpandCode.innerHTML = expanded
-          ? '<i class="fa-solid fa-chevron-up"></i>'
-          : '<i class="fa-solid fa-chevron-down"></i>';
+        btnExpandCode.innerHTML = expanded ? '<i class="fa-solid fa-chevron-up"></i>' : '<i class="fa-solid fa-chevron-down"></i>';
         codeFade.style.display = collapsible && !expanded ? 'block' : 'none';
       }
-
       btnExpandCode.addEventListener('click', () => {
         genOutput.classList.toggle('expanded');
         updateCodeBlockState();
       });
-
       btnGenerate.addEventListener('click', () => {
-        // Валидация кастомной клавиши
-        if (genKey.value === 'custom' && !customKeyAHK) {
-          updateKeyValidation();
-          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Введите или запишите клавишу запуска', 'error');
-          return;
-        }
-
-        if (commands.length === 0) {
-          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Добавьте хотя бы одну команду', 'error');
-          return;
-        }
-
-        const key = getSelectedKey();
-        const chatKey = getChatKey();
-        const globalDelay = parseInt(genDelay.value) || 500;
-
-        const code = generateCode(key, chatKey, state.sendMessage, commands, state.individualDelay, globalDelay);
+        if (blocks.length === 0) { showToast('<i class="fa-solid fa-triangle-exclamation"></i> Добавьте хотя бы один блок', 'error'); return; }
+        if (!validateAllBlocks()) return;
+        const code = generateCombinedFrom(blocks, { withGlobalHeaders: true });
+        if (!code.trim()) { showToast('<i class="fa-solid fa-triangle-exclamation"></i> Нечего генерировать', 'error'); return; }
         genOutput.textContent = code;
         lastGeneratedCode = code;
         updateCodeBlockState();
@@ -2221,58 +2215,59 @@
         undoProgress.style.transition = 'none';
         undoProgress.style.width = '100%';
       }
-
       function resetCodeBlock() {
-        genOutput.textContent = 'Нажмите «Сгенерировать» чтобы увидеть код';
+        genOutput.textContent = 'Добавьте блок и нажмите «Сгенерировать»';
         genOutput.classList.remove('collapsible', 'expanded');
         codeFade.style.display = 'none';
         btnExpandCode.classList.remove('visible');
         clearOutdated();
       }
-
       function performClear() {
-        commandsBeforeClear = commands.map(c => ({ ...c }));
+        blocksBeforeClear = blocks.map(b => ({
+          id: b.id, key: b.key, customKeyAHK: b.customKeyAHK, customKeyLabel: b.customKeyLabel,
+          chatMode: b.chatMode, chatCustomValue: b.chatCustomValue,
+          delay: b.delay, sendMessage: b.sendMessage, individualDelay: b.individualDelay,
+          commands: b.commands.map(c => ({...c})),
+          collapsed: b.collapsed, commandsCollapsed: b.commandsCollapsed
+        }));
         lastGeneratedCodeBeforeClear = lastGeneratedCode;
-
+        filenameBeforeClear = filenameInput.value;
         resetCodeBlock();
         lastGeneratedCode = '';
-        commands = [];
-        renderCommands();
+        blocks = [createBlock({ commands: [{ type: 'me', text: '', delay: 500 }] })];
+        renderBlocks();
         copyIndicator.classList.remove('visible');
-
+        filenameInput.value = '';
         undoToast.classList.add('show');
         startUndoProgress();
-
         updateDurationEstimate();
         scheduleSave();
-
         clearTimeout(undoTimeout);
         undoTimeout = setTimeout(() => {
           undoToast.classList.remove('show');
           stopUndoProgress();
-          commandsBeforeClear = null;
+          blocksBeforeClear = null;
           lastGeneratedCodeBeforeClear = null;
+          filenameBeforeClear = '';
         }, 10000);
       }
-
       btnClearGen.addEventListener('click', () => {
-        if (commands.length === 0 && !lastGeneratedCode) {
+        if (blocks.length === 0 && !lastGeneratedCode) {
           showToast('<i class="fa-solid fa-triangle-exclamation"></i> Нечего очищать', 'error');
           return;
         }
-        modalClear.classList.remove('hidden');
+        showConfirm({
+          title: 'Очистка',
+          message: 'Удалить все блоки активации и сбросить генератор? Действие можно отменить в течение 10 секунд.',
+          confirmText: 'Очистить', cancelText: 'Отмена', danger: true,
+          onConfirm: performClear
+        });
       });
-
-      modalCancel.addEventListener('click', () => modalClear.classList.add('hidden'));
-      modalConfirm.addEventListener('click', () => { modalClear.classList.add('hidden'); performClear(); });
-      modalClear.addEventListener('click', (e) => { if (e.target === modalClear) modalClear.classList.add('hidden'); });
-
       btnUndo.addEventListener('click', () => {
-        if (!commandsBeforeClear) return;
-
-        commands = commandsBeforeClear.map(c => ({ ...c }));
+        if (!blocksBeforeClear) return;
+        blocks = blocksBeforeClear.map(b => ({...b, commands: b.commands.map(c => ({...c})), editMode: false}));
         lastGeneratedCode = lastGeneratedCodeBeforeClear;
-
+        filenameInput.value = filenameBeforeClear || '';
         if (lastGeneratedCode) {
           genOutput.textContent = lastGeneratedCode;
           updateCodeBlockState();
@@ -2281,12 +2276,11 @@
         } else {
           resetCodeBlock();
         }
-
-        renderCommands();
+        renderBlocks();
         updateDurationEstimate();
-
-        commandsBeforeClear = null;
+        blocksBeforeClear = null;
         lastGeneratedCodeBeforeClear = null;
+        filenameBeforeClear = '';
         clearTimeout(undoTimeout);
         undoToast.classList.remove('show');
         stopUndoProgress();
@@ -2298,9 +2292,7 @@
          Буфер / файлы
          ============================================================ */
       function copyToClipboard(text) {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          return navigator.clipboard.writeText(text);
-        }
+        if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
         return new Promise(resolve => {
           const ta = document.createElement('textarea');
           ta.value = text;
@@ -2313,27 +2305,19 @@
           resolve();
         });
       }
-
       btnCopyGen.addEventListener('click', () => {
-        if (!lastGeneratedCode) {
-          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Сначала сгенерируйте скрипт', 'error');
-          return;
-        }
+        if (!lastGeneratedCode) { showToast('<i class="fa-solid fa-triangle-exclamation"></i> Сначала сгенерируйте скрипт', 'error'); return; }
         copyToClipboard(lastGeneratedCode).then(() => {
           copyIndicator.classList.add('visible');
           setTimeout(() => copyIndicator.classList.remove('visible'), 1500);
           showToast('<i class="fa-solid fa-clipboard-check"></i> Скопировано в буфер');
         });
       });
-
-      function generateFilename(cmds, ts) {
-        if (cmds.length === 0) return `rp_script_${ts}`;
-        const first = cmds[0].text.trim().split(/\s+/).slice(0, 3).join('_');
-        return first ? first.toLowerCase() : `rp_script_${ts}`;
+      function sanitizeFilename(name) {
+        return String(name).trim().replace(/[<>:"/\\|?*\x00-\x1F]/g, '_').slice(0, 80);
       }
-
-      function downloadAHK(code, filename) {
-        const blob = new Blob([code], { type: 'text/plain;charset=utf-8' });
+      function downloadBlob(content, filename, type) {
+        const blob = new Blob([content], { type });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
@@ -2343,23 +2327,27 @@
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
       }
-
-      btnDownloadGen.addEventListener('click', () => {
-        if (!lastGeneratedCode) {
-          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Сначала сгенерируйте скрипт', 'error');
-          return;
+      function downloadAHK(code, filename) {
+        downloadBlob(code, filename, 'text/plain;charset=utf-8');
+      }
+      function defaultFilename() {
+        if (blocks.length === 0) return 'rp_script';
+        for (const block of blocks) {
+          if (block.commands.length === 0) continue;
+          const first = (block.commands[0].text || '').trim().split(/\s+/).slice(0, 3).join('_');
+          if (first) return first.toLowerCase().replace(/[^a-zа-я0-9_\-]/gi, '');
         }
-        const defaultName = generateFilename(commands, Date.now());
-        let user = null;
-        try {
-          user = window.prompt('Имя файла (.ahk):', defaultName);
-        } catch (e) { user = defaultName; }
-        if (user === null) return;
-        const clean = (user || defaultName).trim().replace(/[^a-zA-Zа-яА-Я0-9_\-]/g, '_').slice(0, 60) || defaultName;
-        const fname = /\.ahk$/i.test(clean) ? clean : clean + '.ahk';
-        downloadAHK(lastGeneratedCode, fname);
+        return 'rp_script';
+      }
+      btnDownloadGen.addEventListener('click', () => {
+        if (!lastGeneratedCode) { showToast('<i class="fa-solid fa-triangle-exclamation"></i> Сначала сгенерируйте скрипт', 'error'); return; }
+        let name = sanitizeFilename(filenameInput.value) || defaultFilename();
+        if (!/\.ahk$/i.test(name)) name += '.ahk';
+        if (!name || name === '.ahk') name = 'rp_script.ahk';
+        downloadAHK(lastGeneratedCode, name);
         showToast('<i class="fa-solid fa-download"></i> Файл сохранён');
       });
+      filenameInput.addEventListener('input', scheduleSave);
 
       /* ============================================================
          Toast
@@ -2374,12 +2362,10 @@
       }
 
       /* ============================================================
-         Заготовки и готовые скрипты (единый стиль)
+         Библиотека (пресеты + готовые скрипты в одном экране)
          ============================================================ */
       const presets = [
-        {
-          name: '<i class="fa-solid fa-file-lines"></i> Осмотр документов',
-          desc: 'Взять, изучить, положить',
+        { name: '<i class="fa-solid fa-file-lines"></i> Осмотр документов', desc: 'Взять, изучить, положить',
           key: 'Numpad2', chatKey: 'F6', sendMessage: true,
           commands: [
             { type: 'me', text: 'взял документы у человека напротив', delay: 500 },
@@ -2387,159 +2373,153 @@
             { type: 'me', text: 'положил документы на стол', delay: 500 },
             { type: 'me', text: 'достал из документов Мед. карту', delay: 500 },
             { type: 'me', text: 'начал изучать Мед. карту', delay: 500 }
-          ]
-        },
-        {
-          name: '<i class="fa-solid fa-id-card"></i> Проверка паспорта',
-          desc: '400/600/200 мс',
+          ] },
+        { name: '<i class="fa-solid fa-id-card"></i> Проверка паспорта', desc: '400/600/200 мс',
           key: 'Numpad1', chatKey: 'F6', sendMessage: true,
           commands: [
             { type: 'me', text: 'показал паспорт', delay: 400 },
             { type: 'do', text: 'Паспорт в руках', delay: 600 },
             { type: 'me', text: 'передал паспорт человеку напротив', delay: 200 },
             { type: 'do', text: 'Паспорт передан', delay: 400 }
-          ]
-        },
-        {
-          name: '<i class="fa-solid fa-car"></i> Досмотр авто',
-          desc: 'Открыть, осмотреть, закрыть',
+          ] },
+        { name: '<i class="fa-solid fa-car"></i> Досмотр авто', desc: 'Открыть, осмотреть, закрыть',
           key: 'F2', chatKey: 'F6', sendMessage: true,
           commands: [
             { type: 'do', text: 'Дверь автомобиля открыта', delay: 600 },
             { type: 'me', text: 'осмотрел салон автомобиля', delay: 600 },
             { type: 'do', text: 'В салоне ничего подозрительного', delay: 600 },
             { type: 'me', text: 'закрыл дверь автомобиля', delay: 600 }
-          ]
-        },
-        {
-          name: '<i class="fa-solid fa-radio"></i> Рация патруля',
-          desc: 'Доклад по рации',
+          ] },
+        { name: '<i class="fa-solid fa-radio"></i> Рация патруля', desc: 'Доклад по рации',
           key: 'F5', chatKey: 'F6', sendMessage: true,
           commands: [
             { type: 'r', text: 'Приём, патруль на связи', delay: 500 },
             { type: 'd', text: 'Веду патрулирование в районе', delay: 500 },
             { type: 'r', text: 'Обстановка спокойная', delay: 500 }
-          ]
-        }
+          ] }
       ];
 
       const readyScripts = [
-        {
-          id: 'documents',
-          title: '<i class="fa-solid fa-file-lines"></i> Осмотр документов (Num2)',
-          desc: 'Полный цикл',
-          tags: ['RP', 'документы'],
-          code: `Numpad2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me взял документы у человека напротив{Enter}\nsleep 500\nSendinput,{F6}/do Документы в руках{Enter}\nsleep 500\nSendinput,{F6}/me положил документы на стол{Enter}\nsleep 500\nSendinput,{F6}/me достал из документов Мед. карту{Enter}\nsleep 500\nSendinput,{F6}/me начал изучать Мед. карту{Enter}\nReturn`
-        },
-        {
-          id: 'passport',
-          title: '<i class="fa-solid fa-id-card"></i> Проверка паспорта (Num1)',
-          desc: 'Показать, передать',
-          tags: ['RP', 'паспорт'],
-          code: `Numpad1::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me показал паспорт{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт в руках{Enter}\nsleep 400\nSendinput,{F6}/me передал паспорт человеку напротив{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт передан{Enter}\nReturn`
-        },
-        {
-          id: 'car',
-          title: '<i class="fa-solid fa-car"></i> Досмотр авто (F2)',
-          desc: 'Открыть, осмотреть, закрыть',
-          tags: ['RP', 'авто'],
-          code: `F2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/do Дверь автомобиля открыта{Enter}\nsleep 600\nSendinput,{F6}/me осмотрел салон автомобиля{Enter}\nsleep 600\nSendinput,{F6}/do В салоне ничего подозрительного{Enter}\nsleep 600\nSendinput,{F6}/me закрыл дверь автомобиля{Enter}\nReturn`
-        },
-        {
-          id: 'radio',
-          title: '<i class="fa-solid fa-radio"></i> Рация патруля (F5)',
-          desc: 'Доклад по рации и департаменту',
-          tags: ['фракции', 'связь'],
-          code: `F5::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/r Приём, патруль на связи{Enter}\nsleep 500\nSendinput,{F6}/d Веду патрулирование в районе{Enter}\nsleep 500\nSendinput,{F6}/r Обстановка спокойная{Enter}\nReturn`
-        }
+        { id: 'documents', title: '<i class="fa-solid fa-file-lines"></i> Осмотр документов (Num2)',
+          desc: 'Полный цикл', tags: ['RP', 'документы'],
+          code: `Numpad2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me взял документы у человека напротив{Enter}\nsleep 500\nSendinput,{F6}/do Документы в руках{Enter}\nsleep 500\nSendinput,{F6}/me положил документы на стол{Enter}\nsleep 500\nSendinput,{F6}/me достал из документов Мед. карту{Enter}\nsleep 500\nSendinput,{F6}/me начал изучать Мед. карту{Enter}\nReturn` },
+        { id: 'passport', title: '<i class="fa-solid fa-id-card"></i> Проверка паспорта (Num1)',
+          desc: 'Показать, передать', tags: ['RP', 'паспорт'],
+          code: `Numpad1::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/me показал паспорт{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт в руках{Enter}\nsleep 400\nSendinput,{F6}/me передал паспорт человеку напротив{Enter}\nsleep 400\nSendinput,{F6}/do Паспорт передан{Enter}\nReturn` },
+        { id: 'car', title: '<i class="fa-solid fa-car"></i> Досмотр авто (F2)',
+          desc: 'Открыть, осмотреть, закрыть', tags: ['RP', 'авто'],
+          code: `F2::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/do Дверь автомобиля открыта{Enter}\nsleep 600\nSendinput,{F6}/me осмотрел салон автомобиля{Enter}\nsleep 600\nSendinput,{F6}/do В салоне ничего подозрительного{Enter}\nsleep 600\nSendinput,{F6}/me закрыл дверь автомобиля{Enter}\nReturn` },
+        { id: 'radio', title: '<i class="fa-solid fa-radio"></i> Рация патруля (F5)',
+          desc: 'Доклад по рации и департаменту', tags: ['фракции', 'связь'],
+          code: `F5::\nSendMessage, 0x50,, 0x4190419,, A\nSendinput,{F6}/r Приём, патруль на связи{Enter}\nsleep 500\nSendinput,{F6}/d Веду патрулирование в районе{Enter}\nsleep 500\nSendinput,{F6}/r Обстановка спокойная{Enter}\nReturn` }
       ];
 
-      function renderScriptCard(kind, index, data) {
-        const tagsHtml = (data.tags || []).map(t => `<span class="tag tag-purple">${escapeHTML(t)}</span>`).join('');
-        const code = data.codePreview || '';
-        const actions = kind === 'preset'
-          ? `<button class="btn btn-primary btn-sm" data-action="load-preset" data-index="${index}"><i class="fa-solid fa-download"></i> Загрузить</button>
-             <button class="btn btn-success btn-sm" data-action="copy-preset" data-index="${index}"><i class="fa-regular fa-clipboard"></i> Копировать</button>`
-          : `<button class="btn btn-success btn-sm" data-action="copy-ready" data-index="${index}"><i class="fa-regular fa-clipboard"></i> Копировать</button>
-             <button class="btn btn-outline btn-sm" data-action="download-ready" data-index="${index}"><i class="fa-solid fa-download"></i> Скачать</button>`;
-
+      function renderPresetCard(index, data) {
+        const blk = createBlock({
+          key: data.key, chatMode: data.chatKey, sendMessage: data.sendMessage,
+          individualDelay: true, commands: data.commands
+        });
+        const preview = generateCombinedFrom([blk]);
         return `
-          <div class="script-card" data-kind="${kind}" data-index="${index}">
+          <div class="script-card" data-kind="preset" data-index="${index}">
+            <div class="script-card-header">
+              <div class="script-card-info">
+                <div class="script-card-title">${data.name}</div>
+                <div class="script-card-desc">${escapeHTML(data.desc)} · ${data.commands.length} команд</div>
+              </div>
+              <span class="script-card-arrow"><i class="fa-solid fa-chevron-down"></i></span>
+            </div>
+            <div class="script-card-body">
+              <div class="code-block">${escapeHTML(preview)}</div>
+              <div class="script-card-actions">
+                <button class="btn btn-primary btn-sm" data-action="load-preset" data-index="${index}"><i class="fa-solid fa-plus"></i><span class="btn-label">В блок</span></button>
+                <button class="btn btn-success btn-sm" data-action="copy-preset" data-index="${index}"><i class="fa-regular fa-clipboard"></i><span class="btn-label">Копировать</span></button>
+                <button class="btn btn-outline btn-sm" data-action="download-preset" data-index="${index}"><i class="fa-solid fa-download"></i><span class="btn-label">Скачать</span></button>
+              </div>
+            </div>
+          </div>`;
+      }
+
+      function renderReadyCard(index, data) {
+        const tagsHtml = (data.tags || []).map(t => `<span class="tag tag-purple">${escapeHTML(t)}</span>`).join('');
+        return `
+          <div class="script-card" data-kind="ready" data-index="${index}">
             <div class="script-card-header">
               <div class="script-card-info">
                 <div class="script-card-title">${data.title}</div>
-                <div class="script-card-desc">${escapeHTML(data.desc)}${data.count ? ' · ' + data.count + ' команд' : ''}</div>
+                <div class="script-card-desc">${escapeHTML(data.desc)}</div>
                 ${tagsHtml ? `<div class="script-card-tags">${tagsHtml}</div>` : ''}
               </div>
               <span class="script-card-arrow"><i class="fa-solid fa-chevron-down"></i></span>
             </div>
             <div class="script-card-body">
-              <div class="code-block">${escapeHTML(code)}</div>
-              <div class="script-card-actions">${actions}</div>
+              <div class="code-block">${escapeHTML(data.code)}</div>
+              <div class="script-card-actions">
+                <button class="btn btn-success btn-sm" data-action="copy-ready" data-index="${index}"><i class="fa-regular fa-clipboard"></i><span class="btn-label">Копировать</span></button>
+                <button class="btn btn-outline btn-sm" data-action="download-ready" data-index="${index}"><i class="fa-solid fa-download"></i><span class="btn-label">Скачать</span></button>
+              </div>
             </div>
           </div>`;
       }
 
-      function renderPresets() {
-        presetListEl.innerHTML = presets.map((p, i) => {
-          const preview = generateCode(p.key, p.chatKey, p.sendMessage, p.commands, true, p.commands[0]?.delay || 500);
-          return renderScriptCard('preset', i, {
-            title: p.name,
-            desc: p.desc,
-            tags: [],
-            count: p.commands.length,
-            codePreview: preview
-          });
-        }).join('');
+      function renderLibrary() {
+        presetListEl.innerHTML = presets.map((p, i) => renderPresetCard(i, p)).join('');
+        readyListEl.innerHTML = readyScripts.map((rs, i) => renderReadyCard(i, rs)).join('');
       }
 
-      function renderReadyScripts() {
-        readyListEl.innerHTML = readyScripts.map((rs, i) => {
-          return renderScriptCard('ready', i, {
-            title: rs.title,
-            desc: rs.desc,
-            tags: rs.tags,
-            count: 0,
-            codePreview: rs.code
-          });
-        }).join('');
-      }
-
-      /* ---- Обработчики карточек ---- */
-      function handleScriptCardClick(container, e, kind) {
-        const header = e.target.closest('.script-card-header');
-        if (header) {
-          header.closest('.script-card').classList.toggle('open');
-          return;
+      function loadPresetAsNewBlock(preset) {
+        const block = createBlock({
+          key: preset.key,
+          chatMode: preset.chatKey === 'F6' || preset.chatKey === 'T' ? preset.chatKey : 'custom',
+          chatCustomValue: preset.chatKey === 'F6' || preset.chatKey === 'T' ? '' : preset.chatKey,
+          delay: preset.commands[0]?.delay || 500,
+          sendMessage: preset.sendMessage,
+          individualDelay: true,
+          commands: preset.commands
+        });
+        if (isKeyUsed(null, getKeyValue(block))) {
+          const freeKey = findFreeKey();
+          if (freeKey) block.key = freeKey;
         }
+        blocks.push(block);
+        renderBlocks();
+        markOutdated();
+        updateDurationEstimate();
+        scheduleSave();
+        navigateTo(0);
+        showToast('<i class="fa-solid fa-circle-plus"></i> Заготовка добавлена как блок');
+      }
+
+      function handleScriptCardClick(e, kind) {
+        const header = e.target.closest('.script-card-header');
+        if (header) { header.closest('.script-card').classList.toggle('open'); return; }
         const btn = e.target.closest('button');
         if (!btn) return;
         const index = parseInt(btn.dataset.index);
         if (isNaN(index)) return;
-
         const action = btn.dataset.action;
         if (action === 'load-preset') {
           const preset = presets[index];
-          if (!preset) return;
-          setGenKey(preset.key, false);
-          setChatKeyValue(preset.chatKey);
-          state.sendMessage = preset.sendMessage;
-          updateAutoLayoutButton();
-          state.individualDelay = true;
-          commands = preset.commands.map(c => ({ type: c.type, text: c.text, delay: c.delay }));
-          if (commands.length > 0) genDelay.value = commands[0].delay;
-          updateDelayDisabled();
-          renderCommands();
-          updateDurationEstimate();
-          markOutdated();
-          scheduleSave();
-          navigateTo(0);
-          showToast('<i class="fa-solid fa-circle-check"></i> Заготовка загружена');
+          if (preset) loadPresetAsNewBlock(preset);
         } else if (action === 'copy-preset') {
           const preset = presets[index];
           if (!preset) return;
-          const code = generateCode(preset.key, preset.chatKey, preset.sendMessage, preset.commands, true, preset.commands[0]?.delay || 500);
+          const blk = createBlock({
+            key: preset.key, chatMode: preset.chatKey, sendMessage: preset.sendMessage,
+            individualDelay: true, commands: preset.commands
+          });
+          const code = generateCombinedFrom([blk]);
           copyToClipboard(code).then(() => showToast('<i class="fa-solid fa-clipboard-check"></i> Скопировано'));
+        } else if (action === 'download-preset') {
+          const preset = presets[index];
+          if (!preset) return;
+          const blk = createBlock({
+            key: preset.key, chatMode: preset.chatKey, sendMessage: preset.sendMessage,
+            individualDelay: true, commands: preset.commands
+          });
+          const code = generateCombinedFrom([blk]);
+          downloadAHK(code, `preset_${index + 1}.ahk`);
+          showToast('<i class="fa-solid fa-download"></i> Файл сохранён');
         } else if (action === 'copy-ready') {
           const rs = readyScripts[index];
           if (!rs) return;
@@ -2551,74 +2531,192 @@
           showToast('<i class="fa-solid fa-download"></i> Файл сохранён');
         }
       }
-
-      presetListEl.addEventListener('click', (e) => handleScriptCardClick(presetListEl, e, 'preset'));
-      readyListEl.addEventListener('click', (e) => handleScriptCardClick(readyListEl, e, 'ready'));
+      presetListEl.addEventListener('click', (e) => handleScriptCardClick(e, 'preset'));
+      readyListEl.addEventListener('click', (e) => handleScriptCardClick(e, 'ready'));
 
       /* ============================================================
-         Инициализация
+         Настройки — синхронизация UI ↔ appSettings
          ============================================================ */
-      function init() {
-        const saved = loadSavedState();
-
-        // Команды и настройки из storage
-        if (saved) {
-          if (Array.isArray(saved.commands) && saved.commands.length > 0) {
-            commands = saved.commands.map(c => ({
-              type: typeof c.type === 'string' ? c.type : 'me',
-              text: typeof c.text === 'string' ? c.text : '',
-              delay: typeof c.delay === 'number' ? c.delay : 500
-            }));
+      function syncSettingsUI() {
+        optPreventSelfTrigger.checked = appSettings.preventSelfTrigger;
+        optOnlyInGame.checked = appSettings.onlyInGame;
+        optWindowTitle.value = appSettings.windowTitle;
+        optSingleInstance.checked = appSettings.singleInstance;
+        optSendMode.value = appSettings.sendMode;
+        windowTitleRow.style.display = appSettings.onlyInGame ? 'flex' : 'none';
+      }
+      function bindSettings() {
+        optPreventSelfTrigger.addEventListener('change', () => {
+          appSettings.preventSelfTrigger = optPreventSelfTrigger.checked;
+          scheduleSave(); markOutdated();
+        });
+        optOnlyInGame.addEventListener('change', () => {
+          appSettings.onlyInGame = optOnlyInGame.checked;
+          windowTitleRow.style.display = appSettings.onlyInGame ? 'flex' : 'none';
+          if (appSettings.onlyInGame && !appSettings.windowTitle.trim()) {
+            setTimeout(() => optWindowTitle.focus(), 50);
           }
-          if (typeof saved.sendMessage === 'boolean') state.sendMessage = saved.sendMessage;
-          if (typeof saved.individualDelay === 'boolean') state.individualDelay = saved.individualDelay;
-          if (saved.genDelay !== undefined) genDelay.value = saved.genDelay;
-        }
-
-        renderCommands();
-        renderPresets();
-        renderReadyScripts();
-
-        // Клавиша запуска
-        if (saved && typeof saved.genKeyValue === 'string') {
-          if (typeof saved.customKeyAHK === 'string') customKeyAHK = saved.customKeyAHK;
-          if (typeof saved.customKeyLabel === 'string') {
-            customKeyLabel = saved.customKeyLabel;
-            genKeyCustomInput.value = customKeyLabel;
-          }
-          setGenKey(saved.genKeyValue, false);
-        } else {
-          setGenKey('Numpad2', false);
-        }
-
-        // Клавиша чата
-        if (saved && typeof saved.chatMode === 'string') {
-          setChatMode(saved.chatMode);
-          if (saved.chatMode === 'custom' && typeof saved.chatCustomValue === 'string') {
-            genChatKeyInput.value = saved.chatCustomValue;
-          }
-        } else {
-          setChatMode('F6');
-        }
-
-        document.getElementById('collapse-0')?.classList.add('open');
-        updateDelayDisabled();
-        updateAutoLayoutButton();
-        updateDurationEstimate();
-        updateKeyValidation();
+          scheduleSave(); markOutdated();
+        });
+        optWindowTitle.addEventListener('input', () => {
+          appSettings.windowTitle = optWindowTitle.value;
+          scheduleSave(); markOutdated();
+        });
+        optSingleInstance.addEventListener('change', () => {
+          appSettings.singleInstance = optSingleInstance.checked;
+          scheduleSave(); markOutdated();
+        });
+        optSendMode.addEventListener('change', () => {
+          appSettings.sendMode = optSendMode.value;
+          scheduleSave(); markOutdated();
+        });
       }
 
+      /* ---- Экспорт / импорт / очистка ---- */
+      btnExportJSON.addEventListener('click', () => {
+        const data = {
+          app: 'ahk-rp-scripts',
+          version: 2,
+          exportedAt: new Date().toISOString(),
+          blocks: blocks.map(b => ({
+            key: b.key, customKeyAHK: b.customKeyAHK, customKeyLabel: b.customKeyLabel,
+            chatMode: b.chatMode, chatCustomValue: b.chatCustomValue,
+            delay: b.delay, sendMessage: b.sendMessage, individualDelay: b.individualDelay,
+            commands: b.commands.map(c => ({ type: c.type, text: c.text, delay: c.delay })),
+            collapsed: b.collapsed, commandsCollapsed: b.commandsCollapsed
+          })),
+          filename: filenameInput.value,
+          settings: { ...appSettings }
+        };
+        const fname = `ahk-rp-config-${Date.now()}.json`;
+        downloadBlob(JSON.stringify(data, null, 2), fname, 'application/json;charset=utf-8');
+        showToast('<i class="fa-solid fa-download"></i> Конфиг сохранён');
+      });
+
+      btnImportJSON.addEventListener('click', () => importFile.click());
+      importFile.addEventListener('change', () => {
+        const file = importFile.files && importFile.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (!data || !Array.isArray(data.blocks)) throw new Error('bad');
+            showConfirm({
+              title: 'Импорт конфига',
+              message: 'Текущие блоки и настройки будут заменены. Продолжить?',
+              confirmText: 'Импортировать', cancelText: 'Отмена', danger: false,
+              onConfirm: () => applyImportedConfig(data)
+            });
+          } catch (err) {
+            showToast('<i class="fa-solid fa-triangle-exclamation"></i> Некорректный JSON-файл', 'error');
+          }
+          importFile.value = '';
+        };
+        reader.readAsText(file);
+      });
+
+      function applyImportedConfig(data) {
+        try {
+          const newBlocks = data.blocks.map(b => createBlock(b));
+          if (newBlocks.length === 0) newBlocks.push(createBlock({}));
+          blocks = newBlocks;
+          if (typeof data.filename === 'string') filenameInput.value = data.filename;
+          if (data.settings && typeof data.settings === 'object') {
+            Object.assign(appSettings, DEFAULT_SETTINGS, data.settings);
+          }
+          syncSettingsUI();
+          renderBlocks();
+          updateDurationEstimate();
+          markOutdated();
+          scheduleSave();
+          navigateTo(0);
+          showToast('<i class="fa-solid fa-check"></i> Конфиг загружен');
+        } catch (e) {
+          showToast('<i class="fa-solid fa-triangle-exclamation"></i> Не удалось применить конфиг', 'error');
+        }
+      }
+
+      btnResetStorage.addEventListener('click', () => {
+        showConfirm({
+          title: 'Очистить хранилище?',
+          message: 'Будут удалены все сохранённые блоки, настройки и имя файла. Действие необратимо.',
+          confirmText: 'Очистить всё', cancelText: 'Отмена', danger: true,
+          onConfirm: () => {
+            try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+            blocks = [createBlock({} )];
+            Object.assign(appSettings, DEFAULT_SETTINGS);
+            syncSettingsUI();
+            filenameInput.value = '';
+            resetCodeBlock();
+            lastGeneratedCode = '';
+            renderBlocks();
+            updateDurationEstimate();
+            showToast('<i class="fa-solid fa-trash-can"></i> Хранилище очищено');
+          }
+        });
+      });
+
+      /* ============================================================
+         Глобальные клавиши
+         ============================================================ */
       document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.key === 'Enter' && currentScreen === 0 && !listening) {
+        if (e.ctrlKey && e.key === 'Enter' && currentScreen === 0 && !listeningBlockId) {
           e.preventDefault();
           btnGenerate.click();
         }
-        if (e.key === 'Escape' && !listening) {
-          if (!modalClear.classList.contains('hidden')) modalClear.classList.add('hidden');
+        if (e.key === 'Escape' && !listeningBlockId) {
           closeDropdown();
         }
       });
 
+      /* ============================================================
+         Инициализация
+         ============================================================ */
+      function findFreeKeyIn(arr, blockId, used) {
+        for (const opt of KEY_OPTIONS) {
+          if (opt.value === 'custom') continue;
+          if (!used.has(opt.value) && !arr.some(b => b.id !== blockId && getKeyValue(b) === opt.value)) {
+            used.add(opt.value);
+            return opt.value;
+          }
+        }
+        return null;
+      }
+      function init() {
+        const saved = loadSavedState();
+        if (saved && Array.isArray(saved.blocks) && saved.blocks.length > 0) {
+          blocks = saved.blocks.map(b => createBlock(b));
+        } else {
+          blocks = [createBlock({
+            key: 'Numpad2',
+            commands: [
+              { type: 'me', text: 'взял документы у человека напротив', delay: 500 },
+              { type: 'do', text: 'Документы в руках', delay: 500 },
+              { type: 'me', text: 'положил документы на стол', delay: 500 },
+              { type: 'me', text: 'достал из документов Мед. карту', delay: 500 },
+              { type: 'me', text: 'начал изучать Мед. карту', delay: 500 }
+            ]
+          })];
+        }
+        const seen = new Set();
+        blocks.forEach(b => {
+          const k = getKeyValue(b);
+          if (k && seen.has(k)) {
+            const free = findFreeKeyIn(blocks, b.id, seen);
+            if (free) b.key = free;
+          } else if (k) seen.add(k);
+        });
+        if (saved && typeof saved.filename === 'string') filenameInput.value = saved.filename;
+        if (saved && saved.settings && typeof saved.settings === 'object') {
+          Object.assign(appSettings, DEFAULT_SETTINGS, saved.settings);
+        }
+        syncSettingsUI();
+        bindSettings();
+        renderBlocks();
+        renderLibrary();
+        updateDurationEstimate();
+      }
       init();
     })();
   </script>
